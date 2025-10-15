@@ -179,16 +179,17 @@ class LuaObfuscator {
      * 创建字符串解密器
      */
     createStringDecryptor(content) {
-        const charCodes = [];
-        for (let i = 0; i < content.length; i++) {
-            charCodes.push(content.charCodeAt(i));
-        }
-        
-        // 生成解密代码 - 使用更简单的形式，避免语法问题
-        const decryptor = `(function()local c={${charCodes.join(',')}}local s=''for i=1,#c do s=s..string.char(c[i])end return s end)()`;
-        console.log(`生成解密器: "${content}" -> "${decryptor}"`);
-        return decryptor;
+    const charCodes = [];
+    for (let i = 0; i < content.length; i++) {
+        charCodes.push(content.charCodeAt(i));
     }
+
+    // ✅ 使用 loadstring 包裹，避免语法嵌套问题
+    const decryptor = `(loadstring("local c={${charCodes.join(',')}}local s=''for i=1,#c do s=s..string.char(c[i])end return s")())`;
+    console.log(`生成解密器: "${content}" -> "${decryptor}"`);
+    return decryptor;
+    }
+
     
     /**
      * XOR加密
@@ -207,56 +208,49 @@ class LuaObfuscator {
      * 加密数字
      */
     encryptNumbers(code) {
-        if (!this.options.numberEncrypt) return code;
-        
-        // 生成更复杂的数学表达式
-        const expressions = [
-            (num) => `(0+${num})`,
-            (num) => `(1*${num})`,
-            (num) => `(${num}/1)`,
-            (num) => `(${num}+0-0)`,
-            (num) => `(${num}*1+0)`,
-            (num) => `((${num}))`,
-            (num) => `(function()return ${num} end)()`,
-            (num) => `((function()local x=${num} return x end)())`
-        ];
-        
-        console.log('开始数字加密...');
-        let matchCount = 0;
-        
-        // 匹配数字 - 避免匹配已经在字符串或注释中的数字
-        const lines = code.split('\n');
-        const result = [];
-        
-        for (let line of lines) {
-            // 跳过注释行
-            if (line.trim().startsWith('--')) {
-                result.push(line);
-                continue;
-            }
-            
-            // 替换数字 - 避免替换函数名中的数字和已经加密的数字
-            const newLine = line.replace(/\b(\d+)\b/g, (match, numStr) => {
-                const num = parseInt(numStr);
-                // 跳过0和1，避免影响基本逻辑
-                if (num === 0 || num === 1) return match;
-                // 跳过小数，避免过度加密
-                if (num < 0 || num > 100) return match;
-                
-                matchCount++;
-                // 随机选择一个表达式
-                const expression = expressions[Math.floor(Math.random() * expressions.length)];
-                const encrypted = expression(num);
-                console.log(`加密数字: ${num} -> ${encrypted}`);
-                return encrypted;
-            });
-            
-            result.push(newLine);
+    if (!this.options.numberEncrypt) return code;
+
+    const expressions = [
+        (num) => `(0+${num})`,
+        (num) => `(1*${num})`,
+        (num) => `(${num}/1)`,
+        (num) => `(${num}+0-0)`,
+        (num) => `((${num}))`,
+        // ❌ 移除这些可能引发语法问题的表达式
+        // (num) => `(function()return ${num} end)()`,
+    ];
+
+    console.log('开始数字加密...');
+    let matchCount = 0;
+
+    const lines = code.split('\n');
+    const result = [];
+
+    for (let line of lines) {
+        if (line.trim().startsWith('--')) {
+            result.push(line);
+            continue;
         }
-        
-        console.log(`数字加密完成，共加密 ${matchCount} 个数字`);
-        return result.join('\n');
+
+        const newLine = line.replace(/\b(\d+)\b/g, (match, numStr) => {
+            const num = parseInt(numStr);
+            if (num === 0 || num === 1) return match;
+            if (num < 0 || num > 100) return match;
+
+            matchCount++;
+            const expression = expressions[Math.floor(Math.random() * expressions.length)];
+            const encrypted = expression(num);
+            console.log(`加密数字: ${num} -> ${encrypted}`);
+            return encrypted;
+        });
+
+        result.push(newLine);
     }
+
+    console.log(`数字加密完成，共加密 ${matchCount} 个数字`);
+    return result.join('\n');
+}
+
     
     /**
      * 加密表结构
