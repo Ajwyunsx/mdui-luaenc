@@ -185,7 +185,7 @@ class LuaObfuscator {
     }
 
     // ✅ 使用 loadstring 包裹，避免语法嵌套问题
-    const decryptor = `(loadstring("local c={${charCodes.join(',')}}local s=''for i=1,#c do s=s..string.char(c[i])end return s")())`;
+    const decryptor = `(load("local c={${charCodes.join(',')}}local s=''for i=1,#c do s=s..string.char(c[i])end return s")())`;
     console.log(`生成解密器: "${content}" -> "${decryptor}"`);
     return decryptor;
     }
