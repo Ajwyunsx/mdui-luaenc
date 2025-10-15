@@ -67,6 +67,19 @@ class LuaObfuscator {
         
         return name;
     }
+
+    obfuscateSmallNumber(num) {
+        if (num === 0 || num === 1) {
+            return `${num}`;
+        }
+        const expressions = [
+            (n) => `(0+${n})`,
+            (n) => `(1*${n})`,
+            (n) => `(${n}/1)`,
+            (n) => `((${n}))`,
+        ];
+        return expressions[Math.floor(Math.random() * expressions.length)](num);
+    }
     
     /**
      * 混淆局部变量 (已修复)
@@ -180,18 +193,11 @@ class LuaObfuscator {
     }
     
     /**
-     * 加密数字 (已修复)
-     * 修复：增加了防御性检查，避免混淆字符串解密器内部的数字。
+     * 加密数字 (已修复小数点处理)
+     * 修复：支持小数点的正确混淆，避免语法错误如 (1*10).0
      */
     encryptNumbers(code) {
         if (!this.options.numberEncrypt) return code;
-
-        const expressions = [
-            (num) => `0+${num}`,
-            (num) => `1*${num}`,
-            (num) => `${num}/1`,
-            (num) => `${num}`,
-        ];
 
         const lines = code.split('\n');
         const result = [];
@@ -208,13 +214,38 @@ class LuaObfuscator {
                 continue;
             }
 
-            const newLine = line.replace(/\b(\d+)\b/g, (match, numStr) => {
-                const num = parseInt(numStr);
-                if (num === 0 || num === 1) return match;
-                if (num < 0 || num > 100) return match;
+            const newLine = line.replace(/\b(?:\d+(?:\.\d*)?|\.\d+)\b/g, (match, numStr) => {
+                const num = parseFloat(numStr);
+                if (isNaN(num) || num < 0 || num > 100) return match;
 
-                const expression = expressions[Math.floor(Math.random() * expressions.length)];
-                return expression(num);
+                if (numStr.includes('.')) {
+                    // 处理小数
+                    let parts = numStr.split('.');
+                    const intPartStr = parts[0] || '0';
+                    const intPart = parseInt(intPartStr);
+                    const fracStr = parts[1] || '';
+                    const fracPart = parseInt(fracStr) || 0;
+                    const fracDigits = fracStr.length;
+                    let denom = 1;
+                    if (fracDigits > 0) {
+                        denom = Math.pow(10, fracDigits);
+                    }
+                    const obfInt = this.obfuscateSmallNumber(intPart);
+                    const obfFrac = this.obfuscateSmallNumber(fracPart);
+                    const obfDenom = this.obfuscateSmallNumber(denom);
+                    return `(${obfInt} + ${obfFrac} / ${obfDenom})`;
+                } else {
+                    // 处理整数
+                    if (num === 0 || num === 1) return match;
+                    const expressions = [
+                        (n) => `(0+${n})`,
+                        (n) => `(1*${n})`,
+                        (n) => `(${n}/1)`,
+                        (n) => `((${n}))`,
+                    ];
+                    const expression = expressions[Math.floor(Math.random() * expressions.length)];
+                    return expression(num);
+                }
             });
 
             result.push(newLine);
