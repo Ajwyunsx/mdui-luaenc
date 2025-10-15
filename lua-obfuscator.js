@@ -178,17 +178,18 @@ class LuaObfuscator {
     /**
      * 创建字符串解密器
      */
-    createStringDecryptor(content) {
+createStringDecryptor(content) {
     const charCodes = [];
     for (let i = 0; i < content.length; i++) {
         charCodes.push(content.charCodeAt(i));
     }
 
-    // ✅ 使用 loadstring 包裹，避免语法嵌套问题
-    const decryptor = `(load("local c={${charCodes.join(',')}}local s=''for i=1,#c do s=s..string.char(c[i])end return s")())`;
+    // ✅ 纯表达式，不依赖 load/loadstring
+    const decryptor = `(function() local c = {${charCodes.join(',')}} local s = '' for i = 1, #c do s = s .. string.char(c[i]) end return s end)()`;
     console.log(`生成解密器: "${content}" -> "${decryptor}"`);
     return decryptor;
-    }
+}
+
 
     
     /**
