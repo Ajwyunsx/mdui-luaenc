@@ -187,10 +187,10 @@ class LuaObfuscator {
         if (!this.options.numberEncrypt) return code;
 
         const expressions = [
-            (num) => `(0+${num})`,
-            (num) => `(1*${num})`,
-            (num) => `(${num}/1)`,
-            (num) => `((${num}))`,
+            (num) => `0+${num}`,
+            (num) => `1*${num}`,
+            (num) => `${num}/1`,
+            (num) => `${num}`,
         ];
 
         const lines = code.split('\n');
