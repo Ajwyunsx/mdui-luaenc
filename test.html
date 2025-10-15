@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lua代码混淆测试</title>
+    <link href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://unpkg.com/fengari-web@0.1.4/dist/fengari-web.js"></script>
+    <style>
+        .mdui-container {
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+        
+        .mdui-card {
+            margin-bottom: 16px;
+        }
+        
+        .mdui-textfield {
+            width: 100%;
+        }
+        
+        .mdui-textfield-input {
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .test-result {
+            padding: 16px;
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+        
+        .test-pass {
+            background-color: var(--mdui-color-green-50);
+            border-left: 4px solid var(--mdui-color-green);
+            color: var(--mdui-color-green-dark);
+        }
+        
+        .test-fail {
+            background-color: var(--mdui-color-red-50);
+            border-left: 4px solid var(--mdui-color-red);
+            color: var(--mdui-color-red-dark);
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="mdui-theme-primary-blue mdui-theme-accent-blue">
+    <div class="mdui-appbar">
+        <div class="mdui-toolbar mdui-color-blue-700">
+            <a href="javascript:;" class="mdui-typo-headline">Lua代码混淆测试</a>
+            <div class="mdui-toolbar-spacer"></div>
+            <a href="index.html" class="mdui-btn mdui-btn-icon">
+                <i class="mdui-icon material-icons">arrow_back</i>
+            </a>
+        </div>
+    </div>
+
+    <div class="mdui-container">
+        <div class="mdui-row">
+            <div class="mdui-col-md-6">
+                <div class="mdui-card">
+                    <div class="mdui-card-header">
+                        <div class="mdui-card-header-title">原始代码</div>
+                    </div>
+                    <div class="mdui-card-content">
+                        <div class="mdui-textfield">
+                            <textarea class="mdui-textfield-input" id="originalCode" rows="20" placeholder="在此输入原始Lua代码...">-- 测试代码
+local function add(a, b)
+    return a + b
+end
+
+local function multiply(a, b)
+    return a * b
+end
+
+local result1 = add(10, 20)
+local result2 = multiply(5, 6)
+
+print("Addition result:", result1)
+print("Multiplication result:", result2)
+
+if result1 > result2 then
+    print("Addition result is greater")
+else
+    print("Multiplication result is greater")
+end</textarea>
+                        </div>
+                        <div class="mdui-row mdui-m-t-2">
+                            <div class="mdui-col-xs-12">
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-blue-700" onclick="obfuscateAndTest()">
+                                    <i class="mdui-icon material-icons">security</i> 混淆并测试
+                                </button>
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-green-600" onclick="testOriginal()">
+                                    <i class="mdui-icon material-icons">play_arrow</i> 测试原始代码
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mdui-col-md-6">
+                <div class="mdui-card">
+                    <div class="mdui-card-header">
+                        <div class="mdui-card-header-title">混淆后代码</div>
+                    </div>
+                    <div class="mdui-card-content">
+                        <div class="mdui-textfield">
+                            <textarea class="mdui-textfield-input" id="obfuscatedCode" rows="20" placeholder="混淆后的代码将显示在这里..." readonly></textarea>
+                        </div>
+                        <div class="mdui-row mdui-m-t-2">
+                            <div class="mdui-col-xs-12">
+                                <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-color-green-600" onclick="testObfuscated()">
+                                    <i class="mdui-icon material-icons">play_arrow</i> 测试混淆代码
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mdui-card">
+            <div class="mdui-card-header">
+                <div class="mdui-card-header-title">测试结果</div>
+            </div>
+            <div class="mdui-card-content">
+                    <div class="mdui-typo" id="testResults">
+                        <p>测试结果将显示在这里...</p>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <script src="lua-obfuscator.js"></script>
+    <script>
+        // 重写print函数以捕获输出
+        let output = [];
+        const originalPrint = print;
+        
+        function capturePrint() {
+            output = [];
+            print = function(...args) {
+                output.push(args.join(' '));
+            };
+        }
+        
+        function restorePrint() {
+            print = originalPrint;
+            return output.join('\n');
+        }
+        
+        /**
+         * 执行Lua代码
+         */
+        function executeLuaCode(code) {
+            try {
+                capturePrint();
+                
+                // 使用Fengari执行Lua代码
+                const result = fengari.load(code)();
+                
+                const outputText = restorePrint();
+                
+                return {
+                    success: true,
+                    output: outputText,
+                    result: result
+                };
+            } catch (error) {
+                restorePrint();
+                return {
+                    success: false,
+                    error: error.toString()
+                };
+            }
+        }
+        
+        /**
+         * 测试原始代码
+         */
+        function testOriginal() {
+            const code = document.getElementById('originalCode').value;
+            
+            if (!code.trim()) {
+                mdui.snackbar({
+                    message: '请输入原始代码',
+                    position: 'top'
+                });
+                return;
+            }
+            
+            const testBtn = event.target;
+            const originalText = testBtn.innerHTML;
+            testBtn.innerHTML = '<i class="mdui-icon material-icons mdui-spin">refresh</i> 测试中...';
+            testBtn.disabled = true;
+            
+            setTimeout(() => {
+                const result = executeLuaCode(code);
+                
+                let resultHtml = '<div class="mdui-typo">';
+                resultHtml += '<h4>原始代码测试结果</h4>';
+                
+                if (result.success) {
+                    resultHtml += '<div class="mdui-chip mdui-color-green">';
+                    resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">check_circle</i></span>';
+                    resultHtml += '<span class="mdui-chip-title">执行成功</span>';
+                    resultHtml += '</div>';
+                    
+                    if (result.output) {
+                        resultHtml += '<h5>输出:</h5>';
+                        resultHtml += '<pre>' + result.output + '</pre>';
+                    }
+                } else {
+                    resultHtml += '<div class="mdui-chip mdui-color-red">';
+                    resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">error</i></span>';
+                    resultHtml += '<span class="mdui-chip-title">执行失败</span>';
+                    resultHtml += '</div>';
+                    
+                    resultHtml += '<h5>错误:</h5>';
+                    resultHtml += '<pre>' + result.error + '</pre>';
+                }
+                
+                resultHtml += '</div>';
+                
+                document.getElementById('testResults').innerHTML = resultHtml;
+                
+                testBtn.innerHTML = originalText;
+                testBtn.disabled = false;
+            }, 100);
+        }
+        
+        /**
+         * 混淆并测试
+         */
+        function obfuscateAndTest() {
+            const sourceCode = document.getElementById('originalCode').value;
+            
+            if (!sourceCode.trim()) {
+                mdui.snackbar({
+                    message: '请输入要混淆的Lua代码',
+                    position: 'top'
+                });
+                return;
+            }
+            
+            const obfuscateBtn = event.target;
+            const originalText = obfuscateBtn.innerHTML;
+            obfuscateBtn.innerHTML = '<i class="mdui-icon material-icons mdui-spin">refresh</i> 混淆中...';
+            obfuscateBtn.disabled = true;
+            
+            setTimeout(() => {
+                try {
+                    // 创建混淆器实例
+                    const obfuscator = new LuaObfuscator({
+                        controlFlow: true,
+                        codeLogic: true,
+                        localVar: true,
+                        globalVar: true,
+                        stringEncrypt: true,
+                        numberEncrypt: true,
+                        tableEncrypt: true,
+                        booleanObfuscate: true,
+                        nilObfuscate: true,
+                        gotoObfuscate: true,
+                        junkCode: false, // 测试时关闭花指令，避免影响结果
+                        luaVersion: '5.3'
+                    });
+                    
+                    // 执行混淆
+                    const obfuscatedCode = obfuscator.obfuscate(sourceCode);
+                    
+                    // 显示混淆后的代码
+                    document.getElementById('obfuscatedCode').value = obfuscatedCode;
+                    
+                    // 测试原始代码
+                    const originalResult = executeLuaCode(sourceCode);
+                    
+                    // 测试混淆后的代码
+                    const obfuscatedResult = executeLuaCode(obfuscatedCode);
+                    
+                    // 显示测试结果
+                    let resultHtml = '<div class="mdui-typo">';
+                    resultHtml += '<h4>混淆测试结果</h4>';
+                    
+                    // 原始代码结果
+                    resultHtml += '<h5>原始代码:</h5>';
+                    if (originalResult.success) {
+                        resultHtml += '<div class="mdui-chip mdui-color-green">';
+                        resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">check_circle</i></span>';
+                        resultHtml += '<span class="mdui-chip-title">执行成功</span>';
+                        resultHtml += '</div>';
+                        
+                        if (originalResult.output) {
+                            resultHtml += '<pre>' + originalResult.output + '</pre>';
+                        }
+                    } else {
+                        resultHtml += '<div class="mdui-chip mdui-color-red">';
+                        resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">error</i></span>';
+                        resultHtml += '<span class="mdui-chip-title">执行失败</span>';
+                        resultHtml += '</div>';
+                        
+                        resultHtml += '<pre>' + originalResult.error + '</pre>';
+                    }
+                    
+                    // 混淆代码结果
+                    resultHtml += '<h5>混淆代码:</h5>';
+                    if (obfuscatedResult.success) {
+                        resultHtml += '<div class="mdui-chip mdui-color-green">';
+                        resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">check_circle</i></span>';
+                        resultHtml += '<span class="mdui-chip-title">执行成功</span>';
+                        resultHtml += '</div>';
+                        
+                        if (obfuscatedResult.output) {
+                            resultHtml += '<pre>' + obfuscatedResult.output + '</pre>';
+                        }
+                        
+                        // 比较输出结果
+                        if (originalResult.success && originalResult.output === obfuscatedResult.output) {
+                            resultHtml += '<div class="mdui-chip mdui-color-green">';
+                            resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">verified</i></span>';
+                            resultHtml += '<span class="mdui-chip-title">输出结果一致，混淆成功！</span>';
+                            resultHtml += '</div>';
+                        } else if (originalResult.success) {
+                            resultHtml += '<div class="mdui-chip mdui-color-orange">';
+                            resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">warning</i></span>';
+                            resultHtml += '<span class="mdui-chip-title">输出结果不一致，混淆可能有问题</span>';
+                            resultHtml += '</div>';
+                        }
+                    } else {
+                        resultHtml += '<div class="mdui-chip mdui-color-red">';
+                        resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">error</i></span>';
+                        resultHtml += '<span class="mdui-chip-title">执行失败</span>';
+                        resultHtml += '</div>';
+                        
+                        resultHtml += '<pre>' + obfuscatedResult.error + '</pre>';
+                    }
+                    
+                    resultHtml += '</div>';
+                    
+                    document.getElementById('testResults').innerHTML = resultHtml;
+                    
+                    mdui.snackbar({
+                        message: '混淆和测试完成',
+                        position: 'top'
+                    });
+                } catch (error) {
+                    console.error('混淆过程中出错:', error);
+                    mdui.snackbar({
+                        message: '混淆过程中出错: ' + error.message,
+                        position: 'top'
+                    });
+                } finally {
+                    obfuscateBtn.innerHTML = originalText;
+                    obfuscateBtn.disabled = false;
+                }
+            }, 100);
+        }
+        
+        /**
+         * 测试混淆代码
+         */
+        function testObfuscated() {
+            const code = document.getElementById('obfuscatedCode').value;
+            
+            if (!code.trim()) {
+                mdui.snackbar({
+                    message: '没有可测试的混淆代码',
+                    position: 'top'
+                });
+                return;
+            }
+            
+            const testBtn = event.target;
+            const originalText = testBtn.innerHTML;
+            testBtn.innerHTML = '<i class="mdui-icon material-icons mdui-spin">refresh</i> 测试中...';
+            testBtn.disabled = true;
+            
+            setTimeout(() => {
+                const result = executeLuaCode(code);
+                
+                let resultHtml = '<div class="mdui-typo">';
+                resultHtml += '<h4>混淆代码测试结果</h4>';
+                
+                if (result.success) {
+                    resultHtml += '<div class="mdui-chip mdui-color-green">';
+                    resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">check_circle</i></span>';
+                    resultHtml += '<span class="mdui-chip-title">执行成功</span>';
+                    resultHtml += '</div>';
+                    
+                    if (result.output) {
+                        resultHtml += '<h5>输出:</h5>';
+                        resultHtml += '<pre>' + result.output + '</pre>';
+                    }
+                } else {
+                    resultHtml += '<div class="mdui-chip mdui-color-red">';
+                    resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">error</i></span>';
+                    resultHtml += '<span class="mdui-chip-title">执行失败</span>';
+                    resultHtml += '</div>';
+                    
+                    resultHtml += '<h5>错误:</h5>';
+                    resultHtml += '<pre>' + result.error + '</pre>';
+                }
+                
+                resultHtml += '</div>';
+                
+                document.getElementById('testResults').innerHTML = resultHtml;
+                
+                testBtn.innerHTML = originalText;
+                testBtn.disabled = false;
+            }, 100);
+        }
+    </script>
+</body>
+</html>

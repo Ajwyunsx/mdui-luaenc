@@ -1,0 +1,82 @@
+/* 自定义样式 */
+.mdui-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.mdui-card {
+    margin-bottom: 16px;
+}
+
+.mdui-textfield {
+    width: 100%;
+}
+
+.mdui-textfield-input {
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+}
+
+.mdui-card-header-title {
+    font-weight: bold;
+}
+
+.mdui-list-item {
+    padding-left: 0;
+}
+
+.mdui-select {
+    width: 100%;
+}
+
+/* 代码高亮样式 */
+.code-highlight {
+    background-color: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    padding: 2px 4px;
+}
+
+/* 按钮组样式 */
+.button-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .mdui-col-md-4, .mdui-col-md-8 {
+        width: 100%;
+    }
+    
+    .button-group {
+        justify-content: center;
+    }
+}
+
+/* 加载动画 */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(255,255,255,.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* 对话框样式 */
+.mdui-dialog-content h4 {
+    margin-top: 16px;
+    margin-bottom: 8px;
+    color: #1976d2;
+}
+
+.mdui-dialog-content p, .mdui-dialog-content li {
+    font-size: 15px;
+    line-height: 1.6;
+}
