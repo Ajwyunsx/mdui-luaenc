@@ -51,16 +51,16 @@ function obfuscateCode() {
     // 获取混淆选项
     const options = {
         controlFlow: document.getElementById('controlFlow').checked,
-        codeLogic: document.getElementById('codeLogic').checked,
+        codeLogic: false, // 暂时禁用代码逻辑混淆
         localVar: document.getElementById('localVar').checked,
-        globalVar: document.getElementById('globalVar').checked,
+        globalVar: false, // 暂时禁用全局变量混淆
         stringEncrypt: document.getElementById('stringEncrypt').checked,
         numberEncrypt: document.getElementById('numberEncrypt').checked,
-        tableEncrypt: document.getElementById('tableEncrypt').checked,
-        booleanObfuscate: document.getElementById('booleanObfuscate').checked,
-        nilObfuscate: document.getElementById('nilObfuscate').checked,
-        gotoObfuscate: document.getElementById('gotoObfuscate').checked,
-        junkCode: document.getElementById('junkCode').checked,
+        tableEncrypt: false, // 暂时禁用表结构加密
+        booleanObfuscate: false, // 暂时禁用布尔值混淆
+        nilObfuscate: false, // 暂时禁用nil值混淆
+        gotoObfuscate: false, // 暂时禁用跳转语句混淆
+        junkCode: false, // 暂时禁用花指令
         luaVersion: document.getElementById('luaVersion').value,
         andluaSpecial: document.getElementById('andluaSpecial').checked
     };

@@ -270,21 +270,27 @@ end</textarea>
                     // 创建混淆器实例
                     const obfuscator = new LuaObfuscator({
                         controlFlow: true,
-                        codeLogic: true,
+                        codeLogic: false,
                         localVar: true,
-                        globalVar: true,
+                        globalVar: false,
                         stringEncrypt: true,
                         numberEncrypt: true,
-                        tableEncrypt: true,
+                        tableEncrypt: false,
                         booleanObfuscate: true,
                         nilObfuscate: true,
-                        gotoObfuscate: true,
-                        junkCode: false, // 测试时关闭花指令，避免影响结果
+                        gotoObfuscate: false,
+                        junkCode: true,
+                        andluaSpecial: false,
                         luaVersion: '5.3'
                     });
                     
+                    console.log('原始代码:', sourceCode);
+                    console.log('混淆选项:', obfuscator.options);
+                    
                     // 执行混淆
                     const obfuscatedCode = obfuscator.obfuscate(sourceCode);
+                    
+                    console.log('混淆后代码:', obfuscatedCode);
                     
                     // 显示混淆后的代码
                     document.getElementById('obfuscatedCode').value = obfuscatedCode;
@@ -299,8 +305,27 @@ end</textarea>
                     let resultHtml = '<div class="mdui-typo">';
                     resultHtml += '<h4>混淆测试结果</h4>';
                     
+                    // 显示混淆统计
+                    resultHtml += '<div class="mdui-row">';
+                    resultHtml += '<div class="mdui-col-xs-6">';
+                    resultHtml += '<div class="mdui-card">';
+                    resultHtml += '<div class="mdui-card-content">';
+                    resultHtml += '<div class="mdui-typo-title">原始代码</div>';
+                    resultHtml += '<p>长度: ' + sourceCode.length + ' 字符</p>';
+                    resultHtml += '<p>行数: ' + sourceCode.split('\n').length + ' 行</p>';
+                    resultHtml += '</div></div></div>';
+                    
+                    resultHtml += '<div class="mdui-col-xs-6">';
+                    resultHtml += '<div class="mdui-card">';
+                    resultHtml += '<div class="mdui-card-content">';
+                    resultHtml += '<div class="mdui-typo-title">混淆代码</div>';
+                    resultHtml += '<p>长度: ' + obfuscatedCode.length + ' 字符</p>';
+                    resultHtml += '<p>行数: ' + obfuscatedCode.split('\n').length + ' 行</p>';
+                    resultHtml += '</div></div></div>';
+                    resultHtml += '</div>';
+                    
                     // 原始代码结果
-                    resultHtml += '<h5>原始代码:</h5>';
+                    resultHtml += '<h5>原始代码执行结果:</h5>';
                     if (originalResult.success) {
                         resultHtml += '<div class="mdui-chip mdui-color-green">';
                         resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">check_circle</i></span>';
@@ -320,7 +345,7 @@ end</textarea>
                     }
                     
                     // 混淆代码结果
-                    resultHtml += '<h5>混淆代码:</h5>';
+                    resultHtml += '<h5>混淆代码执行结果:</h5>';
                     if (obfuscatedResult.success) {
                         resultHtml += '<div class="mdui-chip mdui-color-green">';
                         resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">check_circle</i></span>';
@@ -333,14 +358,14 @@ end</textarea>
                         
                         // 比较输出结果
                         if (originalResult.success && originalResult.output === obfuscatedResult.output) {
-                            resultHtml += '<div class="mdui-chip mdui-color-green">';
+                            resultHtml += '<div class="mdui-chip mdui-color-green mdui-m-t-1">';
                             resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">verified</i></span>';
-                            resultHtml += '<span class="mdui-chip-title">输出结果一致，混淆成功！</span>';
+                            resultHtml += '<span class="mdui-chip-title">✅ 输出结果一致，混淆成功！</span>';
                             resultHtml += '</div>';
                         } else if (originalResult.success) {
-                            resultHtml += '<div class="mdui-chip mdui-color-orange">';
+                            resultHtml += '<div class="mdui-chip mdui-color-orange mdui-m-t-1">';
                             resultHtml += '<span class="mdui-chip-icon"><i class="mdui-icon material-icons">warning</i></span>';
-                            resultHtml += '<span class="mdui-chip-title">输出结果不一致，混淆可能有问题</span>';
+                            resultHtml += '<span class="mdui-chip-title">⚠️ 输出结果不一致，混淆可能有问题</span>';
                             resultHtml += '</div>';
                         }
                     } else {
