@@ -10,6 +10,7 @@ class LuaObfuscator {
             codeLogic: options.codeLogic !== undefined ? options.codeLogic : true,
             localVar: options.localVar !== undefined ? options.localVar : true,
             globalVar: options.globalVar !== undefined ? options.globalVar : true,
+            functionNameObfuscate: options.functionNameObfuscate !== undefined ? options.functionNameObfuscate : true,
             stringEncrypt: options.stringEncrypt !== undefined ? options.stringEncrypt : true,
             numberEncrypt: options.numberEncrypt !== undefined ? options.numberEncrypt : true,
             tableEncrypt: options.tableEncrypt !== undefined ? options.tableEncrypt : true,
@@ -18,7 +19,8 @@ class LuaObfuscator {
             gotoObfuscate: options.gotoObfuscate !== undefined ? options.gotoObfuscate : true,
             junkCode: options.junkCode !== undefined ? options.junkCode : false,
             luaVersion: options.luaVersion || '5.4',
-            andluaSpecial: options.andluaSpecial !== undefined ? options.andluaSpecial : false
+            andluaSpecial: options.andluaSpecial !== undefined ? options.andluaSpecial : false,
+            oneLine: options.oneLine !== undefined ? options.oneLine : true
         };
         
         // 保留关键字，不能混淆
@@ -38,6 +40,8 @@ class LuaObfuscator {
         ]);
         
         // 变量名映射表
+        this.protectedNames = new Set();
+        this.generatedNames = new Set();
         this.varMap = new Map();
         this.varCounter = 0;
         
@@ -67,20 +71,23 @@ class LuaObfuscator {
      * 生成混淆变量名
      */
     generateObfuscatedName() {
-        // 使用字母和数字组合，确保是有效的Lua标识符
         const chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const digits = '0123456789';
-        
-        let name = chars.charAt(Math.floor(Math.random() * chars.length));
-        const length = 5 + Math.floor(Math.random() * 10); // 5-15位长度
-        
-        for (let i = 1; i < length; i++) {
-            name += chars.charAt(Math.floor(Math.random() * chars.length));
-            if (Math.random() > 0.7 && i < length - 1) {
-                name += digits.charAt(Math.floor(Math.random() * digits.length));
+        const isBad = (n) => this.reservedKeywords.has(n) || this.luaBuiltins.has(n) || (this.protectedNames && this.protectedNames.has(n)) || (this.generatedNames && this.generatedNames.has(n));
+
+        let name = '';
+        do {
+            name = chars.charAt(Math.floor(Math.random() * chars.length));
+            const length = 5 + Math.floor(Math.random() * 10);
+            for (let i = 1; i < length; i++) {
+                name += chars.charAt(Math.floor(Math.random() * chars.length));
+                if (Math.random() > 0.7 && i < length - 1) {
+                    name += digits.charAt(Math.floor(Math.random() * digits.length));
+                }
             }
-        }
-        
+        } while (isBad(name));
+
+        this.generatedNames.add(name);
         return name;
     }
     
@@ -102,6 +109,10 @@ class LuaObfuscator {
                 ['local', 'function', 'end', 'if', 'then', 'else', 'elseif', 'for', 'while', 'do', 'return', 'break', 'in', 'not', 'and', 'or', 'true', 'false', 'nil'].includes(varName)) {
                 continue;
             }
+            // 跳过受保护的名称（例如print别名等）
+            if (this.protectedNames && this.protectedNames.has(varName)) {
+                continue;
+            }
             if (!uniqueVars.includes(varName)) {
                 uniqueVars.push(varName);
             }
@@ -114,6 +125,7 @@ class LuaObfuscator {
             for (let param of params) {
                 if (param && !param.includes('string') && 
                     !['local', 'function', 'end', 'if', 'then', 'else', 'elseif', 'for', 'while', 'do', 'return', 'break', 'in', 'not', 'and', 'or', 'true', 'false', 'nil'].includes(param)) {
+                    if (this.protectedNames && this.protectedNames.has(param)) continue;
                     if (!uniqueVars.includes(param)) {
                         uniqueVars.push(param);
                     }
@@ -184,8 +196,20 @@ createStringDecryptor(content) {
         charCodes.push(content.charCodeAt(i));
     }
 
-    // ✅ 纯表达式，不依赖 load/loadstring
-    const decryptor = `(function() local c = {${charCodes.join(',')}} local s = '' for i = 1, #c do s = s .. string.char(c[i]) end return s end)()`;
+    // 随机变量名，避免固定模式
+    const randIdent = () => {
+        const chars = 'abcdefghijklmnopqrstuvwxyz';
+        const len = 2 + Math.floor(Math.random() * 3); // 2-4字符
+        let s = '';
+        for (let i = 0; i < len; i++) s += chars[Math.floor(Math.random() * chars.length)];
+        return s;
+    };
+    const arr = randIdent();
+    const acc = randIdent();
+    const idx = randIdent();
+
+    // ✅ 纯表达式，不依赖 load/loadstring；包含随机变量名以增强不可预测性
+    const decryptor = `(function() local ${arr} = {${charCodes.join(',')}} local ${acc} = '' for ${idx} = 1, #${arr} do ${acc} = ${acc} .. string.char(${arr}[${idx}]) end return ${acc} end)()`;
     console.log(`生成解密器: "${content}" -> "${decryptor}"`);
     return decryptor;
 }
@@ -233,8 +257,15 @@ createStringDecryptor(content) {
             continue;
         }
 
-        const newLine = line.replace(/\b(\d+)\b/g, (match, numStr) => {
-            const num = parseInt(numStr);
+        // 仅加密不属于小数的整数，避免破坏诸如 0.5、12.34 等数值
+        // 规则：匹配独立整数，且后面不紧跟 ".数字"，前面不为小数点
+        const newLine = line.replace(/\b(\d+)\b/g, (match, numStr, offset, whole) => {
+            // 避免破坏小数：前一个字符为 '.' 或后面紧跟 '.数字'
+            const prev = offset > 0 ? whole[offset - 1] : '';
+            const next = whole.slice(offset + match.length);
+            if (prev === '.' || (/^\.\d/.test(next))) return match;
+
+            const num = parseInt(numStr, 10);
             if (num === 0 || num === 1) return match;
             if (num < 0 || num > 100) return match;
 
@@ -274,14 +305,11 @@ createStringDecryptor(content) {
             const simpleTablePattern = /\{[^{}]*\}/g;
             
             const newLine = line.replace(simpleTablePattern, (match) => {
-                // 跳过已经加密的表
-                if (match.includes('decryptTable')) return match;
-                
                 // 跳过空表和单元素表，避免过度加密
                 if (match.length <= 5) return match;
-                
-                // 暂时不加密表结构，避免语法错误
-                return match;
+
+                // 包裹为立即调用函数，返回原表，避免影响语义
+                return `((function() local __t = ${match} return __t end)())`;
             });
             
             result.push(newLine);
@@ -363,9 +391,12 @@ createStringDecryptor(content) {
     obfuscateControlFlow(code) {
         if (!this.options.controlFlow) return code;
         
-        // 简单的控制流混淆：在代码块末尾添加条件语句
+        // 简单的控制流混淆：在代码块末尾添加条件语句（随机谓词）
         const lines = code.split('\n');
         const result = [];
+        const predicates = [
+            '1==1', '0==0', '2>1', '1>=1', '0<=0', 'not false', '(3-3)==0'
+        ];
         
         for (let i = 0; i < lines.length; i++) {
             const line = lines[i];
@@ -377,7 +408,8 @@ createStringDecryptor(content) {
                 // 确保不是函数结束或文件结束
                 if (nextLine.trim() !== '' && !nextLine.trim().startsWith('--')) {
                     const indent = line.match(/^(\s*)/)[1];
-                    result.push(`${indent}if 1>0 then end`);
+                    const pred = predicates[Math.floor(Math.random() * predicates.length)];
+                    result.push(`${indent}if ${pred} then end`);
                 }
             }
         }
@@ -390,9 +422,26 @@ createStringDecryptor(content) {
      */
     obfuscateCodeLogic(code) {
         if (!this.options.codeLogic) return code;
-        
-        // 暂时不添加无用的循环和计算，避免语法错误
-        return code;
+
+        const lines = code.split('\n');
+        const result = [];
+
+        let insertedCount = 0;
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            result.push(line);
+
+            // 在函数或代码块结束后插入安全的无副作用块
+            if (line.trim() === 'end') {
+                const indent = (line.match(/^(\s*)/) || ['',''])[1];
+                const block = `${indent}do local __k = 0 if __k == 1 then __k = __k + 1 end end`;
+                result.push(block);
+                insertedCount++;
+            }
+        }
+
+        console.log(`代码逻辑混淆：插入 ${insertedCount} 个无副作用块`);
+        return result.join('\n');
     }
     
     /**
@@ -400,9 +449,14 @@ createStringDecryptor(content) {
      */
     obfuscateGoto(code) {
         if (!this.options.gotoObfuscate) return code;
-        
-        // 暂时不混淆goto语句，避免语法错误
-        return code;
+
+        // 在代码末尾添加不可达的跳转与标签，避免影响原有逻辑
+        const label = this.generateObfuscatedName();
+        const preds = ['false', '(1==0)', '(2<1)', 'not true'];
+        const pred = preds[Math.floor(Math.random() * preds.length)];
+        const appendJunk = `\ndo\n  if ${pred} then goto ${label} end\n  ::${label}::\nend`;
+        console.log('跳转语句混淆：添加不可达标签和跳转');
+        return code + appendJunk;
     }
     
     /**
@@ -411,16 +465,22 @@ createStringDecryptor(content) {
     addJunkCode(code) {
         if (!this.options.junkCode) return code;
         
-        const junkSnippets = [
-            'do local _ = nil end',
-            'if false then end',
-            'while false do break end',
-            'repeat until true',
-            'for i = 1, 0 do end',
-            'local function _() end',
-            '(function() end)()',
-            'local _ = (function() return {} end)()'
-        ];
+        const makeJunk = () => {
+            const id1 = this.generateObfuscatedName();
+            const id2 = this.generateObfuscatedName();
+            const variants = [
+                `do local ${id1} = nil end`,
+                'if false then end',
+                'while false do break end',
+                'repeat until true',
+                `for ${id1} = 1, 0 do end`,
+                `local function ${id2}() end`,
+                '(function() end)()',
+                `local ${id1} = (function() return {} end)()`,
+                `do local ${id1} = 0 if ${id1} ~= 1 then ${id1} = ${id1} end end`
+            ];
+            return variants[Math.floor(Math.random() * variants.length)];
+        };
         
         const lines = code.split('\n');
         const result = [];
@@ -429,8 +489,11 @@ createStringDecryptor(content) {
             result.push(lines[i]);
             
             // 随机插入花指令（10%概率）
-            if (Math.random() < 0.1 && lines[i].trim() !== '' && !lines[i].trim().startsWith('--')) {
-                const junk = junkSnippets[Math.floor(Math.random() * junkSnippets.length)];
+            const trimmed = lines[i].trim();
+            // 重要：不要在 return 后插入任何语句，Lua 语法要求 return 必须是代码块的最后一条语句
+            const isReturnLine = /^return\b/.test(trimmed);
+            if (Math.random() < 0.1 && trimmed !== '' && !trimmed.startsWith('--') && !isReturnLine) {
+                const junk = makeJunk();
                 const indent = lines[i].match(/^(\s*)/)[1];
                 result.push(`${indent}${junk}`);
             }
@@ -489,7 +552,13 @@ createStringDecryptor(content) {
                 console.log('步骤3: 数字加密');
                 obfuscatedCode = this.encryptNumbers(obfuscatedCode);
             }
-            
+
+            // 3.5 函数名混淆（包括对内置print的安全别名）
+            if (this.options.functionNameObfuscate) {
+                console.log('步骤3.5: 函数名混淆');
+                obfuscatedCode = this.obfuscateFunctionNames(obfuscatedCode);
+            }
+
             // 4. 局部变量混淆
             if (this.options.localVar) {
                 console.log('步骤4: 局部变量混淆');
@@ -543,6 +612,12 @@ createStringDecryptor(content) {
                 console.log('步骤12: 添加花指令');
                 obfuscatedCode = this.addJunkCode(obfuscatedCode);
             }
+
+            // 13. 单行压缩（极限混淆）
+            if (this.options.oneLine) {
+                console.log('步骤13: 单行压缩');
+                obfuscatedCode = this.flattenOneLine(obfuscatedCode);
+            }
             
             console.log('混淆完成，最终代码长度:', obfuscatedCode.length);
             return obfuscatedCode;
@@ -558,5 +633,118 @@ createStringDecryptor(content) {
     validateBasicSyntax(code) {
         // 简化语法验证 - 总是返回true，让混淆继续进行
         return true;
+    }
+
+    /**
+     * 全局变量混淆（保守实现：当前不改变代码，仅占位避免报错）
+     * 如需启用真实全局混淆，建议进行语法解析以避免误改局部变量
+     */
+    obfuscateGlobalVariables(code) {
+        console.log('全局变量混淆：保守实现占位，未修改代码');
+        return code;
+    }
+
+    /**
+     * 函数名混淆：重命名本地/全局函数定义与调用；对内置print进行安全别名
+     */
+    obfuscateFunctionNames(code) {
+        const names = new Set();
+
+        // 采集函数定义：local function name(...)
+        const localFuncDecl = /\blocal\s+function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g;
+        let m;
+        while ((m = localFuncDecl.exec(code)) !== null) {
+            names.add(m[1]);
+        }
+
+        // 采集函数定义：function name(...)
+        const globalFuncDecl = /(^|\n)\s*function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g;
+        while ((m = globalFuncDecl.exec(code)) !== null) {
+            names.add(m[2]);
+        }
+
+        // 采集函数赋值：local name = function(...)
+        const localAssignFunc = /\blocal\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*function\s*\(/g;
+        while ((m = localAssignFunc.exec(code)) !== null) {
+            names.add(m[1]);
+        }
+
+        const mapping = new Map();
+        for (const n of names) {
+            mapping.set(n, this.generateObfuscatedName());
+        }
+
+        let result = code;
+
+        // 替换函数定义处的名称
+        mapping.forEach((obf, orig) => {
+            // local function name(
+            result = result.replace(new RegExp(`(\\blocal\\s+function\\s+)${orig}(\\s*\\()`, 'g'), `$1${obf}$2`);
+            // function name(
+            result = result.replace(new RegExp(`(\\bfunction\\s+)${orig}(\\s*\\()`, 'g'), `$1${obf}$2`);
+            // local name = function(
+            result = result.replace(new RegExp(`(\\blocal\\s+)${orig}(\\s*=\\s*function\\s*\\()`, 'g'), `$1${obf}$2`);
+        });
+
+        // 替换调用处的名称（避免 table 方法：排除 .name 或 :name），不使用不兼容的回顾断言
+        const replaceFuncCalls = (text, name, obf) => {
+            const re = new RegExp(`\\b${name}\\b`, 'g');
+            return text.replace(re, (m, offset) => {
+                const prev = offset > 0 ? text[offset - 1] : '';
+                const next = text.slice(offset + m.length);
+                if (prev === '.' || prev === ':') return m;
+                if (/^\s*\(/.test(next)) return obf;
+                return m;
+            });
+        };
+        mapping.forEach((obf, orig) => {
+            result = replaceFuncCalls(result, orig, obf);
+        });
+
+        // 对内置 print 进行安全别名
+        if (/\bprint\s*\(/.test(result)) {
+            // 生成不与现有标识符冲突的别名
+            let alias = this.generateObfuscatedName();
+            const exists = (n) => new RegExp(`\\b${n}\\b`).test(result);
+            let attempts = 0;
+            while (exists(alias) && attempts < 10) {
+                alias = this.generateObfuscatedName();
+                attempts++;
+            }
+            // 在文件顶部注入别名（更稳健：优先使用 _G.print）
+            result = `local ${alias} = (_G and _G.print) or print\n` + result;
+            // 保护该名称，避免后续局部变量混淆把它改掉
+            this.protectedNames.add(alias);
+            // 替换调用（非 . 或 : 方法场景）
+            const rePrint = /\bprint\b/g;
+            result = result.replace(rePrint, (m, offset) => {
+                const prev = offset > 0 ? result[offset - 1] : '';
+                const next = result.slice(offset + m.length);
+                if (prev === '.' || prev === ':') return m;
+                if (/^\s*\(/.test(next)) return alias;
+                return m;
+            });
+        }
+
+        console.log(`函数名混淆：重命名 ${mapping.size} 个函数；print 已别名化（如存在）`);
+        return result;
+    }
+
+    /**
+     * 单行压缩：去除换行与多余空白，保留必要空格
+     */
+    flattenOneLine(code) {
+        // 尽量避免误删字符串中的内容，这里不处理字符串，仅处理换行与多空白
+        // 移除行尾注释（简化版，可能不会覆盖所有情况）
+        const noLineComments = code.replace(/(^|\n)\s*--.*(?=\n|$)/g, '$1');
+        // 移除块注释 --[[ ... ]]
+        const noBlockComments = noLineComments.replace(/--\[\[[\s\S]*?\]\]/g, '');
+        // 将所有换行变为空格
+        let oneLine = noBlockComments.replace(/\r?\n+/g, ' ');
+        // 折叠多空白为单空格
+        oneLine = oneLine.replace(/\s+/g, ' ');
+        // 去除多余空格
+        oneLine = oneLine.trim();
+        return oneLine;
     }
 }

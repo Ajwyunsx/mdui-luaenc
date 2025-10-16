@@ -80,3 +80,53 @@
     font-size: 15px;
     line-height: 1.6;
 }
+/* UI 风格优化 1.0 */
+body {
+  background: #f7f8fa;
+}
+
+.mdui-appbar .mdui-toolbar {
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.mdui-card {
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.mdui-textfield-input {
+  font-family: Consolas, Monaco, 'Courier New', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.mdui-container {
+  padding-top: 20px;
+  padding-bottom: 24px;
+}
+
+.toolbar-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.theme-toggle {
+  cursor: pointer;
+}
+
+/* 暗色模式 */
+.mdui-theme-layout-dark body,
+.mdui-theme-layout-dark .mdui-card {
+  background-color: #121212;
+}
+
+.mdui-theme-layout-dark .mdui-card {
+  box-shadow: none;
+}
+.github-icon {
+  width: 20px; /* 兼容MDUI视觉比例 */
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}

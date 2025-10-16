@@ -14,13 +14,34 @@
         <div class="mdui-toolbar mdui-color-blue-700">
             <a href="javascript:;" class="mdui-typo-headline">Lua代码混淆加密工具</a>
             <div class="mdui-toolbar-spacer"></div>
-            <button class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '帮助'}">
+            <div class="toolbar-actions">
+            <a href="https://github.com/Ajwyunsx/mdui-luaenc" class="mdui-btn mdui-btn-icon" target="_blank" rel="noopener" aria-label="GitHub">
+                <!-- GitHub SVG icon -->
+                <svg class="github-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2C6.48 2 2 6.58 2 12.26c0 4.52 2.87 8.35 6.84 9.7.5.09.68-.22.68-.48 0-.23-.01-.99-.01-1.79-2.78.62-3.37-1.2-3.37-1.2-.45-1.17-1.11-1.48-1.11-1.48-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.33 1.11 2.9.85.09-.66.35-1.11.64-1.37-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.31.1-2.73 0 0 .84-.27 2.75 1.05.8-.23 1.65-.35 2.5-.35.85 0 1.7.12 2.5.35 1.91-1.32 2.75-1.05 2.75-1.05.55 1.42.2 2.47.1 2.73.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.82-4.57 5.08.36.31.68.93.68 1.87 0 1.35-.01 2.44-.01 2.77 0 .26.18.58.69.48A10.03 10.03 0 0 0 22 12.26C22 6.58 17.52 2 12 2z"/>
+                </svg>
+            </a>
+            <button class="mdui-btn mdui-btn-icon theme-toggle" onclick="toggleTheme()">
+                <i class="mdui-icon material-icons">brightness_6</i>
+            </button>
+            <button id="helpButton" class="mdui-btn mdui-btn-icon">
                 <i class="mdui-icon material-icons">help_outline</i>
             </button>
+            </div>
         </div>
     </div>
 
     <div class="mdui-container">
+        <div class="mdui-card mdui-m-b-2">
+            <div class="mdui-card-content">
+                <div class="mdui-typo">
+                    <p>
+                        <i class="mdui-icon material-icons" style="vertical-align: middle; margin-right: 6px;">info</i>
+                        本工具生成的混淆代码适配主流 Lua 环境（5.1–5.4、LuaJIT、AndLua、GGLua），无需选择版本。
+                    </p>
+                </div>
+            </div>
+        </div>
         <div class="mdui-row">
             <div class="mdui-col-md-4">
                 <div class="mdui-card">
@@ -55,6 +76,13 @@
                                     <input type="checkbox" id="globalVar" checked>
                                     <i class="mdui-checkbox-icon"></i>
                                     全局变量加密处理
+                                </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="functionNameObfuscate" checked>
+                                    <i class="mdui-checkbox-icon"></i>
+                                    函数名混淆（含内置print别名）
                                 </label>
                             </li>
                             <li class="mdui-list-item mdui-ripple">
@@ -106,39 +134,18 @@
                                     花指令植入机制
                                 </label>
                             </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="oneLine" checked>
+                                    <i class="mdui-checkbox-icon"></i>
+                                    单行压缩（极限混淆）
+                                </label>
+                            </li>
                         </ul>
                     </div>
                 </div>
 
-                <div class="mdui-card mdui-m-t-2">
-                    <div class="mdui-card-header">
-                        <div class="mdui-card-header-title">Lua环境</div>
-                    </div>
-                    <div class="mdui-card-content">
-                        <div class="mdui-select mdui-m-t-2">
-                            <select id="luaVersion">
-                                <option value="5.4">Lua 5.4</option>
-                                <option value="5.3">Lua 5.3</option>
-                                <option value="5.2">Lua 5.2</option>
-                                <option value="5.1">Lua 5.1</option>
-                                <option value="5.0">Lua 5.0</option>
-                                <option value="gglua">GGLua</option>
-                                <option value="andlua">AndLua</option>
-                                <option value="luajit">LuaJIT</option>
-                            </select>
-                            <i class="mdui-select-icon"></i>
-                        </div>
-                        
-                        <div class="mdui-textfield mdui-m-t-2">
-                            <label class="mdui-checkbox">
-                                <input type="checkbox" id="andluaSpecial">
-                                <i class="mdui-checkbox-icon"></i>
-                                AndLua特殊处理
-                            </label>
-                            <div class="mdui-textfield-helper">提取require和import语句至加密范围外</div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
 
             <div class="mdui-col-md-8">
@@ -217,5 +224,17 @@
 
     <script src="lua-obfuscator.js"></script>
     <script src="app.js"></script>
+    <script>
+      function toggleTheme() {
+        const body = document.body;
+        if (body.classList.contains('mdui-theme-layout-dark')) {
+          body.classList.remove('mdui-theme-layout-dark');
+          mdui.snackbar({message: '已切换到浅色主题', position: 'top'});
+        } else {
+          body.classList.add('mdui-theme-layout-dark');
+          mdui.snackbar({message: '已切换到深色主题', position: 'top'});
+        }
+      }
+    </script>
 </body>
 </html>

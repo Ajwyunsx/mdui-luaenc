@@ -9,23 +9,12 @@ document.addEventListener('DOMContentLoaded', function() {
     const dialog = new mdui.Dialog('#helpDialog');
     
     // 帮助按钮点击事件
-    document.querySelector('[mdui-tooltip="{content: \'帮助\'}"]').addEventListener('click', function() {
+    const helpBtn = document.getElementById('helpButton');
+    if (helpBtn) {
+      helpBtn.addEventListener('click', function() {
         dialog.open();
-    });
-    
-    // AndLua特殊处理复选框事件
-    document.getElementById('andluaSpecial').addEventListener('change', function() {
-        if (this.checked) {
-            document.getElementById('luaVersion').value = 'andlua';
-        }
-    });
-    
-    // Lua版本选择变化事件
-    document.getElementById('luaVersion').addEventListener('change', function() {
-        if (this.value === 'andlua') {
-            document.getElementById('andluaSpecial').checked = true;
-        }
-    });
+      });
+    }
 });
 
 /**
@@ -51,18 +40,18 @@ function obfuscateCode() {
     // 获取混淆选项
     const options = {
         controlFlow: document.getElementById('controlFlow').checked,
-        codeLogic: false, // 暂时禁用代码逻辑混淆
+        codeLogic: document.getElementById('codeLogic').checked,
         localVar: document.getElementById('localVar').checked,
-        globalVar: false, // 暂时禁用全局变量混淆
+        globalVar: document.getElementById('globalVar').checked,
+        functionNameObfuscate: document.getElementById('functionNameObfuscate').checked,
         stringEncrypt: document.getElementById('stringEncrypt').checked,
         numberEncrypt: document.getElementById('numberEncrypt').checked,
-        tableEncrypt: false, // 暂时禁用表结构加密
-        booleanObfuscate: false, // 暂时禁用布尔值混淆
-        nilObfuscate: false, // 暂时禁用nil值混淆
-        gotoObfuscate: false, // 暂时禁用跳转语句混淆
-        junkCode: false, // 暂时禁用花指令
-        luaVersion: document.getElementById('luaVersion').value,
-        andluaSpecial: document.getElementById('andluaSpecial').checked
+        tableEncrypt: document.getElementById('tableEncrypt').checked,
+        booleanObfuscate: document.getElementById('booleanObfuscate').checked,
+        nilObfuscate: document.getElementById('nilObfuscate').checked,
+        gotoObfuscate: document.getElementById('gotoObfuscate').checked,
+        junkCode: document.getElementById('junkCode').checked,
+        oneLine: document.getElementById('oneLine').checked
     };
     
     // 使用setTimeout模拟异步处理，避免UI阻塞
