@@ -200,17 +200,10 @@ createStringDecryptor(content) {
         charCodes.push(content.charCodeAt(i));
     }
 
-    // 随机变量名，避免固定模式
-    const randIdent = () => {
-        const chars = 'abcdefghijklmnopqrstuvwxyz';
-        const len = 2 + Math.floor(Math.random() * 3); // 2-4字符
-        let s = '';
-        for (let i = 0; i < len; i++) s += chars[Math.floor(Math.random() * chars.length)];
-        return s;
-    };
-    const arr = randIdent();
-    const acc = randIdent();
-    const idx = randIdent();
+    // 使用安全的标识符生成器，避免产生 Lua 保留关键字（如 in、or 等）
+    const arr = this.generateObfuscatedName();
+    const acc = this.generateObfuscatedName();
+    const idx = this.generateObfuscatedName();
 
     // ✅ 纯表达式，不依赖 load/loadstring；包含随机变量名以增强不可预测性
     const decryptor = `(function() local ${arr} = {${charCodes.join(',')}} local ${acc} = '' for ${idx} = 1, #${arr} do ${acc} = ${acc} .. string.char(${arr}[${idx}]) end return ${acc} end)()`;
