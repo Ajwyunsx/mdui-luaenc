@@ -82,11 +82,18 @@
 }
 /* UI 风格优化 1.0 */
 body {
-  background: #f7f8fa;
+  background: linear-gradient(180deg, #f7f8fa 0%, #f2f4f8 100%);
 }
 
 .mdui-appbar .mdui-toolbar {
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* 置顶工具栏 */
+.mdui-appbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .mdui-card {
@@ -98,17 +105,42 @@ body {
   font-family: Consolas, Monaco, 'Courier New', monospace;
   font-size: 14px;
   line-height: 1.5;
+  min-height: 320px;
+}
+
+/* 独立调整源代码与结果区域的高度与滚动 */
+#sourceCode {
+  min-height: 320px;
+}
+
+#obfuscatedCode {
+  min-height: 240px;
+  white-space: pre; /* 保持单行显示 */
+  overflow: auto;   /* 允许横向滚动 */
+}
+
+.mdui-textfield-input:focus {
+  outline: none;
+  box-shadow: inset 0 0 0 2px rgba(33,150,243,0.25);
 }
 
 .mdui-container {
   padding-top: 20px;
   padding-bottom: 24px;
+  max-width: 1280px;
 }
 
 .toolbar-actions {
   display: flex;
   gap: 8px;
   align-items: center;
+}
+
+/* 小屏优化：收紧工具栏按钮间距 */
+@media (max-width: 768px) {
+  .toolbar-actions {
+    gap: 4px;
+  }
 }
 
 .theme-toggle {
@@ -129,4 +161,9 @@ body {
   height: 20px;
   display: inline-block;
   vertical-align: middle;
+}
+
+/* 底部信息卡片 */
+.footer-card {
+  margin-top: 16px;
 }

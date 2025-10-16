@@ -10,7 +10,7 @@ class LuaObfuscator {
             codeLogic: options.codeLogic !== undefined ? options.codeLogic : true,
             localVar: options.localVar !== undefined ? options.localVar : true,
             globalVar: options.globalVar !== undefined ? options.globalVar : true,
-            functionNameObfuscate: options.functionNameObfuscate !== undefined ? options.functionNameObfuscate : true,
+            functionNameObfuscate: options.functionNameObfuscate !== undefined ? options.functionNameObfuscate : false,
             stringEncrypt: options.stringEncrypt !== undefined ? options.stringEncrypt : true,
             numberEncrypt: options.numberEncrypt !== undefined ? options.numberEncrypt : true,
             tableEncrypt: options.tableEncrypt !== undefined ? options.tableEncrypt : true,
@@ -137,9 +137,13 @@ class LuaObfuscator {
         let result = code;
         for (let varName of uniqueVars) {
             const obfuscatedName = this.generateObfuscatedName();
-            // 使用更简单的替换模式
             const pattern = new RegExp(`\\b${varName}\\b`, 'g');
-            result = result.replace(pattern, obfuscatedName);
+            result = result.replace(pattern, (m, offset) => {
+                const prev = offset > 0 ? result[offset - 1] : '';
+                // 避免替换对象属性或库方法，例如 string.char / obj.char
+                if (prev === '.' || prev === ':') return m;
+                return obfuscatedName;
+            });
         }
         
         return result;
@@ -693,62 +697,9 @@ createStringDecryptor(content) {
      * 函数名混淆：重命名本地/全局函数定义与调用；对内置print进行安全别名
      */
     obfuscateFunctionNames(code) {
-        const names = new Set();
-
-        // 采集函数定义：local function name(...)
-        const localFuncDecl = /\blocal\s+function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g;
-        let m;
-        while ((m = localFuncDecl.exec(code)) !== null) {
-            names.add(m[1]);
-        }
-
-        // 采集函数定义：function name(...)
-        const globalFuncDecl = /(^|\n)\s*function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g;
-        while ((m = globalFuncDecl.exec(code)) !== null) {
-            names.add(m[2]);
-        }
-
-        // 采集函数赋值：local name = function(...)
-        const localAssignFunc = /\blocal\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*function\s*\(/g;
-        while ((m = localAssignFunc.exec(code)) !== null) {
-            names.add(m[1]);
-        }
-
-        const mapping = new Map();
-        for (const n of names) {
-            mapping.set(n, this.generateObfuscatedName());
-        }
-
+        // 不更改用户自定义函数名，仅可选进行print别名处理
         let result = code;
-
-        // 替换函数定义处的名称
-        mapping.forEach((obf, orig) => {
-            // local function name(
-            result = result.replace(new RegExp(`(\\blocal\\s+function\\s+)${orig}(\\s*\\()`, 'g'), `$1${obf}$2`);
-            // function name(
-            result = result.replace(new RegExp(`(\\bfunction\\s+)${orig}(\\s*\\()`, 'g'), `$1${obf}$2`);
-            // local name = function(
-            result = result.replace(new RegExp(`(\\blocal\\s+)${orig}(\\s*=\\s*function\\s*\\()`, 'g'), `$1${obf}$2`);
-        });
-
-        // 替换调用处的名称（避免 table 方法：排除 .name 或 :name），不使用不兼容的回顾断言
-        const replaceFuncCalls = (text, name, obf) => {
-            const re = new RegExp(`\\b${name}\\b`, 'g');
-            return text.replace(re, (m, offset) => {
-                const prev = offset > 0 ? text[offset - 1] : '';
-                const next = text.slice(offset + m.length);
-                if (prev === '.' || prev === ':') return m;
-                if (/^\s*\(/.test(next)) return obf;
-                return m;
-            });
-        };
-        mapping.forEach((obf, orig) => {
-            result = replaceFuncCalls(result, orig, obf);
-        });
-
-        // 对内置 print 进行安全别名
         if (/\bprint\s*\(/.test(result)) {
-            // 生成不与现有标识符冲突的别名
             let alias = this.generateObfuscatedName();
             const exists = (n) => new RegExp(`\\b${n}\\b`).test(result);
             let attempts = 0;
@@ -756,11 +707,8 @@ createStringDecryptor(content) {
                 alias = this.generateObfuscatedName();
                 attempts++;
             }
-            // 在文件顶部注入别名（更稳健：优先使用 _G.print）
             result = `local ${alias} = (_G and _G.print) or print\n` + result;
-            // 保护该名称，避免后续局部变量混淆把它改掉
             this.protectedNames.add(alias);
-            // 替换调用（非 . 或 : 方法场景）
             const rePrint = /\bprint\b/g;
             result = result.replace(rePrint, (m, offset) => {
                 const prev = offset > 0 ? result[offset - 1] : '';
@@ -770,8 +718,6 @@ createStringDecryptor(content) {
                 return m;
             });
         }
-
-        console.log(`函数名混淆：重命名 ${mapping.size} 个函数；print 已别名化（如存在）`);
         return result;
     }
 
