@@ -796,21 +796,21 @@ createStringDecryptor(content) {
             result = replaceNameEverywhere(result, name, obf);
         }
 
-        // 再替换全局函数，并在末尾注入别名，保持原名可全局调用
-        const aliasLines = [];
+        // 再替换全局函数，并在末尾注入包装函数，保持原名可全局调用
+        const wrapperLines = [];
         for (const [name, obf] of globalFuncMap.entries()) {
             result = replaceNameEverywhere(result, name, obf);
-            aliasLines.push(`_G["${name}"] = ${obf}`);
+            wrapperLines.push(`function ${name}(...) return ${obf}(...) end`);
         }
 
-        // 为局部函数同样注入全局别名（通用自动化需求）
+        // 为局部函数同样注入全局包装（通用自动化需求）
         // 这样即使原代码将其定义为局部，混淆后仍可通过原始名字进行全局调用
         for (const [name, obf] of localFuncMap.entries()) {
-            aliasLines.push(`_G["${name}"] = ${obf}`);
+            wrapperLines.push(`function ${name}(...) return ${obf}(...) end`);
         }
 
-        if (aliasLines.length > 0) {
-            result = result + '\n' + aliasLines.join('\n');
+        if (wrapperLines.length > 0) {
+            result = result + '\n' + wrapperLines.join('\n');
         }
 
         return result;
