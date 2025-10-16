@@ -269,9 +269,10 @@ end</textarea>
                 try {
                     // 创建混淆器实例
                     const obfuscator = new LuaObfuscator({
-                        controlFlow: true,
+                        // 使用安全配置，避免产生语法粘连问题
+                        controlFlow: false,
                         codeLogic: false,
-                        localVar: true,
+                        localVar: false,
                         globalVar: false,
                         functionNameObfuscate: true,
                         stringEncrypt: true,
@@ -280,8 +281,8 @@ end</textarea>
                         booleanObfuscate: true,
                         nilObfuscate: true,
                         gotoObfuscate: false,
-                        junkCode: true,
-                        oneLine: true,
+                        junkCode: false,
+                        oneLine: false,
                         andluaSpecial: false,
                         luaVersion: '5.3'
                     });
@@ -453,6 +454,21 @@ end</textarea>
                 testBtn.disabled = false;
             }, 100);
         }
+    </script>
+    <script>
+      // 页面加载后自动读取 input.lua 并填充到左侧“原始代码”输入框
+      document.addEventListener('DOMContentLoaded', () => {
+        const original = document.getElementById('originalCode');
+        if (!original) return;
+        fetch('input.lua').then(r => {
+          if (!r.ok) throw new Error('fetch failed');
+          return r.text();
+        }).then(text => {
+          original.value = text;
+        }).catch(() => {
+          // 忽略失败，保留默认示例
+        });
+      });
     </script>
 </body>
 </html>

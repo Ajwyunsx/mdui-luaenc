@@ -18,9 +18,9 @@ const luaSource = fs.readFileSync(inputFile, 'utf8');
 
 // Configure strong-but-safe options
 const options = {
-  controlFlow: true,
-  codeLogic: true,
-  localVar: true,
+  controlFlow: false,
+  codeLogic: false,
+  localVar: false,
   globalVar: false,
   functionNameObfuscate: true,
   stringEncrypt: true,
@@ -29,8 +29,8 @@ const options = {
   booleanObfuscate: true,
   nilObfuscate: true,
   gotoObfuscate: false,
-  junkCode: true,
-  oneLine: true
+  junkCode: false,
+  oneLine: false
 };
 
 try {

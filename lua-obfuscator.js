@@ -148,10 +148,16 @@ class LuaObfuscator {
         for (let varName of uniqueVars) {
             const obfuscatedName = this.generateObfuscatedName();
             const pattern = new RegExp(`\\b${varName}\\b`, 'g');
-            result = result.replace(pattern, (m, offset) => {
-                const prev = offset > 0 ? result[offset - 1] : '';
+            result = result.replace(pattern, (m, offset, whole) => {
+                const prev = offset > 0 ? whole[offset - 1] : '';
                 // 避免替换对象属性或库方法，例如 string.char / obj.char
                 if (prev === '.' || prev === ':') return m;
+                // 避免替换函数定义名：function <name>(...)
+                const before = whole.slice(Math.max(0, offset - 20), offset);
+                const after = whole.slice(offset + m.length);
+                if (/function\s+$/.test(before) && /^\s*\(/.test(after)) {
+                    return m;
+                }
                 return obfuscatedName;
             });
         }
@@ -798,15 +804,22 @@ createStringDecryptor(content) {
 
         // 再替换全局函数，并在末尾注入包装函数，保持原名可全局调用
         const wrapperLines = [];
+        const injected = new Set();
         for (const [name, obf] of globalFuncMap.entries()) {
             result = replaceNameEverywhere(result, name, obf);
-            wrapperLines.push(`function ${name}(...) return ${obf}(...) end`);
+            if (!injected.has(name)) {
+                wrapperLines.push(`function ${name}(...) return ${obf}(...) end`);
+                injected.add(name);
+            }
         }
 
         // 为局部函数同样注入全局包装（通用自动化需求）
         // 这样即使原代码将其定义为局部，混淆后仍可通过原始名字进行全局调用
         for (const [name, obf] of localFuncMap.entries()) {
-            wrapperLines.push(`function ${name}(...) return ${obf}(...) end`);
+            if (!injected.has(name)) {
+                wrapperLines.push(`function ${name}(...) return ${obf}(...) end`);
+                injected.add(name);
+            }
         }
 
         if (wrapperLines.length > 0) {
@@ -822,11 +835,16 @@ createStringDecryptor(content) {
     flattenOneLine(code) {
         // 尽量避免误删字符串中的内容，这里不处理字符串，仅处理换行与多空白
         // 移除行尾注释（简化版，可能不会覆盖所有情况）
-        const noLineComments = code.replace(/(^|\n)\s*--.*(?=\n|$)/g, '$1');
+        let pre = code.replace(/(^|\n)\s*--.*(?=\n|$)/g, '$1');
         // 移除块注释 --[[ ... ]]
-        const noBlockComments = noLineComments.replace(/--\[\[[\s\S]*?\]\]/g, '');
+        pre = pre.replace(/--\[\[[\s\S]*?\]\]/g, '');
+
+        // 在行尾的 end 后注入分号，确保与后续语句在同一行时仍能正确分隔
+        // 仅在 end 位于行末时处理，避免影响诸如 "end)" 等写法
+        pre = pre.replace(/(\bend\b)\s*(?=\r?\n)/g, '$1;');
+
         // 将所有换行变为空格
-        let oneLine = noBlockComments.replace(/\r?\n+/g, ' ');
+        let oneLine = pre.replace(/\r?\n+/g, ' ');
         // 折叠多空白为单空格
         oneLine = oneLine.replace(/\s+/g, ' ');
         // 去除多余空格
