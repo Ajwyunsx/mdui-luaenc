@@ -534,6 +534,12 @@ createStringDecryptor(content) {
         try {
             console.log('开始混淆，原始代码长度:', code.length);
             let obfuscatedCode = code;
+
+            // 0. 预处理：移除Lua注释（行注释与块注释）
+            if (/-\-/.test(obfuscatedCode) || /--\[\[/.test(obfuscatedCode)) {
+                console.log('步骤0: 移除Lua注释');
+                obfuscatedCode = this.stripLuaComments(obfuscatedCode);
+            }
             
             // 1. 处理AndLua特殊需求
             if (this.options.andluaSpecial) {
@@ -633,6 +639,45 @@ createStringDecryptor(content) {
     validateBasicSyntax(code) {
         // 简化语法验证 - 总是返回true，让混淆继续进行
         return true;
+    }
+
+    /**
+     * 移除Lua注释（尽量不影响字符串内容）
+     * 支持：--[[ 块注释 ]], 行内/整行 -- 注释
+     */
+    stripLuaComments(code) {
+        // 移除块注释：--[[ ... ]]
+        let result = code.replace(/--\[\[[\s\S]*?\]\]/g, '');
+
+        const lines = result.split('\n');
+        const processed = lines.map(line => {
+            let inStr = false;
+            let strChar = '';
+            for (let i = 0; i < line.length; i++) {
+                const ch = line[i];
+                const prev = i > 0 ? line[i - 1] : '';
+                // 进入/退出字符串（简单处理引号，考虑反斜杠转义）
+                if (!inStr && (ch === '"' || ch === '\'')) {
+                    inStr = true;
+                    strChar = ch;
+                    continue;
+                } else if (inStr) {
+                    if (ch === strChar && prev !== '\\') {
+                        inStr = false;
+                        strChar = '';
+                    }
+                    continue;
+                }
+
+                // 非字符串内遇到 -- 视为注释起点，截断该行
+                if (!inStr && ch === '-' && i + 1 < line.length && line[i + 1] === '-') {
+                    return line.slice(0, i).trimEnd();
+                }
+            }
+            return line;
+        });
+
+        return processed.join('\n');
     }
 
     /**
