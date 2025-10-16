@@ -38,6 +38,16 @@ class LuaObfuscator {
             'setfenv', 'setmetatable', 'tonumber', 'tostring', 'type', 'unpack', 'xpcall',
             'string', 'table', 'math', 'io', 'os', 'debug', 'package', 'coroutine'
         ]);
+
+        // 常见引擎/宿主的全局回调函数名（保持原名，确保外部能通过原名调用）
+        this.callbackSafeNames = new Set([
+            // 通用
+            'main', 'init', 'start', 'stop', 'exit',
+            // 事件/更新类
+            'onEvent', 'onUpdate', 'onCreate', 'onDestroy', 'onLoad', 'onUnload', 'onInit', 'onStart', 'onStop', 'onExit',
+            // Love2D/常见风格（若作为全局函数）
+            'update', 'draw'
+        ]);
         
         // 变量名映射表
         this.protectedNames = new Set();
@@ -687,30 +697,122 @@ createStringDecryptor(content) {
     }
 
     /**
-     * 函数名混淆：重命名本地/全局函数定义与调用；对内置print进行安全别名
+     * 函数名混淆：重命名函数定义与调用，并保持原始全局回调可调用
+     * 策略：
+     * - 识别简单的函数定义形式：
+     *   1) function name(...) ... end        （全局）
+     *   2) local function name(...) ... end  （局部）
+     *   3) name = function(...) ... end      （倾向全局）
+     * - 跳过方法定义：function obj:method(...) / function obj.method(...)
+     * - 对被重命名的全局函数，在文件末尾注入别名：_G["原名"] = 新名
+     *   这样引擎仍能通过原始全局名称调用（例如 onUpdate/onEvent 等）。
      */
     obfuscateFunctionNames(code) {
-        // 不更改用户自定义函数名，仅可选进行print别名处理
         let result = code;
-        if (/\bprint\s*\(/.test(result)) {
-            let alias = this.generateObfuscatedName();
-            const exists = (n) => new RegExp(`\\b${n}\\b`).test(result);
-            let attempts = 0;
-            while (exists(alias) && attempts < 10) {
-                alias = this.generateObfuscatedName();
-                attempts++;
+
+        // 用于收集重命名映射
+        const globalFuncMap = new Map(); // 原名 -> 混淆名
+        const localFuncMap = new Map();  // 原名 -> 混淆名
+
+        // 跳过方法定义（obj:method / obj.method）
+        const methodDefPattern = /\bfunction\s+[a-zA-Z_][a-zA-Z0-9_]*[\.:][a-zA-Z_][a-zA-Z0-9_]*\s*\(/g;
+        // 简单函数定义
+        const globalDefPattern = /\bfunction\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g;
+        const localDefPattern  = /\blocal\s+function\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\(/g;
+        const assignDefPattern = /\b([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*function\s*\(/g;
+
+        const shouldSkip = (name) => {
+            return this.reservedKeywords.has(name)
+                || this.luaBuiltins.has(name)
+                || (this.protectedNames && this.protectedNames.has(name))
+                || (this.callbackSafeNames && this.callbackSafeNames.has(name));
+        };
+
+        // 收集局部定义
+        {
+            let m;
+            while ((m = localDefPattern.exec(result)) !== null) {
+                const name = m[1];
+                if (shouldSkip(name)) continue;
+                if (!localFuncMap.has(name)) {
+                    localFuncMap.set(name, this.generateObfuscatedName());
+                }
             }
-            result = `local ${alias} = (_G and _G.print) or print\n` + result;
-            this.protectedNames.add(alias);
-            const rePrint = /\bprint\b/g;
-            result = result.replace(rePrint, (m, offset) => {
-                const prev = offset > 0 ? result[offset - 1] : '';
-                const next = result.slice(offset + m.length);
-                if (prev === '.' || prev === ':') return m;
-                if (/^\s*\(/.test(next)) return alias;
+        }
+
+        // 收集全局定义（排除方法定义）
+        {
+            let m;
+            while ((m = globalDefPattern.exec(result)) !== null) {
+                const name = m[1];
+                // 如果匹配到的是方法定义，跳过
+                // 这里通过再次检查上下文简化处理：若前面出现 obj: 或 obj. 则不当成纯全局
+                const before = result.slice(Math.max(0, m.index - 20), m.index);
+                if (/[\.:]\s*$/.test(before)) continue;
+                if (shouldSkip(name)) continue;
+                if (!globalFuncMap.has(name)) {
+                    globalFuncMap.set(name, this.generateObfuscatedName());
+                }
+            }
+        }
+
+        // 收集赋值式定义为全局（保守处理）
+        {
+            let m;
+            while ((m = assignDefPattern.exec(result)) !== null) {
+                const name = m[1];
+                if (shouldSkip(name)) continue;
+                if (!globalFuncMap.has(name) && !localFuncMap.has(name)) {
+                    globalFuncMap.set(name, this.generateObfuscatedName());
+                }
+            }
+        }
+
+        // 执行替换：定义与调用，同时避免方法/属性调用（. 或 :）
+        const replaceNameEverywhere = (src, name, obf) => {
+            let out = src;
+
+            // 定义替换
+            out = out.replace(new RegExp(`\\blocal\\s+function\\s+${name}\\s*\\(`, 'g'), `local function ${obf}(`);
+            out = out.replace(new RegExp(`\\bfunction\\s+${name}\\s*\\(`, 'g'), `function ${obf}(`);
+            out = out.replace(new RegExp(`\\b${name}\\s*=\\s*function\\s*\\(`, 'g'), `${obf} = function(`);
+
+            // 调用替换（避免 obj:name(...) / obj.name(...) ）
+            const callPattern = new RegExp(`\\b${name}\\b`, 'g');
+            out = out.replace(callPattern, (m, offset) => {
+                const prev = offset > 0 ? out[offset - 1] : '';
+                const next = out.slice(offset + m.length);
+                if (prev === '.' || prev === ':') return m; // 方法/属性访问不改
+                // 仅在后面跟随调用括号时替换为混淆名
+                if (/^\s*\(/.test(next)) return obf;
                 return m;
             });
+
+            return out;
+        };
+
+        // 先替换局部函数（不改变其作用域）
+        for (const [name, obf] of localFuncMap.entries()) {
+            result = replaceNameEverywhere(result, name, obf);
         }
+
+        // 再替换全局函数，并在末尾注入别名，保持原名可全局调用
+        const aliasLines = [];
+        for (const [name, obf] of globalFuncMap.entries()) {
+            result = replaceNameEverywhere(result, name, obf);
+            aliasLines.push(`_G["${name}"] = ${obf}`);
+        }
+
+        // 为局部函数同样注入全局别名（通用自动化需求）
+        // 这样即使原代码将其定义为局部，混淆后仍可通过原始名字进行全局调用
+        for (const [name, obf] of localFuncMap.entries()) {
+            aliasLines.push(`_G["${name}"] = ${obf}`);
+        }
+
+        if (aliasLines.length > 0) {
+            result = result + '\n' + aliasLines.join('\n');
+        }
+
         return result;
     }
 
