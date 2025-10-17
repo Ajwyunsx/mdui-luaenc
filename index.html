@@ -114,8 +114,28 @@
                                 <label class="mdui-checkbox">
                                     <input type="checkbox" id="functionNameObfuscate" checked>
                                     <i class="mdui-checkbox-icon"></i>
-                                    函数名混淆（含内置print别名）
+                                    函数名混淆
                                 </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="builtinAliasObfuscate" checked>
+                                    <i class="mdui-checkbox-icon"></i>
+                                    内置方法别名混淆
+                                </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="obfuscateFunctionDefinitions">
+                                    <i class="mdui-checkbox-icon"></i>
+                                    函数定义重命名（需启用函数名混淆）
+                                </label>
+                            </li>
+                            <li class="mdui-list-item">
+                                <div class="mdui-textfield">
+                                    <label class="mdui-textfield-label">函数白名单（逗号分隔）</label>
+                                    <input class="mdui-textfield-input" type="text" id="functionWhitelist" placeholder="例：main,init,render">
+                                </div>
                             </li>
                             <li class="mdui-list-item mdui-ripple">
                                 <label class="mdui-checkbox">
@@ -126,10 +146,46 @@
                             </li>
                             <li class="mdui-list-item mdui-ripple">
                                 <label class="mdui-checkbox">
+                                    <input type="checkbox" id="byteEncrypt" checked>
+                                    <i class="mdui-checkbox-icon"></i>
+                                    字节级XOR加密（默认启用）
+                                </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
                                     <input type="checkbox" id="numberEncrypt" checked>
                                     <i class="mdui-checkbox-icon"></i>
                                     数字加密转换
                                 </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                                    <label class="mdui-checkbox" style="margin-right:12px;">
+                                        <input type="checkbox" id="numberBaseStrengthen">
+                                        <i class="mdui-checkbox-icon"></i>
+                                        整数进制加强（兼容）
+                                    </label>
+                                    <label style="display:flex;align-items:center;gap:8px;">
+                                        <span>进制风格</span>
+                                        <select id="numberBaseStyle" class="mdui-select" style="min-width:200px;">
+                                            <option value="tonumber" selected>tonumber(字符串, base)（最大兼容，推荐）</option>
+                                            <option value="hexliteral">十六进制字面量 0x..（Lua5.1/5.2 可能不支持）</option>
+                                            <option value="mixed">混合（随机在两种之间）</option>
+                                        </select>
+                                    </label>
+                                    <label style="display:flex;align-items:center;gap:8px;">
+                                        <span>层数（tonumber嵌套）</span>
+                                        <input type="number" id="numberBaseLayers" min="1" max="32" step="1" value="16" style="width:120px;">
+                                    </label>
+                                    <label style="display:flex;align-items:center;gap:8px;">
+                                        <span>字符串化风格</span>
+                                        <select id="numberStringifyStyle" class="mdui-select" style="min-width:200px;">
+                                            <option value="mixed" selected>混合（随机在 ""..expr 与 tostring 之间）</option>
+                                            <option value="plain">简单拼接（"" .. expr）</option>
+                                            <option value="tostring">调用 tostring(expr)</option>
+                                        </select>
+                                    </label>
+                                </div>
                             </li>
                             <li class="mdui-list-item mdui-ripple">
                                 <label class="mdui-checkbox">
@@ -229,6 +285,73 @@
                                     单行压缩（极限混淆）
                                 </label>
                             </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="webStandardWrapper">
+                                    <i class="mdui-checkbox-icon"></i>
+                                    网页标准包装（环境前导）
+                                </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="loadIIFEWrapper">
+                                    <i class="mdui-checkbox-icon"></i>
+                                    load/IIFE 包裹（直接执行）
+                                </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="tailStopGuard" checked>
+                                    <i class="mdui-checkbox-icon"></i>
+                                    尾部停止（防插入保护）
+                                </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <div class="mdui-row">
+                                    <div class="mdui-col-xs-12">
+                                        <label class="mdui-textfield-label">尾部停止风格</label>
+                                        <select id="tailStopGuardMode" class="mdui-select">
+                                            <option value="hard" selected>硬停止（编译阻断）</option>
+                                            <option value="soft">软停止（运行时提前返回）</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="stringEscapeDecimal" checked>
+                                    <i class="mdui-checkbox-icon"></i>
+                                    索引字符串十进制转义（\\ddd）
+                                </label>
+                            </li>
+
+
+
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="wrapSourceAsEncoded">
+                                    <i class="mdui-checkbox-icon"></i>
+                                    整段编码封装执行（先编码后运行）
+                                </label>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <div class="mdui-row">
+                                    <div class="mdui-col-xs-12">
+                                        <label class="mdui-textfield-label">整段编码风格</label>
+                                        <select id="sourceEncodingStyle" class="mdui-select">
+                                            <option value="decimal">十进制转义（\\ddd）</option>
+                                            <option value="charlist">string.char 列表</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="mdui-list-item mdui-ripple">
+                                <label class="mdui-checkbox">
+                                    <input type="checkbox" id="sourcePreferLoadstring" checked>
+                                    <i class="mdui-checkbox-icon"></i>
+                                    loadstring 优先（无则回退 load）
+                                </label>
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -316,6 +439,21 @@
                 <li>在结果区域查看混淆后的代码</li>
             </ol>
             
+            <h4>尾部停止（防插入保护）</h4>
+            <p>用于阻断在文件末尾添加的恶意或无意插入代码：</p>
+            <ul>
+                <li>硬停止：在末尾添加顶层 <code>return</code>，使后续插入的代码在编译阶段直接报错。</li>
+                <li>软停止：在末尾添加 <code>do return end</code>，编译通过，但运行时提前返回，不执行插入代码。</li>
+                <li>当启用 <code>load/IIFE 包裹</code> 或 <code>整段编码封装</code> 时，已存在顶层 <code>return (function(...) ... end)()</code>，无需再追加尾部停止，避免重复导致语法冲突。</li>
+            </ul>
+
+            <h4>快速验证</h4>
+            <ol>
+                <li>生成混淆代码后，在文件末尾追加一行 <code>print("injected")</code>。</li>
+                <li>硬停止：使用 <code>luac53</code> 编译应报错；软停止：可编译，但运行时不会打印。</li>
+                <li>启用包裹：末尾的顶层 <code>return</code> 已提供硬停止效果。</li>
+            </ol>
+
             <h4>AndLua特殊处理</h4>
             <p>AndLua系统通过源代码中的require和import语句实现库文件自动导入，在加密AndLua项目时，需要将所有引入语句提取至加密范围外，或手动将相关库文件打包至应用安装包中。</p>
         </div>

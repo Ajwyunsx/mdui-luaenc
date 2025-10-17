@@ -32,6 +32,23 @@ document.addEventListener('DOMContentLoaded', function() {
 /**
  * 根据选择的语言类型显示/隐藏相应的混淆选项
  */
+// 绑定帮助按钮打开弹窗
+const _helpBtn = document.getElementById('helpButton');
+if (_helpBtn) {
+  _helpBtn.addEventListener('click', function() {
+    try {
+      const dlg = new mdui.Dialog('#helpDialog');
+      dlg.open();
+    } catch (e) {
+      // 兜底方式：使用 mdui API 属性触发
+      const el = document.querySelector('#helpDialog');
+      if (el && el.classList.contains('mdui-dialog')) {
+        el.classList.add('mdui-dialog-open');
+      }
+    }
+  });
+}
+
 function toggleObfuscationOptions(language) {
     // 获取所有混淆选项的父元素
     const obfuscationOptions = document.querySelector('.mdui-list');
@@ -101,6 +118,10 @@ function obfuscateCode() {
                     stringEncrypt: document.getElementById('stringEncrypt').checked,
                     stringEncryptLong: document.getElementById('stringEncryptLong').checked,
                     numberEncrypt: document.getElementById('numberEncrypt').checked,
+                    numberBaseStrengthen: document.getElementById('numberBaseStrengthen').checked,
+                    numberBaseStyle: (document.getElementById('numberBaseStyle') && document.getElementById('numberBaseStyle').value) || 'tonumber',
+                    numberBaseLayers: parseInt(document.getElementById('numberBaseLayers')?.value, 10) || 16,
+                    numberStringifyStyle: (document.getElementById('numberStringifyStyle') && document.getElementById('numberStringifyStyle').value) || 'mixed',
                     tableEncrypt: document.getElementById('tableEncrypt').checked,
                     booleanObfuscate: document.getElementById('booleanObfuscate').checked,
                     nilObfuscate: document.getElementById('nilObfuscate').checked,
@@ -109,7 +130,22 @@ function obfuscateCode() {
                     codeSplitReorganize: document.getElementById('codeSplitReorganize').checked,
                     antiDebug: document.getElementById('antiDebug').checked,
                     oneLine: document.getElementById('oneLine').checked,
-                    aggressive: document.getElementById('aggressive').checked
+                    aggressive: document.getElementById('aggressive').checked,
+                    // 新增选项
+                    builtinAliasObfuscate: document.getElementById('builtinAliasObfuscate').checked,
+                    obfuscateFunctionDefinitions: document.getElementById('obfuscateFunctionDefinitions').checked,
+                    functionWhitelist: (document.getElementById('functionWhitelist').value || '').split(',').map(x => x.trim()).filter(Boolean),
+                    // 网页环境封装与索引编码
+                    webStandardWrapper: document.getElementById('webStandardWrapper').checked,
+                    loadIIFEWrapper: document.getElementById('loadIIFEWrapper').checked,
+                    stringEscapeDecimal: document.getElementById('stringEscapeDecimal').checked,
+                    // 防插入保护
+                    tailStopGuard: document.getElementById('tailStopGuard').checked,
+                    tailStopGuardMode: (document.getElementById('tailStopGuardMode') && document.getElementById('tailStopGuardMode').value) || 'hard',
+                    // 整段源码编码封装
+                    wrapSourceAsEncoded: document.getElementById('wrapSourceAsEncoded').checked,
+                    sourceEncodingStyle: (document.getElementById('sourceEncodingStyle') && document.getElementById('sourceEncodingStyle').value) || 'decimal',
+                    sourcePreferLoadstring: document.getElementById('sourcePreferLoadstring').checked
                 };
                 
                 // 创建Lua混淆器实例
