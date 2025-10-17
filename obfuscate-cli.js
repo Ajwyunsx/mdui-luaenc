@@ -8,35 +8,34 @@ const obfPath = path.join(__dirname, 'lua-obfuscator.js');
 const obfCode = fs.readFileSync(obfPath, 'utf8');
 vm.runInThisContext(obfCode, { filename: 'lua-obfuscator.js' });
 
-// Read input file
-const inputFile = process.argv[2] || path.join(__dirname, 'input.lua');
+// Resolve input/output from CLI args
+const argInput = process.argv[2];
+const argOutput = process.argv[3];
+const inputFile = argInput ? path.resolve(__dirname, argInput) : path.join(__dirname, 'input.lua');
 if (!fs.existsSync(inputFile)) {
   console.error('Input Lua file not found:', inputFile);
   process.exit(1);
 }
 const luaSource = fs.readFileSync(inputFile, 'utf8');
 
-// Configure strong-but-safe options
+// Parse command line options
+// (注释现在默认会被移除，不需要额外选项)
+
+// Safe-by-default options for executable output
 const options = {
-  controlFlow: false,
-  codeLogic: false,
-  localVar: false,
-  globalVar: false,
-  functionNameObfuscate: true,
+  safeMode: true,
   stringEncrypt: true,
-  numberEncrypt: true,
-  tableEncrypt: false,
+  stringEncryptLong: false,
+  numberEncrypt: false, // 关闭整数包装以最大化兼容性（可按需开启）
   booleanObfuscate: true,
   nilObfuscate: true,
-  gotoObfuscate: false,
-  junkCode: false,
   oneLine: false
 };
 
 try {
   const obfuscator = new LuaObfuscator(options);
   const result = obfuscator.obfuscate(luaSource);
-  const outFile = path.join(__dirname, 'output.lua');
+  const outFile = argOutput ? path.resolve(__dirname, argOutput) : path.join(__dirname, 'output.lua');
   fs.writeFileSync(outFile, result, 'utf8');
   console.log('Obfuscation complete. Output written to', outFile);
 } catch (err) {

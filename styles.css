@@ -6,6 +6,25 @@
 
 .mdui-card {
     margin-bottom: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.mdui-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1), 0 4px 10px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+}
+
+.mdui-theme-layout-dark .mdui-card {
+    background-color: #2d3748;
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3), 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.mdui-theme-layout-dark .mdui-card:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4), 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .mdui-textfield {
@@ -17,8 +36,35 @@
     font-size: 14px;
 }
 
+/* 卡片标题增强 */
 .mdui-card-header-title {
-    font-weight: bold;
+    font-weight: 600;
+    font-size: 18px;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mdui-card-header-title::before {
+    content: '';
+    width: 4px;
+    height: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+}
+
+.mdui-theme-layout-dark .mdui-card-header-title {
+    color: #e2e8f0;
+}
+
+.mdui-theme-layout-dark .mdui-card-header-title::before {
+    background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
+}
+
+/* 卡片内容区域优化 */
+.mdui-card-content {
+    padding: 20px;
 }
 
 .mdui-list-item {
@@ -36,21 +82,150 @@
     padding: 2px 4px;
 }
 
-/* 按钮组样式 */
+/* 按钮组样式增强 */
 .button-group {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
 }
 
-/* 响应式调整 */
+.button-group .mdui-btn {
+    flex: 1;
+    min-width: 120px;
+    max-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.button-group .mdui-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.button-group .mdui-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.button-group .mdui-btn .mdui-icon {
+    font-size: 18px;
+}
+
+.btn-text {
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+/* 移动端优化 - 更全面的响应式设计 */
 @media (max-width: 768px) {
     .mdui-col-md-4, .mdui-col-md-8 {
         width: 100%;
+        margin-bottom: 16px;
     }
     
     .button-group {
         justify-content: center;
+        gap: 6px;
+    }
+    
+    .mdui-container {
+        padding-left: 12px;
+        padding-right: 12px;
+        padding-top: 16px;
+    }
+    
+    .mdui-card {
+        margin-bottom: 12px;
+        border-radius: 8px;
+    }
+    
+    .mdui-textfield-input {
+        font-size: 13px;
+        min-height: 200px;
+    }
+    
+    #sourceCode {
+        min-height: 200px;
+    }
+    
+    #obfuscatedCode {
+        min-height: 150px;
+        font-size: 12px;
+    }
+    
+    .mdui-appbar .mdui-toolbar {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    
+    .toolbar-actions {
+        gap: 2px;
+    }
+    
+    .mdui-btn {
+        min-width: 36px;
+        padding: 0 8px;
+    }
+    
+    .mdui-typo-headline {
+        font-size: 18px;
+    }
+}
+
+/* 小屏幕设备优化 */
+@media (max-width: 480px) {
+    .mdui-container {
+        padding-left: 8px;
+        padding-right: 8px;
+        padding-top: 12px;
+    }
+    
+    .mdui-card-content {
+        padding: 16px 12px;
+    }
+    
+    .mdui-textfield-input {
+        font-size: 12px;
+        min-height: 180px;
+    }
+    
+    #sourceCode {
+        min-height: 180px;
+    }
+    
+    #obfuscatedCode {
+        min-height: 120px;
+        font-size: 11px;
+    }
+    
+    .button-group {
+        gap: 4px;
+    }
+    
+    .mdui-btn {
+        font-size: 13px;
+        min-width: 32px;
+        padding: 0 6px;
+    }
+    
+    .mdui-typo-headline {
+        font-size: 16px;
+    }
+    
+    .mdui-chip-group {
+        flex-wrap: wrap;
+        gap: 4px;
+    }
+    
+    .mdui-chip {
+        margin: 2px;
+        font-size: 12px;
     }
 }
 
@@ -80,9 +255,31 @@
     font-size: 15px;
     line-height: 1.6;
 }
+
+/* 移动端对话框优化 */
+@media (max-width: 768px) {
+    .mdui-dialog {
+        margin: 16px;
+        max-width: calc(100vw - 32px);
+    }
+    
+    .mdui-dialog-content {
+        padding: 16px;
+    }
+    
+    .mdui-dialog-content h4 {
+        font-size: 16px;
+    }
+    
+    .mdui-dialog-content p, .mdui-dialog-content li {
+        font-size: 14px;
+    }
+}
+
 /* UI 风格优化 1.0 */
 body {
   background: linear-gradient(180deg, #f7f8fa 0%, #f2f4f8 100%);
+  min-height: 100vh;
 }
 
 .mdui-appbar .mdui-toolbar {
@@ -99,24 +296,102 @@ body {
 .mdui-card {
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+  transition: box-shadow 0.3s ease;
+}
+
+.mdui-card:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+/* 代码区域样式 */
+.code-area {
+    font-family: 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    min-height: 300px;
+    resize: vertical;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.code-area:focus {
+    outline: none;
+    border-color: #2196f3;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1), 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.mdui-theme-layout-dark .code-area {
+    background-color: #1a202c;
+    border-color: #4a5568;
+    color: #e2e8f0;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.mdui-theme-layout-dark .code-area:focus {
+    border-color: #64b5f6;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.3), 0 0 0 2px rgba(100, 181, 246, 0.2);
+}
+
+/* 代码输入输出区域增强 */
+#sourceCode, #obfuscatedCode {
+    font-family: 'Fira Code', 'JetBrains Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    background-color: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 16px;
+    min-height: 400px;
+    resize: vertical;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06);
+    transition: all 0.3s ease;
+    font-variant-ligatures: common-ligatures;
+    font-feature-settings: "liga" 1, "calt" 1;
+}
+
+#sourceCode:focus, #obfuscatedCode:focus {
+    outline: none;
+    border-color: #2196f3;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.06), 0 0 0 3px rgba(33, 150, 243, 0.15);
+    background-color: #ffffff;
+}
+
+#sourceCode::placeholder, #obfuscatedCode::placeholder {
+    color: #6c757d;
+    font-style: italic;
+}
+
+.mdui-theme-layout-dark #sourceCode,
+.mdui-theme-layout-dark #obfuscatedCode {
+    background-color: #1a202c;
+    border-color: #4a5568;
+    color: #e2e8f0;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.mdui-theme-layout-dark #sourceCode:focus,
+.mdui-theme-layout-dark #obfuscatedCode:focus {
+    border-color: #64b5f6;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.2), 0 0 0 3px rgba(100, 181, 246, 0.15);
+    background-color: #2d3748;
+}
+
+.mdui-theme-layout-dark #sourceCode::placeholder,
+.mdui-theme-layout-dark #obfuscatedCode::placeholder {
+    color: #a0aec0;
 }
 
 .mdui-textfield-input {
-  font-family: Consolas, Monaco, 'Courier New', monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  min-height: 320px;
-}
-
-/* 独立调整源代码与结果区域的高度与滚动 */
-#sourceCode {
-  min-height: 320px;
-}
-
-#obfuscatedCode {
-  min-height: 240px;
-  white-space: pre; /* 保持单行显示 */
-  overflow: auto;   /* 允许横向滚动 */
+    font-family: Consolas, Monaco, 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    min-height: 320px;
+    border-radius: 6px;
+    transition: box-shadow 0.3s ease;
 }
 
 .mdui-textfield-input:focus {
@@ -136,15 +411,13 @@ body {
   align-items: center;
 }
 
-/* 小屏优化：收紧工具栏按钮间距 */
-@media (max-width: 768px) {
-  .toolbar-actions {
-    gap: 4px;
-  }
-}
-
 .theme-toggle {
   cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
 }
 
 /* 暗色模式 */
@@ -154,16 +427,144 @@ body {
 }
 
 .mdui-theme-layout-dark .mdui-card {
-  box-shadow: none;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
 }
+
+.mdui-theme-layout-dark #obfuscatedCode {
+  background-color: #1e1e1e;
+  border-color: #333;
+  color: #e0e0e0;
+}
+
 .github-icon {
-  width: 20px; /* 兼容MDUI视觉比例 */
+  width: 20px;
   height: 20px;
   display: inline-block;
   vertical-align: middle;
+  transition: transform 0.2s ease;
+}
+
+.github-icon:hover {
+  transform: scale(1.1);
 }
 
 /* 底部信息卡片 */
 .footer-card {
   margin-top: 16px;
+}
+
+/* 触摸设备优化 */
+@media (hover: none) and (pointer: coarse) {
+  .mdui-btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  .mdui-textfield-input {
+    font-size: 16px; /* 防止iOS缩放 */
+  }
+  
+  .mdui-chip {
+    min-height: 36px;
+    padding: 0 12px;
+  }
+}
+
+/* 响应式布局优化 */
+@media (max-width: 768px) {
+    .container {
+        padding: 8px;
+    }
+    
+    .mdui-card {
+        margin-bottom: 12px;
+        border-radius: 8px;
+    }
+    
+    .mdui-card-content {
+        padding: 16px;
+    }
+    
+    .mdui-card-header-title {
+        font-size: 16px;
+    }
+    
+    .mdui-card-header-title::before {
+        width: 3px;
+        height: 16px;
+    }
+    
+    #sourceCode, #obfuscatedCode {
+        min-height: 300px;
+        font-size: 13px;
+        padding: 12px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .button-group .mdui-btn {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .mdui-chip {
+        margin: 2px;
+        font-size: 12px;
+    }
+    
+    .mdui-list-item {
+        padding: 8px 16px;
+    }
+    
+    .mdui-checkbox {
+        transform: scale(0.9);
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 4px;
+    }
+    
+    .mdui-card-content {
+        padding: 12px;
+    }
+    
+    #sourceCode, #obfuscatedCode {
+        min-height: 250px;
+        font-size: 12px;
+        padding: 10px;
+    }
+    
+    .mdui-card-header-title {
+        font-size: 14px;
+    }
+    
+    .mdui-btn {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+}
+
+/* 横屏模式优化 */
+@media (max-width: 768px) and (orientation: landscape) {
+  .mdui-textfield-input {
+    min-height: 150px;
+  }
+  
+  #sourceCode {
+    min-height: 150px;
+  }
+  
+  #obfuscatedCode {
+    min-height: 100px;
+  }
+  
+  .mdui-container {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
 }
