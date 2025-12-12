@@ -142,19 +142,17 @@ LuaObfuscator.obfuscate=function(source,options={}){
     let junkInit='';junkVars.forEach(v=>{junkInit+=`local ${v}=${Math.random()>0.5?Math.floor(Math.random()*1000):`"${randomString(8)}"`}\n`;});
     const k1=`{${encKeys[0].join(',')}}`,k2=`{${encKeys[1].join(',')}}`,k3=`{${encKeys[2].join(',')}}`;
 
-    const vmCode=`local ${_gd}=function()local d=debug;if d and d.getinfo then local i=d.getinfo(1);if i and i.what=="C"then return false end end;return true end
-${junkInit}local ${opaqueVar}=os.time()or 1
+    const vmCode=`local ${_gd}=function()return true end
+${junkInit}local ${opaqueVar}=(os and os.time and os.time())or(tick and tick())or 1
 local ${_ti}=table.insert
-local ${_up}=unpack or table.unpack
-local ${_gf}=getfenv
-local ${_env}=${_gf} and ${_gf}()or _G
+local ${_up}=table.unpack or unpack
+local ${_env}=_G or _ENV or{}
 local ${_xr}=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
 local ${_dc}=function(data,keys)local r={};for i=1,#data do local v=data[i];for j=#keys,1,-1 do local k=keys[j];v=v-k[((i-1)%#k)+1];if v<0 then v=v+256 end end;r[i]=v end;return r end
 local ${_ld}=function(data,seed)local state=seed;local taps=0x80200003;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=${_xr}(state,taps)end;r[i]=${_xr}(data[i],state%256)end;return r end
 local ${_pd}=function(data,a,b,c,d,seed)local r={};local x=seed;for i=1,#data do local y=((i-1)*7+13)%256;local z=((i-1)*11+17)%256;local f=(a*x*x*x+b*y*y+c*z+d)%256;r[i]=(data[i]-f)%256;x=(x*17+(i-1)+31)%256 end;return r end
 local ${_vf}=function(data,expected)local hash=0x811c9dc5;local prime=0x01000193;for i=1,#data do hash=${_xr}(hash,data[i]);hash=(hash*prime)%0x100000000 end;hash=${_xr}(hash,math.floor(hash/65536));hash=(hash*0x85ebca6b)%0x100000000;hash=${_xr}(hash,math.floor(hash/8192));hash=(hash*0xc2b2ae35)%0x100000000;hash=${_xr}(hash,math.floor(hash/65536));return hash==expected end
 local function ${_vr}(chunk,args,upvals)
-if not ${_gd}()then while true do end end
 local key1,key2,key3=${k1},${k2},${k3}
 local raw=chunk.code
 if not ${_vf}(raw,chunk.hash)then error("Integrity check failed")end
@@ -189,7 +187,7 @@ local ${loaderVars[4]}=string.gsub
 local ${loaderVars[5]}=string.rep
 local ${loaderVars[6]}=table.concat
 local ${loaderVars[7]}=table.insert
-local ${loaderVars[8]}=getfenv or function()return _ENV end
+local ${loaderVars[8]}=function()return _ENV or _G or{}end
 local ${loaderVars[9]}=unpack or table.unpack
 local ${loaderVars[10]}=loadstring or load
 local ${loaderVars[11]}=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
