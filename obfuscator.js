@@ -80,10 +80,13 @@ LuaObfuscator.obfuscate=function(source,options={}){
     function serializeChunk(chunk){
         let bc=[];chunk.instructions.forEach(inst=>{bc.push(opMap[inst.op]);bc.push(inst.a);bc.push(inst.b);bc.push(inst.c);});
         let enc=multiLayerEnc(bc,encKeys);enc=polyEncrypt(enc,polyCf,polySeed);enc=lfsrEncrypt(enc,lfsrSeed);
+        // Simple checksum: sum of all bytes mod 65536, and length
+        const checksum = enc.reduce((a,b)=>a+b,0) % 65536;
+        const codeLen = enc.length;
         const constsLua='{'+chunk.constants.map(c=>{if(typeof c==='string'){const e=[];for(let i=0;i<c.length;i++)e.push(c.charCodeAt(i)^strXorKey);return '{'+e.join(',')+'}'}return c;}).join(',')+'}';
         const protosLua='{'+chunk.protos.map(p=>serializeChunk(p)).join(',')+'}';
         const upvalsLua='{'+chunk.upvalues.map(u=>`{${u.isLocal?1:0},${u.index}}`).join(',')+'}';
-        return `{code={${enc.join(',')}},consts=${constsLua},protos=${protosLua},numParams=${chunk.numParams},upvalues=${upvalsLua}}`;
+        return `{code={${enc.join(',')}},consts=${constsLua},protos=${protosLua},numParams=${chunk.numParams},upvalues=${upvalsLua},cs=${checksum},len=${codeLen}}`;
     }
 
     const rootChunkLua=serializeChunk(compiler.rootChunk);
@@ -150,9 +153,11 @@ local ${_xr}=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2
 local ${_dc}=function(data,keys)local r={};for i=1,#data do local v=data[i];for j=#keys,1,-1 do local k=keys[j];v=v-k[((i-1)%#k)+1];if v<0 then v=v+256 end end;r[i]=v end;return r end
 local ${_ld}=function(data,seed)local state=seed;local taps=0x80200003;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=${_xr}(state,taps)end;r[i]=${_xr}(data[i],state%256)end;return r end
 local ${_pd}=function(data,a,b,c,d,seed)local r={};local x=seed;for i=1,#data do local y=((i-1)*7+13)%256;local z=((i-1)*11+17)%256;local f=(a*x*x*x+b*y*y+c*z+d)%256;r[i]=(data[i]-f)%256;x=(x*17+(i-1)+31)%256 end;return r end
+local ${_vf}=function(data,cs,len)if #data~=len then return false end;local sum=0;for i=1,#data do sum=sum+data[i]end;return(sum%65536)==cs end
 local function ${_vr}(chunk,args,upvals)
 local key1,key2,key3=${k1},${k2},${k3}
 local raw=chunk.code
+if not ${_vf}(raw,chunk.cs,chunk.len)then error("Tampered")end
 local dec=${_ld}(raw,${lfsrSeed})
 dec=${_pd}(dec,${polyCf.a},${polyCf.b},${polyCf.c},${polyCf.d},${polySeed})
 local ${_ops}=${_dc}(dec,{key3,key2,key1})

@@ -1,218 +1,220 @@
 --[[Lua Obfuscator v3.0]]
-local SfuW_mK4kSGk=function()return true end
-local Arnc4Y8LoP=911
-local e_sPJMDCG=869
-local uPim1Rx26=443
-local gidLFYixgcW_s=928
-local NroeqqPRsh="DJ_CNOCT"
-local vkr_aaeyPH11N=440
-local Qypu9X9DjnXo=303
-local DSw6chn2_wYk=291
-local mSfbQiTEDZgT3=6
-local auqXmTSY="MFYPzSNH"
-local GyuBbT_6Gz7g=509
-local w0G82esJP4q="voBCpdeK"
-local o1I5bCx=576
-local d_UPbJ2=561
-local fUHKx0d4n="jZRcROrR"
-local vG271SYWq=327
-local MaVELN5C="MjKaPuBt"
-local AjQe9k=187
-local HEVRdXwnfgH6="WEGNSEnY"
-local zzunYbMuJi="vVVehjAW"
-local kF11uiROpC="pjXCUeUV"
-local _HBcZ6X0pdNzY="UHnkIGky"
-local dk5mgfZPU=93
-local OZVTCw8hb=240
-local nYyb8a=884
-local Yj3_lNa5Ord4U="VYpuwvJN"
-local UItbAwNXeQiW=763
-local ldJ_4GJqQN=558
-local JKI9p7dz=49
-local Fv_p2Q=180
-local F6Q6T1PT=973
-local vZcOcaT0raMz="mwRUVNLP"
-local m9mNVaQO=799
-local ZyxxX9GtyCqRV="kqSqUvZF"
-local L_QUb97Z7KOYS=781
-local uOy7F1GGpEEvP="bGMRXBfq"
-local M32o9GdviwUBL=183
-local KGLb6kn=714
-local rF7cvf2UidH0=625
-local sbGR82jCRYfMH=540
-local cCx5fWAJ=614
-local SVwxV96Y66Up="bxygbexq"
-local eTEOtDIE70fmP=761
-local iOdj5faecgB=743
-local ubiWpoTZ2qW="tQERJAhG"
-local lERGXgX4L8R="xCbLv_Xd"
-local RzxCLFZDd=961
-local ClfbGyU8z4n=904
-local TbVLpgP=126
-local aOZuRjJJ=869
-local a8rzISMNP_y6=(os and os.time and os.time())or(tick and tick())or 1
-local MLx4NGRfT_j=table.insert
-local UUwgTa=table.unpack or unpack
-local y6C05rXoz9Y=_G or _ENV or{}
-local gkDCwK=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
-local fyAqP6U55M=function(data,keys)local r={};for i=1,#data do local v=data[i];for j=#keys,1,-1 do local k=keys[j];v=v-k[((i-1)%#k)+1];if v<0 then v=v+256 end end;r[i]=v end;return r end
-local xiHHhJg4=function(data,seed)local state=seed;local taps=0x80200003;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=gkDCwK(state,taps)end;r[i]=gkDCwK(data[i],state%256)end;return r end
-local CCn3m5BUs=function(data,a,b,c,d,seed)local r={};local x=seed;for i=1,#data do local y=((i-1)*7+13)%256;local z=((i-1)*11+17)%256;local f=(a*x*x*x+b*y*y+c*z+d)%256;r[i]=(data[i]-f)%256;x=(x*17+(i-1)+31)%256 end;return r end
-local function ytz2PF6d05vI(chunk,args,upvals)
-local key1,key2,key3={204,33,110,107,211,51,204,57,41,101,174,249,156,91,81,107},{139,166,38,126,46,48,5,167},{63,212,198,74}
+local zAGpv_sWKt6Y=function()return true end
+local To_ZHCf="spurgrLU"
+local J_ng9klo0YV=102
+local ZFkEzpX="qkjofjAs"
+local lvOfUjvCIvO=516
+local DunI_Kfk18vqk=590
+local x3eBdQ8wEfNNH=584
+local E6U2xbi="EWqyVlAI"
+local nuPC1Qr2=945
+local NR8JHO="JYvpFzDn"
+local YefrTK=397
+local qLf9ayQPm0P58="GfoHkmJl"
+local ENVbCD="EIThSMsN"
+local comoV9c5="lvezJTlG"
+local WDyxygx7EcLyv=433
+local MD_doaEZCt=675
+local OXkAhaJUFB="YIgzFFmQ"
+local Jz6CX57=82
+local KpJWU9662Q=906
+local Ax0YElwj7FzYa="qrBqk_KK"
+local pzz5yw912nJ="gBeDXw_b"
+local fdX3nQdnZr_=142
+local YjHVak5KJGjr="rkK_ItMc"
+local KxHMWSHg="TPwSowkW"
+local DpcZRGpbKqgJ=540
+local vE84Pfm8ts4J="VxbAOdcc"
+local FWlJ9FDs1V="heUkGOtf"
+local qPzNxn=417
+local BJ8VtLl=771
+local Nw_4PqNLCXc1=939
+local R7KODyYJ=799
+local fe98e2DmNAJxd="NLVzNubW"
+local IB2LKGLDd="updmpXdR"
+local lfvh0S="EvwyFZrT"
+local Kz6g3n2UCRF="jiWenZAS"
+local lV73M7=579
+local CEDBIE3oCC="rTqGTPXk"
+local fashjVR8Qd=987
+local XwPPNva=630
+local H8VpV0="tlvthcXz"
+local mEaMgYBvC8QEH="WTCNOIhw"
+local V4KrPcIT=795
+local QTNfYm=955
+local JT2cJ3xOlN3x4="kyEqkMZE"
+local eD5jwOXAT2="BKcYdufB"
+local dyVtN8="hnmSFDvZ"
+local gjSx7sLLX0=330
+local DRklx6VAIl="KLorVyiH"
+local hzYCFRmIio=290
+local iIFr9NyC18E="yGIdLrHI"
+local P_TSHL=368
+local SCirPzZicNKh=(os and os.time and os.time())or(tick and tick())or 1
+local KKidcP=table.insert
+local hhEFhxWw=table.unpack or unpack
+local BOSDRFUgGv=_G or _ENV or{}
+local pfcyuaxIL=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
+local vVB3R7l=function(data,keys)local r={};for i=1,#data do local v=data[i];for j=#keys,1,-1 do local k=keys[j];v=v-k[((i-1)%#k)+1];if v<0 then v=v+256 end end;r[i]=v end;return r end
+local R8aE_v_=function(data,seed)local state=seed;local taps=0x80200003;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=pfcyuaxIL(state,taps)end;r[i]=pfcyuaxIL(data[i],state%256)end;return r end
+local qgfx1oYh2=function(data,a,b,c,d,seed)local r={};local x=seed;for i=1,#data do local y=((i-1)*7+13)%256;local z=((i-1)*11+17)%256;local f=(a*x*x*x+b*y*y+c*z+d)%256;r[i]=(data[i]-f)%256;x=(x*17+(i-1)+31)%256 end;return r end
+local e1c_FsIIx=function(data,cs,len)if #data~=len then return false end;local sum=0;for i=1,#data do sum=sum+data[i]end;return(sum%65536)==cs end
+local function DzvRmNsK0(chunk,args,upvals)
+local key1,key2,key3={81,23,249,195,227,214,91,73,181,184,6,143,178,51,140,16},{89,199,10,23,39,235,219,84},{227,59,149,34}
 local raw=chunk.code
-local dec=xiHHhJg4(raw,40019)
-dec=CCn3m5BUs(dec,19,22,17,48,86)
-local XiHpy3wLAC=fyAqP6U55M(dec,{key3,key2,key1})
-local xHXQM8O_Z=chunk.consts
-local FyiWE2G3QPE=chunk.protos
-local qTM5eK=upvals or{}
-local GsEIfZ={}
-for i=1,#(args or{})do GsEIfZ[i]=args[i]end
-local K99bbz=1
-while ((a8rzISMNP_y6>=0)or(a8rzISMNP_y6<0)) do
-local fpSF12=XiHpy3wLAC[K99bbz]
-local mhnvSn=XiHpy3wLAC[K99bbz+1]
-local hKApiebH2R=XiHpy3wLAC[K99bbz+2]
-local jddxN83=XiHpy3wLAC[K99bbz+3]
-K99bbz=K99bbz+4
-if fpSF12==35 then
-local uv=qTM5eK[hKApiebH2R+1];GsEIfZ[mhnvSn+1]=uv.stack[uv.index]
-elseif fpSF12==105 then
-local res={};for i=0,hKApiebH2R-2 do MLx4NGRfT_j(res,GsEIfZ[mhnvSn+i+1])end;return UUwgTa(res)
-elseif fpSF12==111 then
-local v=xHXQM8O_Z[hKApiebH2R+1];if type(v)=="table" then local s="";for i=1,#v do s=s..string.char(gkDCwK(v[i],55))end;GsEIfZ[mhnvSn+1]=s else GsEIfZ[mhnvSn+1]=v end
-elseif fpSF12==16 then
---TAILCALL
-elseif fpSF12==127 then
-if((GsEIfZ[hKApiebH2R+1]<=GsEIfZ[jddxN83+1])~=(mhnvSn~=0))then K99bbz=K99bbz+4 end
-elseif fpSF12==125 then
-GsEIfZ[mhnvSn+1]=#GsEIfZ[hKApiebH2R+1]
-elseif fpSF12==30 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]%GsEIfZ[jddxN83+1]
-elseif fpSF12==23 then
-GsEIfZ[mhnvSn+1]=(hKApiebH2R~=0);if jddxN83~=0 then K99bbz=K99bbz+4 end
-elseif fpSF12==26 then
-local k=xHXQM8O_Z[hKApiebH2R+1];if type(k)=="table" then local s="";for i=1,#k do s=s..string.char(gkDCwK(k[i],55))end;k=s end;GsEIfZ[mhnvSn+1]=y6C05rXoz9Y[k]
-elseif fpSF12==106 then
-GsEIfZ[mhnvSn+1]={}
-elseif fpSF12==27 then
-K99bbz=K99bbz+mhnvSn*4
-elseif fpSF12==24 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]
-elseif fpSF12==115 then
-GsEIfZ[mhnvSn+1]=not GsEIfZ[hKApiebH2R+1]
-elseif fpSF12==100 then
-GsEIfZ[mhnvSn+1][GsEIfZ[hKApiebH2R+1]]=GsEIfZ[jddxN83+1]
-elseif fpSF12==5 then
-GsEIfZ[mhnvSn+1]=-GsEIfZ[hKApiebH2R+1]
-elseif fpSF12==7 then
-GsEIfZ[mhnvSn+2]=GsEIfZ[hKApiebH2R+1];GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1][GsEIfZ[jddxN83+1]]
-elseif fpSF12==2 then
-local sBx=hKApiebH2R;if sBx>=128 then sBx=sBx-256 end;GsEIfZ[mhnvSn+1]=GsEIfZ[mhnvSn+1]+GsEIfZ[mhnvSn+3];local step=GsEIfZ[mhnvSn+3];local idx=GsEIfZ[mhnvSn+1];local limit=GsEIfZ[mhnvSn+2];if(step>0 and idx<=limit)or(step<=0 and idx>=limit)then K99bbz=K99bbz+sBx*4;GsEIfZ[mhnvSn+4]=idx end
-elseif fpSF12==34 then
-local uv=qTM5eK[hKApiebH2R+1];uv.stack[uv.index]=GsEIfZ[mhnvSn+1]
-elseif fpSF12==0 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1][GsEIfZ[jddxN83+1]]
-elseif fpSF12==121 then
-for i=mhnvSn+1,mhnvSn+hKApiebH2R+1 do GsEIfZ[i]=nil end
-elseif fpSF12==126 then
-if(not not GsEIfZ[mhnvSn+1])~=(jddxN83~=0)then K99bbz=K99bbz+4 end
-elseif fpSF12==21 then
-local proto=FyiWE2G3QPE[hKApiebH2R+1];local upvals={};for i,def in ipairs(proto.upvalues)do if def[1]==1 then upvals[i]={stack=GsEIfZ,index=def[2]+1}else upvals[i]=qTM5eK[def[2]+1]end end;GsEIfZ[mhnvSn+1]=function(...)return ytz2PF6d05vI(proto,{...},upvals)end
-elseif fpSF12==17 then
-local args={};for i=1,hKApiebH2R-1 do MLx4NGRfT_j(args,GsEIfZ[mhnvSn+i+1])end;local fn=GsEIfZ[mhnvSn+1];local res;if ((a8rzISMNP_y6>=0)or(a8rzISMNP_y6<0)) then res={fn(UUwgTa(args))}else local DAaWgb={0.9919030195674823,"rDSXBnjl"} end;for i=1,jddxN83-1 do GsEIfZ[mhnvSn+i]=res[i]or nil end
-elseif fpSF12==110 then
---SETLIST
-elseif fpSF12==11 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]+GsEIfZ[jddxN83+1]
-elseif fpSF12==36 then
---TFORLOOP
-elseif fpSF12==20 then
-if((GsEIfZ[hKApiebH2R+1]==GsEIfZ[jddxN83+1])~=(mhnvSn~=0))then K99bbz=K99bbz+4 end
-elseif fpSF12==108 then
-if((GsEIfZ[hKApiebH2R+1]<GsEIfZ[jddxN83+1])~=(mhnvSn~=0))then K99bbz=K99bbz+4 end
-elseif fpSF12==103 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]..GsEIfZ[jddxN83+1]
-elseif fpSF12==37 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]*GsEIfZ[jddxN83+1]
-elseif fpSF12==119 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]^GsEIfZ[jddxN83+1]
-elseif fpSF12==32 then
-if(not not GsEIfZ[hKApiebH2R+1])==(jddxN83~=0)then GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]else K99bbz=K99bbz+4 end
-elseif fpSF12==19 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]-GsEIfZ[jddxN83+1]
-elseif fpSF12==114 then
---CLOSE
-elseif fpSF12==4 then
+if not e1c_FsIIx(raw,chunk.cs,chunk.len)then error("Tampered")end
+local dec=R8aE_v_(raw,51865)
+dec=qgfx1oYh2(dec,10,26,26,23,118)
+local PFjqKGj8=vVB3R7l(dec,{key3,key2,key1})
+local qe4Nuaf1i=chunk.consts
+local UB3WaxC=chunk.protos
+local F6SfBAxV6=upvals or{}
+local FZow4DQ={}
+for i=1,#(args or{})do FZow4DQ[i]=args[i]end
+local DYa9QgWqk=1
+while (1==1) do
+local zzXUTmiQWl_h=PFjqKGj8[DYa9QgWqk]
+local sEqxEx=PFjqKGj8[DYa9QgWqk+1]
+local LPc_e0ZdK17=PFjqKGj8[DYa9QgWqk+2]
+local ziuinRZ7mv=PFjqKGj8[DYa9QgWqk+3]
+DYa9QgWqk=DYa9QgWqk+4
+if zzXUTmiQWl_h==35 then
+local uv=F6SfBAxV6[LPc_e0ZdK17+1];FZow4DQ[sEqxEx+1]=uv.stack[uv.index]
+elseif zzXUTmiQWl_h==123 then
+FZow4DQ[sEqxEx+1]={}
+elseif zzXUTmiQWl_h==2 then
+if((FZow4DQ[LPc_e0ZdK17+1]<=FZow4DQ[ziuinRZ7mv+1])~=(sEqxEx~=0))then DYa9QgWqk=DYa9QgWqk+4 end
+elseif zzXUTmiQWl_h==24 then
+local uv=F6SfBAxV6[LPc_e0ZdK17+1];uv.stack[uv.index]=FZow4DQ[sEqxEx+1]
+elseif zzXUTmiQWl_h==106 then
+local res={};for i=0,LPc_e0ZdK17-2 do KKidcP(res,FZow4DQ[sEqxEx+i+1])end;return hhEFhxWw(res)
+elseif zzXUTmiQWl_h==102 then
+FZow4DQ[sEqxEx+1]=-FZow4DQ[LPc_e0ZdK17+1]
+elseif zzXUTmiQWl_h==112 then
+local k=qe4Nuaf1i[LPc_e0ZdK17+1];if type(k)=="table" then local s="";for i=1,#k do s=s..string.char(pfcyuaxIL(k[i],14))end;k=s end;BOSDRFUgGv[k]=FZow4DQ[sEqxEx+1]
+elseif zzXUTmiQWl_h==13 then
+if(not not FZow4DQ[sEqxEx+1])~=(ziuinRZ7mv~=0)then DYa9QgWqk=DYa9QgWqk+4 end
+elseif zzXUTmiQWl_h==30 then
+local k=qe4Nuaf1i[LPc_e0ZdK17+1];if type(k)=="table" then local s="";for i=1,#k do s=s..string.char(pfcyuaxIL(k[i],14))end;k=s end;FZow4DQ[sEqxEx+1]=BOSDRFUgGv[k]
+elseif zzXUTmiQWl_h==114 then
 --VARARG
-elseif fpSF12==128 then
-local sBx=hKApiebH2R;if sBx>=128 then sBx=sBx-256 end;GsEIfZ[mhnvSn+1]=GsEIfZ[mhnvSn+1]-GsEIfZ[mhnvSn+3];K99bbz=K99bbz+sBx*4
-elseif fpSF12==18 then
-local k=xHXQM8O_Z[hKApiebH2R+1];if type(k)=="table" then local s="";for i=1,#k do s=s..string.char(gkDCwK(k[i],55))end;k=s end;y6C05rXoz9Y[k]=GsEIfZ[mhnvSn+1]
-elseif fpSF12==8 then
-GsEIfZ[mhnvSn+1]=GsEIfZ[hKApiebH2R+1]/GsEIfZ[jddxN83+1]
-elseif fpSF12==112 then
-local DAaWgb={0.9919030195674823,"rDSXBnjl"}
-elseif fpSF12==29 then
-local aiCaPX={0.04847826526072985,"KdHuLGZp"}
-elseif fpSF12==116 then
-local vTbHtn={0.43410056109602846,"ilrlOUbC"}
-elseif fpSF12==6 then
-if false then kF11uiROpC=nil end
-elseif fpSF12==1 then
-if false then gidLFYixgcW_s=nil end
-elseif fpSF12==14 then
-if false then RzxCLFZDd=nil end
-elseif fpSF12==13 then
-local bvFQHW={0.48256566396224265,"KqjqyZLf"}
-elseif fpSF12==15 then
-for gOql=1,0 do nYyb8a=ZyxxX9GtyCqRV+1 end
-elseif fpSF12==122 then
-local uLnCCd={0.21915002340057432,"jgTujYwh"}
-elseif fpSF12==33 then
-if false then Yj3_lNa5Ord4U=nil end
-elseif fpSF12==28 then
-local rOFJKb={0.3287690819933222,"TkcyEKhg"}
-elseif fpSF12==25 then
-for Foxq=1,0 do uPim1Rx26=KGLb6kn+1 end
-elseif fpSF12==109 then
-local HPlZPO={0.5575048363551531,"SGdGkTKz"}
-elseif fpSF12==22 then
-local RXeZmz=rF7cvf2UidH0+rF7cvf2UidH0
-elseif fpSF12==118 then
-local hTlaCF=auqXmTSY+KGLb6kn
-elseif fpSF12==10 then
-local DAaWgb={0.9919030195674823,"rDSXBnjl"}
-elseif fpSF12==31 then
-local aiCaPX={0.04847826526072985,"KdHuLGZp"}
-elseif fpSF12==129 then
-local vTbHtn={0.43410056109602846,"ilrlOUbC"}
-elseif fpSF12==102 then
-if false then kF11uiROpC=nil end
-elseif fpSF12==104 then
-if false then gidLFYixgcW_s=nil end
-elseif fpSF12==117 then
-if false then RzxCLFZDd=nil end
-elseif fpSF12==120 then
-local bvFQHW={0.48256566396224265,"KqjqyZLf"}
-elseif fpSF12==9 then
-for gOql=1,0 do nYyb8a=ZyxxX9GtyCqRV+1 end
-elseif fpSF12==3 then
-local uLnCCd={0.21915002340057432,"jgTujYwh"}
-elseif fpSF12==101 then
-if false then Yj3_lNa5Ord4U=nil end
-elseif fpSF12==113 then
-local rOFJKb={0.3287690819933222,"TkcyEKhg"}
-elseif fpSF12==124 then
-for Foxq=1,0 do uPim1Rx26=KGLb6kn+1 end
-elseif fpSF12==123 then
-local HPlZPO={0.5575048363551531,"SGdGkTKz"}
-elseif fpSF12==107 then
-local RXeZmz=rF7cvf2UidH0+rF7cvf2UidH0
-elseif fpSF12==12 then
-local hTlaCF=auqXmTSY+KGLb6kn
+elseif zzXUTmiQWl_h==31 then
+--SETLIST
+elseif zzXUTmiQWl_h==126 then
+--TFORLOOP
+elseif zzXUTmiQWl_h==23 then
+if((FZow4DQ[LPc_e0ZdK17+1]==FZow4DQ[ziuinRZ7mv+1])~=(sEqxEx~=0))then DYa9QgWqk=DYa9QgWqk+4 end
+elseif zzXUTmiQWl_h==3 then
+FZow4DQ[sEqxEx+1]=#FZow4DQ[LPc_e0ZdK17+1]
+elseif zzXUTmiQWl_h==129 then
+DYa9QgWqk=DYa9QgWqk+sEqxEx*4
+elseif zzXUTmiQWl_h==4 then
+FZow4DQ[sEqxEx+1][FZow4DQ[LPc_e0ZdK17+1]]=FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==105 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]-FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==29 then
+local v=qe4Nuaf1i[LPc_e0ZdK17+1];if type(v)=="table" then local s="";for i=1,#v do s=s..string.char(pfcyuaxIL(v[i],14))end;FZow4DQ[sEqxEx+1]=s else FZow4DQ[sEqxEx+1]=v end
+elseif zzXUTmiQWl_h==109 then
+local args={};for i=1,LPc_e0ZdK17-1 do KKidcP(args,FZow4DQ[sEqxEx+i+1])end;local fn=FZow4DQ[sEqxEx+1];local res;if (1==1) then res={fn(hhEFhxWw(args))}else local vAMcao=eD5jwOXAT2+lvOfUjvCIvO end;for i=1,ziuinRZ7mv-1 do FZow4DQ[sEqxEx+i]=res[i]or nil end
+elseif zzXUTmiQWl_h==128 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]/FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==36 then
+if((FZow4DQ[LPc_e0ZdK17+1]<FZow4DQ[ziuinRZ7mv+1])~=(sEqxEx~=0))then DYa9QgWqk=DYa9QgWqk+4 end
+elseif zzXUTmiQWl_h==120 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1][FZow4DQ[ziuinRZ7mv+1]]
+elseif zzXUTmiQWl_h==16 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]^FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==7 then
+--TAILCALL
+elseif zzXUTmiQWl_h==125 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]%FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==6 then
+FZow4DQ[sEqxEx+1]=not FZow4DQ[LPc_e0ZdK17+1]
+elseif zzXUTmiQWl_h==104 then
+FZow4DQ[sEqxEx+2]=FZow4DQ[LPc_e0ZdK17+1];FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1][FZow4DQ[ziuinRZ7mv+1]]
+elseif zzXUTmiQWl_h==28 then
+local proto=UB3WaxC[LPc_e0ZdK17+1];local upvals={};for i,def in ipairs(proto.upvalues)do if def[1]==1 then upvals[i]={stack=FZow4DQ,index=def[2]+1}else upvals[i]=F6SfBAxV6[def[2]+1]end end;FZow4DQ[sEqxEx+1]=function(...)return DzvRmNsK0(proto,{...},upvals)end
+elseif zzXUTmiQWl_h==115 then
+--CLOSE
+elseif zzXUTmiQWl_h==113 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]
+elseif zzXUTmiQWl_h==108 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]..FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==122 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]+FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==118 then
+if(not not FZow4DQ[LPc_e0ZdK17+1])==(ziuinRZ7mv~=0)then FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]else DYa9QgWqk=DYa9QgWqk+4 end
+elseif zzXUTmiQWl_h==26 then
+FZow4DQ[sEqxEx+1]=FZow4DQ[LPc_e0ZdK17+1]*FZow4DQ[ziuinRZ7mv+1]
+elseif zzXUTmiQWl_h==20 then
+FZow4DQ[sEqxEx+1]=(LPc_e0ZdK17~=0);if ziuinRZ7mv~=0 then DYa9QgWqk=DYa9QgWqk+4 end
+elseif zzXUTmiQWl_h==22 then
+for i=sEqxEx+1,sEqxEx+LPc_e0ZdK17+1 do FZow4DQ[i]=nil end
+elseif zzXUTmiQWl_h==14 then
+local sBx=LPc_e0ZdK17;if sBx>=128 then sBx=sBx-256 end;FZow4DQ[sEqxEx+1]=FZow4DQ[sEqxEx+1]+FZow4DQ[sEqxEx+3];local step=FZow4DQ[sEqxEx+3];local idx=FZow4DQ[sEqxEx+1];local limit=FZow4DQ[sEqxEx+2];if(step>0 and idx<=limit)or(step<=0 and idx>=limit)then DYa9QgWqk=DYa9QgWqk+sBx*4;FZow4DQ[sEqxEx+4]=idx end
+elseif zzXUTmiQWl_h==124 then
+local sBx=LPc_e0ZdK17;if sBx>=128 then sBx=sBx-256 end;FZow4DQ[sEqxEx+1]=FZow4DQ[sEqxEx+1]-FZow4DQ[sEqxEx+3];DYa9QgWqk=DYa9QgWqk+sBx*4
+elseif zzXUTmiQWl_h==117 then
+local vAMcao=eD5jwOXAT2+lvOfUjvCIvO
+elseif zzXUTmiQWl_h==8 then
+for P_Jl=1,0 do gjSx7sLLX0=MD_doaEZCt+1 end
+elseif zzXUTmiQWl_h==34 then
+local ZcwPWo={0.8356937738918002,"WhDrAnNW"}
+elseif zzXUTmiQWl_h==10 then
+local XlFQUB=lvOfUjvCIvO+Ax0YElwj7FzYa
+elseif zzXUTmiQWl_h==0 then
+for alpq=1,0 do fdX3nQdnZr_=lV73M7+1 end
+elseif zzXUTmiQWl_h==15 then
+if false then ZFkEzpX=nil end
+elseif zzXUTmiQWl_h==18 then
+for FwMw=1,0 do Kz6g3n2UCRF=fe98e2DmNAJxd+1 end
+elseif zzXUTmiQWl_h==107 then
+if false then mEaMgYBvC8QEH=nil end
+elseif zzXUTmiQWl_h==121 then
+local HgjhDa=comoV9c5+comoV9c5
+elseif zzXUTmiQWl_h==27 then
+local esAHun=KxHMWSHg+XwPPNva
+elseif zzXUTmiQWl_h==101 then
+for lYHi=1,0 do hzYCFRmIio=lV73M7+1 end
+elseif zzXUTmiQWl_h==21 then
+if false then FWlJ9FDs1V=nil end
+elseif zzXUTmiQWl_h==116 then
+local BBgpeZ=IB2LKGLDd+H8VpV0
+elseif zzXUTmiQWl_h==119 then
+if false then Jz6CX57=nil end
+elseif zzXUTmiQWl_h==19 then
+for cuSO=1,0 do hzYCFRmIio=DpcZRGpbKqgJ+1 end
+elseif zzXUTmiQWl_h==12 then
+local vAMcao=eD5jwOXAT2+lvOfUjvCIvO
+elseif zzXUTmiQWl_h==1 then
+for P_Jl=1,0 do gjSx7sLLX0=MD_doaEZCt+1 end
+elseif zzXUTmiQWl_h==127 then
+local ZcwPWo={0.8356937738918002,"WhDrAnNW"}
+elseif zzXUTmiQWl_h==25 then
+local XlFQUB=lvOfUjvCIvO+Ax0YElwj7FzYa
+elseif zzXUTmiQWl_h==103 then
+for alpq=1,0 do fdX3nQdnZr_=lV73M7+1 end
+elseif zzXUTmiQWl_h==17 then
+if false then ZFkEzpX=nil end
+elseif zzXUTmiQWl_h==37 then
+for FwMw=1,0 do Kz6g3n2UCRF=fe98e2DmNAJxd+1 end
+elseif zzXUTmiQWl_h==110 then
+if false then mEaMgYBvC8QEH=nil end
+elseif zzXUTmiQWl_h==32 then
+local HgjhDa=comoV9c5+comoV9c5
+elseif zzXUTmiQWl_h==5 then
+local esAHun=KxHMWSHg+XwPPNva
+elseif zzXUTmiQWl_h==100 then
+for lYHi=1,0 do hzYCFRmIio=lV73M7+1 end
+elseif zzXUTmiQWl_h==111 then
+if false then FWlJ9FDs1V=nil end
+elseif zzXUTmiQWl_h==9 then
+local BBgpeZ=IB2LKGLDd+H8VpV0
+elseif zzXUTmiQWl_h==33 then
+if false then Jz6CX57=nil end
+elseif zzXUTmiQWl_h==11 then
+for cuSO=1,0 do hzYCFRmIio=DpcZRGpbKqgJ+1 end
 else break end
 end
 end
-ytz2PF6d05vI({code={229,11,199,18,235,185,101,44,39,143,107,67,8,180,177,121,116,214,99,145,195,109,154,100,38,211,113,153,157,210,208,23,249,169,173,0,146,32,12,190,222,214,57,1,89,213,73,238,76,128,21,50,179,134,111,53,187,91,151,5,106,109,22,139,255,153,134,193,200,129,184,15,21,13,240,223,178,138,115,48,108,56,170,70,160,70,211,116,4,172,137,157,164,10,119,153,245,115,171,236,68,189,199,45,180,149,15,198,182,238,173,206,239,239,17,99,116,186,211,70,235,231,15,151,3,22,126,143,77,117,13,215,202,188,225,89,94,166,239,29,136,59,239,180,194,32,240,174,34,191,87,103,111,67,124,128,219,100,96,40,38,59,127,75,221,121,209,243,0,141,105,191,198,54,82,13,220,178,190,196,96,204,98,87,76,196,192,10,39,177,199,22,74,117,209,129,144,72,96,178,0,195,136,211,169,193,235,226,200,32,13,172,58,110,181,96,2,61,72,103,45,131,30,204,30,52,211,160,45,144,239,210,3,246,219,3},consts={{71,69,94,89,67},{100,67,86,69,67},{113,86,84,67,88,69,94,86,91,23,88,81,23,2,23,94,68,13,23},5,{92,82,78},{65,86,91,66,82},1,100,{99,86,85,91,82,23,92,82,78,13,23},{99,86,85,91,82,23,94,89,83,82,79,23,6,13,23},3,{123,88,88,71,23,94,67,82,69,86,67,94,88,89,13,23},{114,89,83}},protos={{code={14,10,199,18,231,185,101,45,91,128,106,67,15,180,175,120,126,217,108,147,90,108,154,100,39,211,113,153,50,236,221,23,80,179,172,0,69,39,19,190,98,222,62,1,66,209,113,238,71,134,23,48,171,137,98,50,196,90,158,255,99,110,19,141,166,147,152,195,50,133,196,10,238,24,205,223,183,129,121,205},consts={0,1},protos={},numParams=1,upvalues={{1,3}}}},numParams=0,upvalues={}},{...})
+DzvRmNsK0({code={217,14,131,214,54,170,116,128,12,20,92,213,135,56,187,129,37,171,123,237,202,199,234,39,143,182,197,241,229,202,190,155,72,29,54,94,82,146,254,247,212,246,20,166,29,243,148,248,122,189,29,110,56,216,23,114,95,56,220,169,85,12,107,35,211,165,121,75,87,32,17,83,166,212,153,210,212,33,149,70,177,10,150,68,195,183,15,182,126,121,180,194,196,194,141,238,50,40,136,96,13,164,27,172,58,159,139,10,39,15,238,187,141,195,14,211,175,44,39,223,206,143,174,74,103,9,68,215,12,13,244,46,202,78,221,28,66,173,196,221,175,141,158,210,26,17,250,115,90,223,162,209,20,172,177,27,172,229,231,117,190,80,204,97,162,10,112,119,64,188,143,222,33,198,76,220,88,111,62,128,32,89,13,164,109,101,206,231,206,126,99,149,111,51,129,114,25,135,119,49,208,114,210,164,128,167,228,79,160,155,40,70,193,187,74,215,96,15,201,70,145,235,32,248,198,30,171,2,128,141,103,221,93,149,76,45},consts={{126,124,103,96,122},{93,122,111,124,122},{72,111,109,122,97,124,103,111,98,46,97,104,46,59,46,103,125,52,46},5,{101,107,119},{120,111,98,123,107},1,100,{90,111,108,98,107,46,101,107,119,52,46},{90,111,108,98,107,46,103,96,106,107,118,46,63,52,46},3,{66,97,97,126,46,103,122,107,124,111,122,103,97,96,52,46},{75,96,106}},protos={{code={218,15,131,214,80,170,116,129,168,21,93,213,36,56,185,130,140,172,122,211,251,192,234,39,104,182,197,241,9,200,185,155,180,7,49,94,105,155,255,247,112,254,27,166,175,247,172,248,118,67,27,80,233,213,16,105,87,59,213,211,105,11,112,33,197,191,123,181,80,36,21,86,114,199,156,210,190,214,107,73},consts={0,1},protos={},numParams=1,upvalues={{1,3}},cs=10970,len=80}},numParams=0,upvalues={},cs=30517,len=236},{...})
