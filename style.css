@@ -1,0 +1,274 @@
+body {
+    overflow-x: hidden;
+    background-color: #f5f5f5;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    /* Optimized Font Stack for better aesthetics on all platforms */
+    font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* App Bar & Layout */
+.mdui-appbar {
+    z-index: 1000;
+}
+
+.main-content {
+    padding-top: 80px; /* Space for fixed appbar */
+    padding-bottom: 20px;
+    max-width: 1600px;
+    margin: 0 auto;
+    min-height: calc(100vh - 50px); /* Minus footer */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Hero Section */
+.hero-section {
+    margin-bottom: 30px;
+    padding: 20px 10px;
+    animation: fadeInDown 0.6s ease-out;
+}
+
+.hero-section h1 {
+    font-weight: 400; /* Slightly bolder than 300 for better readability */
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    font-size: 2.5rem;
+}
+
+.hero-section p {
+    font-size: 1.15rem;
+    opacity: 0.85;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Editor Area */
+.editor-row {
+    flex-grow: 1;
+    margin: 0 !important;
+}
+
+.editor-col {
+    height: 600px;
+    padding: 10px !important;
+    transition: all 0.3s ease;
+}
+
+.editor-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px !important; /* More rounded corners */
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s ease;
+    overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.05); /* Subtle border */
+}
+
+.editor-card:hover {
+    box-shadow: 0 12px 24px 0 rgba(0,0,0,0.15) !important;
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.editor-card-content {
+    flex-grow: 1;
+    padding: 0 !important;
+    position: relative;
+    background-color: #fafafa;
+}
+
+.editor-textfield {
+    height: 100%;
+    padding: 0 !important;
+}
+
+.code-input {
+    font-family: 'JetBrains Mono', 'Consolas', 'Monaco', 'Andale Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    resize: none;
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 16px;
+    box-sizing: border-box;
+    color: inherit;
+}
+
+/* Controls */
+.control-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+}
+
+.control-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.action-btn {
+    border-radius: 50px !important;
+    padding: 0 40px !important;
+    height: 64px !important;
+    line-height: 64px !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,.2), 0 8px 12px 0 rgba(0,0,0,.14), 0 2px 20px 0 rgba(0,0,0,.12) !important;
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: none !important; /* Avoid all caps */
+}
+
+.action-btn:active {
+    transform: scale(0.96);
+}
+
+.action-btn i {
+    font-size: 26px !important;
+    margin-right: 10px;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Theme Overrides */
+.mdui-theme-layout-dark body {
+    background-color: #121212;
+}
+
+.mdui-theme-layout-dark .editor-card {
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.mdui-theme-layout-dark .editor-card-content {
+    background-color: #1e1e1e;
+}
+
+.mdui-theme-layout-dark ::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.mdui-theme-layout-dark ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate3d(0, -20px, 0);
+    }
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+/* Language Transition Effects */
+[data-i18n] {
+    transition: opacity 0.15s ease-in-out;
+}
+
+.lang-transitioning [data-i18n] {
+    transition: opacity 0.15s ease-in-out;
+}
+
+/* Language Toggle Button Animation */
+#lang-toggle {
+    position: relative;
+    overflow: hidden;
+}
+
+#lang-toggle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s ease, height 0.3s ease;
+}
+
+#lang-toggle:active::after {
+    width: 100%;
+    height: 100%;
+}
+
+/* Smooth transitions for toolbar buttons */
+.mdui-toolbar .mdui-btn-icon {
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.mdui-toolbar .mdui-btn-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Snackbar animation enhancement */
+.mdui-snackbar {
+    animation: snackbarSlideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes snackbarSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+    .main-content {
+        padding-top: 70px;
+        height: auto;
+    }
+    
+    .editor-col, .control-col {
+        height: auto !important;
+        margin-bottom: 20px !important;
+    }
+    
+    .editor-card {
+        height: 500px;
+    }
+    
+    .control-col {
+        padding: 20px 0 !important;
+    }
+    
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+}

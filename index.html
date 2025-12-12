@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lua Obfuscator - Secure Your Code</title>
+    <link rel="stylesheet" href="https://unpkg.com/mdui@1.0.2/dist/css/mdui.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://unpkg.com/luaparse/luaparse.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="mdui-theme-primary-indigo mdui-theme-accent-pink mdui-appbar-with-toolbar">
+
+    <!-- App Bar -->
+    <div class="mdui-appbar mdui-appbar-fixed mdui-shadow-2">
+        <div class="mdui-toolbar mdui-color-theme">
+            <span class="mdui-typo-headline" style="font-weight: 700;" data-i18n="app_title">Lua Obfuscator</span>
+            <div class="mdui-toolbar-spacer"></div>
+            
+            <!-- Language Toggle -->
+            <button class="mdui-btn mdui-btn-icon" id="lang-toggle" data-i18n-tooltip="tooltip_lang">
+                <i class="mdui-icon material-icons">translate</i>
+            </button>
+
+            <!-- Theme Toggle -->
+            <button class="mdui-btn mdui-btn-icon" id="theme-toggle" data-i18n-tooltip="tooltip_theme">
+                <i class="mdui-icon material-icons">brightness_4</i>
+            </button>
+            
+            <!-- GitHub Link -->
+            <a href="https://github.com/" target="_blank" class="mdui-btn mdui-btn-icon" id="github-btn" data-i18n-tooltip="tooltip_github">
+                <i class="mdui-icon material-icons">code</i>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="mdui-container-fluid main-content">
+        
+        <!-- Hero Section (Compact) -->
+        <div class="hero-section mdui-text-center mdui-typo">
+            <h1 class="mdui-text-color-theme-text" data-i18n="hero_title">Professional Lua Obfuscator</h1>
+            <p class="mdui-text-color-theme-secondary" data-i18n="hero_subtitle">Protect your Lua scripts with advanced polynomial encryption, control flow flattening, and anti-debugging techniques.</p>
+        </div>
+
+        <div class="mdui-row editor-row">
+            <!-- Source Code -->
+            <div class="mdui-col-md-5 mdui-col-sm-12 editor-col">
+                <div class="mdui-card mdui-hoverable editor-card">
+                    <div class="mdui-card-primary mdui-color-theme-50">
+                        <div class="mdui-card-primary-title" style="font-size: 1.2rem;">
+                            <i class="mdui-icon material-icons mdui-text-color-theme" style="margin-right: 8px; font-size: 1.2rem;">description</i>
+                            <span data-i18n="source_code">Source Code</span>
+                        </div>
+                    </div>
+                    <div class="mdui-card-content editor-card-content">
+                        <div class="mdui-textfield editor-textfield">
+                            <textarea class="mdui-textfield-input code-input" id="source-code" data-i18n-placeholder="placeholder_input" placeholder="-- Paste your Lua code here..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="mdui-col-md-2 mdui-col-sm-12 control-col">
+                <div class="control-wrapper">
+                    <button id="obfuscate-btn" class="mdui-btn mdui-btn-raised mdui-btn-large mdui-color-theme-accent mdui-ripple action-btn">
+                        <i class="mdui-icon material-icons mdui-icon-left">lock</i>
+                        <span data-i18n="btn_obfuscate">Obfuscate</span>
+                    </button>
+                    <div class="mdui-typo-caption mdui-text-color-theme-secondary mdui-m-t-1" style="text-align: center;">
+                        <span data-i18n="version">v3.0 Ultra Security</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Code -->
+            <div class="mdui-col-md-5 mdui-col-sm-12 editor-col">
+                <div class="mdui-card mdui-hoverable editor-card">
+                    <div class="mdui-card-primary mdui-color-theme-50" style="display: flex; align-items: center; justify-content: space-between;">
+                        <div class="mdui-card-primary-title" style="font-size: 1.2rem;">
+                            <i class="mdui-icon material-icons mdui-text-color-theme" style="margin-right: 8px; font-size: 1.2rem;">vpn_key</i>
+                            <span data-i18n="output_code">Obfuscated Output</span>
+                        </div>
+                        <button class="mdui-btn mdui-btn-icon mdui-ripple" id="copy-btn" data-i18n-tooltip="tooltip_copy">
+                            <i class="mdui-icon material-icons">content_copy</i>
+                        </button>
+                    </div>
+                    <div class="mdui-card-content editor-card-content">
+                        <div class="mdui-textfield editor-textfield">
+                            <textarea class="mdui-textfield-input code-input" id="output-code" readonly data-i18n-placeholder="placeholder_output" placeholder="-- Obfuscated code will appear here..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="mdui-color-theme-50 mdui-p-a-2 mdui-text-center mdui-typo-caption mdui-text-color-theme-secondary">
+        <span data-i18n="footer_copyright">&copy; 2025 Lua Obfuscator.</span> <span data-i18n="footer_text">Designed with MDUI.</span>
+    </div>
+
+    <script src="https://unpkg.com/mdui@1.0.2/dist/js/mdui.min.js"></script>
+    <script src="obfuscator.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
