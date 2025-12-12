@@ -176,36 +176,7 @@ end
 end
 ${_vr}(${rootChunkLua},{...})`;
 
-    const encodedPayload=encodeStr(vmCode,strXorKey);
-    const loaderVars=generateVarNames(20);
-    const loaderCode=`--[[Lua Obfuscator v3.0]]
-local ${loaderVars[0]}=tonumber
-local ${loaderVars[1]}=string.byte
-local ${loaderVars[2]}=string.char
-local ${loaderVars[3]}=string.sub
-local ${loaderVars[4]}=string.gsub
-local ${loaderVars[5]}=string.rep
-local ${loaderVars[6]}=table.concat
-local ${loaderVars[7]}=table.insert
-local ${loaderVars[8]}=function()return _ENV or _G or{}end
-local ${loaderVars[9]}=table.unpack or unpack
-local ${loaderVars[10]}=loadstring or load
-local ${loaderVars[11]}=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
-local function ${loaderVars[12]}(${loaderVars[13]})
-local ${loaderVars[14]}=${loaderVars[0]}(${loaderVars[3]}(${loaderVars[13]},5,6),16)
-${loaderVars[13]}=${loaderVars[3]}(${loaderVars[13]},7)
-local ${loaderVars[15]}
-${loaderVars[13]}=${loaderVars[4]}(${loaderVars[13]},"..",function(${loaderVars[16]})
-if(${loaderVars[1]}(${loaderVars[16]},2)==81)then ${loaderVars[15]}=${loaderVars[0]}(${loaderVars[3]}(${loaderVars[16]},1,1));return""
-else local ${loaderVars[17]}=${loaderVars[2]}(${loaderVars[11]}(${loaderVars[0]}(${loaderVars[16]},16),${loaderVars[14]}))
-if ${loaderVars[15]} then local ${loaderVars[18]}=${loaderVars[5]}(${loaderVars[17]},${loaderVars[15]});${loaderVars[15]}=nil;return ${loaderVars[18]}
-else return ${loaderVars[17]} end end end)
-local chunk,err=${loaderVars[10]}(${loaderVars[13]})
-if not chunk then error("Load Error")end
-return chunk
-end
-return ${loaderVars[12]}("${encodedPayload}")()`;
-    return loaderCode;
+    return `--[[Lua Obfuscator v3.0]]\n${vmCode}`;
 };
 
 if(typeof module!=='undefined'&&module.exports)module.exports=LuaObfuscator;
