@@ -1,323 +1,221 @@
 --[[Lua Obfuscator v3.0]]
-local akTugEZeav=function()return true end
-local _JYAqcFcOoXhZ=563
-local sFIi8lGh="EdYcbdyt"
-local Q_FIwfM="XQQ_WqO_"
-local vYnnGBOF0x="dcPhbeyD"
-local ZWQb8gXGRo3j="gZXewEPk"
-local NdyX2a37pCa=841
-local AaUnAL7icByF="SKZln_ac"
-local Orgr3PO=388
-local OcOKOPmXOI="nDyHZRiY"
-local Ybd9Y0DFhKHqC="WudtjsDJ"
-local j0oz1gJd3ed=842
-local FPkwpKghu="ZbRqpynf"
-local i_jcu9eEaD=560
-local Jz0AiYrsgvPi="tDHnPmYe"
-local TpPOTAf="BUKDPWVM"
-local fFPoHP=922
-local KN0ChjMGNOxG="HvWzKiKg"
-local X7jknRYVeNBr=5
-local ZAv8dktyFiNy=925
-local PfR4gW17i=898
-local JS0dbOAMIq=948
-local yJ7yYXaw="cWGbljcI"
-local ZeZ9_HXBMy="XFTojcrl"
-local NrkK_ISyD=392
-local RSJPWmXxUXg="GOJiEdmT"
-local LSkTfN=398
-local O4um8yx7fvs="gFidTQyK"
-local UK0wUgpw="hbQsWdGU"
-local FKks6_FIj511k="cNJbnbxF"
-local Nl5r0d=376
-local fbHkmR_r0yX=618
-local a_5zb1lZkuVzS="DxyrNRHe"
-local uGgUKNhM1LTJ=57
-local jXrV4o6c76Nur="VAQPAamQ"
-local GWlQ5WOeSGqF=985
-local bxdZjAc_Xy="DICTofSb"
-local o9pzruq5=268
-local Y_wK5NLDiZhb=572
-local qIE96TmLo=455
-local JrMCG1En0T_E5=560
-local upCIbq2_DqsMs="OEolAUlK"
-local VjFEBaSpGXOC=48
-local VsLV92wrsdW3="lrjUvbUh"
-local ObTRkmrh=493
-local fq6_GSzm=865
-local fP_BO1o5hZ0=38
-local XDj2aM="NhyhtLYi"
-local RZCHHrRSb650=265
-local eqhZqQP7sMsi=975
-local WZRQ_6=310
-local oK800BG4J1GJU=(os and os.time and os.time())or(tick and tick())or 1
-local uDFBsUFKRlY2=table.insert
-local F5kQWsQLPMpZB=table.unpack or unpack
-local KVDOJN_mZe=_G or _ENV or{}
-local ziA2W_=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
-local UXda35s=function(data,keys)local r={};for i=1,#data do local v=data[i];for j=#keys,1,-1 do local k=keys[j];v=v-k[((i-1)%#k)+1];if v<0 then v=v+256 end end;r[i]=v end;return r end
-local YLRkCRG21Ha=function(data,seed)local state=seed;local taps=0x80200003;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=ziA2W_(state,taps)end;r[i]=ziA2W_(data[i],state%256)end;return r end
-local FaOqu3QUG=function(data,a,b,c,d,seed)local r={};local x=seed;for i=1,#data do local y=((i-1)*7+13)%256;local z=((i-1)*11+17)%256;local f=(a*x*x*x+b*y*y+c*z+d)%256;r[i]=(data[i]-f)%256;x=(x*17+(i-1)+31)%256 end;return r end
-local WiwHVG=function(data,cs,len)if #data~=len then return false end;local sum=0;for i=1,#data do sum=sum+data[i]end;return(sum%65536)==cs end
-local function EIYkFWRokcW_(chunk,args,upvals)
-local key1,key2,key3={202,159,98,67,231,161,155,251,33,35,255,17,221,80,217,28},{55,203,252,197,206,1,19,161},{154,240,33,83}
+local B1HitUVZMEnF=function()return true end
+local e3S0urpsC55=482
+local EKrGUyr0FjS1w="EpTvniaL"
+local M4ghRSMmJu="NMZOElb_"
+local bQ9yNnZ_6npmm=225
+local jGHD2jv=103
+local pZlaRolz3="yoPYxOKx"
+local OZEPHEeEumTML="IOeAiPsc"
+local rsiabUUZwJ9_="JCWdFpxt"
+local zLAMJDf8YT="eTGEdzBu"
+local A5RCWFDTv="iOueFdbV"
+local LLwDKRh89="YqwlXPdg"
+local TyITfU_gSpx=444
+local z0Yrk2="JYeAbBFV"
+local uMLSgb3LV="tWjMFarK"
+local DXwPHJdpaev="DhGZifeE"
+local d8W9gGiniWD2="ZWotaNsF"
+local YdgWFJb5p=791
+local GFi_9zu3WqtAM=880
+local LQK7h09RO=845
+local YzWSn1b2kW="PGKZsmmp"
+local hSADszaYHEw=593
+local Y0zh96CCYQ=956
+local pJJ_tSY6t=286
+local Jk7iW8tw=858
+local B2oPAHBCejf4="zoFPVyic"
+local wqNcyuH49k06="YaaQLdiv"
+local xrVs4u=67
+local yTxITFa4INR="oYgmJntx"
+local VpQJZ_4W6q=965
+local Hy4sTp2H="TLzeMIme"
+local B0kbxncU="SrfihkfB"
+local A9EYOBiqT="spclImjb"
+local hqUustfpHooc9="petxac_z"
+local I4SRM9ADzhOb="gHplDxVs"
+local _RXGq8TNbu=787
+local BqnFRRoehI=973
+local H_Femp3ygblFk="vHWZexGd"
+local qL6Q2ao1c=554
+local qZbe4Zm_g9=524
+local a3XUY0xbhg=991
+local pGR_4TxuEzqr=283
+local vCldbMLUL=496
+local Lj3NbA="fhLgjqPU"
+local KN2vaDl1n="dIDqQgZt"
+local TWGZXh919n="iKuroVlE"
+local TihavqnMv1="bkLbAbnS"
+local toxB5b7v=279
+local GCdaIaip=739
+local ZB_qDDy=873
+local YnLuUz=392
+local BItyO04=(os and os.time and os.time())or(tick and tick())or 1
+local GGJ2i2=table.insert
+local suxo8cCH=table.unpack or unpack
+local YylcLi=_G or _ENV or{}
+local JiOuDe422YI=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
+local cgVwe9hUY=function(data,keys)local r={};for i=1,#data do local v=data[i];for j=#keys,1,-1 do local k=keys[j];v=v-k[((i-1)%#k)+1];if v<0 then v=v+256 end end;r[i]=v end;return r end
+local tiuqoWNAgn03A=function(data,seed)local state=seed;local taps=0x80200003;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=JiOuDe422YI(state,taps)end;r[i]=JiOuDe422YI(data[i],state%256)end;return r end
+local cRVqUOf=function(data,a,b,c,d,seed)local r={};local x=seed;for i=1,#data do local y=((i-1)*7+13)%256;local z=((i-1)*11+17)%256;local f=(a*x*x*x+b*y*y+c*z+d)%256;r[i]=(data[i]-f)%256;x=(x*17+(i-1)+31)%256 end;return r end
+local aRxv4eHGT_dLp=function(data,cs,len)if #data~=len then return false end;local sum=0;for i=1,#data do sum=sum+data[i]end;return(sum%65536)==cs end
+local DRk60olTuaaAZ=function(arr,xk)local s="";for i=1,#arr do local b=JiOuDe422YI(arr[i],JiOuDe422YI(xk,(i-1)%256));s=s..string.char(b)end;return s end
+local function fuWV08EW(chunk,args,upvals)
+local key1,key2,key3={231,183,143,164,13,178,66,36,82,43,109,90,39,222,200,30},{200,202,100,219,22,66,121,10},{30,127,90,75}
 local raw=chunk.code
-if not WiwHVG(raw,chunk.cs,chunk.len)then error("Tampered")end
-local dec=YLRkCRG21Ha(raw,64253)
-dec=FaOqu3QUG(dec,16,14,8,33,209)
-local L_ue7W=UXda35s(dec,{key3,key2,key1})
-local YTswfHwOOh=chunk.consts
-local FYidfW=chunk.protos
-local LtKt3MJpaGQi=upvals or{}
-local Yfyrw8G={}
-for i=1,#(args or{})do Yfyrw8G[i]=args[i]end
-local FWdCrs5FN9Uv9=1
-while (type(oK800BG4J1GJU)==type(oK800BG4J1GJU)) do
-local FAZINRgWB=L_ue7W[FWdCrs5FN9Uv9]
-local FgP72EB2FF=L_ue7W[FWdCrs5FN9Uv9+1]
-local hN4Gr7PMpy=L_ue7W[FWdCrs5FN9Uv9+2]
-local NBpvDoWry4=L_ue7W[FWdCrs5FN9Uv9+3]
-FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+4
-if FAZINRgWB==10 then
-Yfyrw8G[FgP72EB2FF+1]=not Yfyrw8G[hN4Gr7PMpy+1]
-elseif FAZINRgWB==14 then
-if((Yfyrw8G[hN4Gr7PMpy+1]==Yfyrw8G[NBpvDoWry4+1])~=(FgP72EB2FF~=0))then FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+4 end
-elseif FAZINRgWB==106 then
-Yfyrw8G[FgP72EB2FF+2]=Yfyrw8G[hN4Gr7PMpy+1];Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1][Yfyrw8G[NBpvDoWry4+1]]
-elseif FAZINRgWB==0 then
---SETLIST
-elseif FAZINRgWB==104 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]-Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==25 then
-local res={};for i=0,hN4Gr7PMpy-2 do uDFBsUFKRlY2(res,Yfyrw8G[FgP72EB2FF+i+1])end;return F5kQWsQLPMpZB(res)
-elseif FAZINRgWB==117 then
-FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+FgP72EB2FF*4
-elseif FAZINRgWB==116 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]*Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==31 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]%Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==9 then
-Yfyrw8G[FgP72EB2FF+1]=-Yfyrw8G[hN4Gr7PMpy+1]
-elseif FAZINRgWB==23 then
-if((Yfyrw8G[hN4Gr7PMpy+1]<=Yfyrw8G[NBpvDoWry4+1])~=(FgP72EB2FF~=0))then FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+4 end
-elseif FAZINRgWB==11 then
+if not aRxv4eHGT_dLp(raw,chunk.cs,chunk.len)then error("Tampered")end
+local dec=tiuqoWNAgn03A(raw,44365)
+dec=cRVqUOf(dec,8,22,15,43,191)
+local pHxKm7CYYmPG=cgVwe9hUY(dec,{key3,key2,key1})
+local xippKK3={};for i,v in ipairs(chunk.consts)do if type(v)=="table"then xippKK3[i]=DRk60olTuaaAZ(v,13)else xippKK3[i]=v end end
+local arR1rrM6uzb=chunk.protos
+local LawStq6MSk8W=upvals or{}
+local rK7HdQS4YPMo={}
+for i=1,#(args or{})do rK7HdQS4YPMo[i]=args[i]end
+local LeLF69hj40_=1
+while ((BItyO04>=0)or(BItyO04<0)) do
+local AWQskHc=pHxKm7CYYmPG[LeLF69hj40_]
+local qYG8x2dM5KjG=pHxKm7CYYmPG[LeLF69hj40_+1]
+local sSZtsUb=pHxKm7CYYmPG[LeLF69hj40_+2]
+local iXQzDSovx=pHxKm7CYYmPG[LeLF69hj40_+3]
+LeLF69hj40_=LeLF69hj40_+4
+if AWQskHc==4 then
 --CLOSE
-elseif FAZINRgWB==30 then
-local uv=LtKt3MJpaGQi[hN4Gr7PMpy+1];uv.stack[uv.index]=Yfyrw8G[FgP72EB2FF+1]
-elseif FAZINRgWB==4 then
-if((Yfyrw8G[hN4Gr7PMpy+1]<Yfyrw8G[NBpvDoWry4+1])~=(FgP72EB2FF~=0))then FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+4 end
-elseif FAZINRgWB==29 then
---TFORLOOP
-elseif FAZINRgWB==121 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]/Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==113 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]^Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==13 then
-local sBx=hN4Gr7PMpy;if sBx>=128 then sBx=sBx-256 end;Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[FgP72EB2FF+1]-Yfyrw8G[FgP72EB2FF+3];FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+sBx*4
-elseif FAZINRgWB==18 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1][Yfyrw8G[NBpvDoWry4+1]]
-elseif FAZINRgWB==7 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]..Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==3 then
-Yfyrw8G[FgP72EB2FF+1]={}
-elseif FAZINRgWB==100 then
---TAILCALL
-elseif FAZINRgWB==120 then
-Yfyrw8G[FgP72EB2FF+1][Yfyrw8G[hN4Gr7PMpy+1]]=Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==129 then
-local proto=FYidfW[hN4Gr7PMpy+1];local upvals={};for i,def in ipairs(proto.upvalues)do if def[1]==1 then upvals[i]={stack=Yfyrw8G,index=def[2]+1}else upvals[i]=LtKt3MJpaGQi[def[2]+1]end end;Yfyrw8G[FgP72EB2FF+1]=function(...)return EIYkFWRokcW_(proto,{...},upvals)end
-elseif FAZINRgWB==15 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]
-elseif FAZINRgWB==12 then
-KVDOJN_mZe[YTswfHwOOh[hN4Gr7PMpy+1]]=Yfyrw8G[FgP72EB2FF+1]
-elseif FAZINRgWB==1 then
-if(not not Yfyrw8G[hN4Gr7PMpy+1])==(NBpvDoWry4~=0)then Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]else FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+4 end
-elseif FAZINRgWB==101 then
-for i=FgP72EB2FF+1,FgP72EB2FF+hN4Gr7PMpy+1 do Yfyrw8G[i]=nil end
-elseif FAZINRgWB==107 then
-Yfyrw8G[FgP72EB2FF+1]=(hN4Gr7PMpy~=0);if NBpvDoWry4~=0 then FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+4 end
-elseif FAZINRgWB==37 then
+elseif AWQskHc==110 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]^rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==100 then
+local uv=LawStq6MSk8W[sSZtsUb+1];uv.stack[uv.index]=rK7HdQS4YPMo[qYG8x2dM5KjG+1]
+elseif AWQskHc==23 then
+--SETLIST
+elseif AWQskHc==34 then
 --VARARG
-elseif FAZINRgWB==108 then
-local sBx=hN4Gr7PMpy;if sBx>=128 then sBx=sBx-256 end;Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[FgP72EB2FF+1]+Yfyrw8G[FgP72EB2FF+3];local step=Yfyrw8G[FgP72EB2FF+3];local idx=Yfyrw8G[FgP72EB2FF+1];local limit=Yfyrw8G[FgP72EB2FF+2];if(step>0 and idx<=limit)or(step<=0 and idx>=limit)then FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+sBx*4;Yfyrw8G[FgP72EB2FF+4]=idx end
-elseif FAZINRgWB==124 then
-local args={};for i=1,hN4Gr7PMpy-1 do uDFBsUFKRlY2(args,Yfyrw8G[FgP72EB2FF+i+1])end;local fn=Yfyrw8G[FgP72EB2FF+1];local res;if (type(oK800BG4J1GJU)==type(oK800BG4J1GJU)) then res={fn(F5kQWsQLPMpZB(args))}else for FXaU=1,0 do ZAv8dktyFiNy=UK0wUgpw+1 end end;for i=1,NBpvDoWry4-1 do Yfyrw8G[FgP72EB2FF+i]=res[i]or nil end
-elseif FAZINRgWB==8 then
-Yfyrw8G[FgP72EB2FF+1]=#Yfyrw8G[hN4Gr7PMpy+1]
-elseif FAZINRgWB==111 then
-Yfyrw8G[FgP72EB2FF+1]=YTswfHwOOh[hN4Gr7PMpy+1]
-elseif FAZINRgWB==35 then
-if(not not Yfyrw8G[FgP72EB2FF+1])~=(NBpvDoWry4~=0)then FWdCrs5FN9Uv9=FWdCrs5FN9Uv9+4 end
-elseif FAZINRgWB==17 then
-Yfyrw8G[FgP72EB2FF+1]=KVDOJN_mZe[YTswfHwOOh[hN4Gr7PMpy+1]]
-elseif FAZINRgWB==34 then
-local uv=LtKt3MJpaGQi[hN4Gr7PMpy+1];Yfyrw8G[FgP72EB2FF+1]=uv.stack[uv.index]
-elseif FAZINRgWB==114 then
-Yfyrw8G[FgP72EB2FF+1]=Yfyrw8G[hN4Gr7PMpy+1]+Yfyrw8G[NBpvDoWry4+1]
-elseif FAZINRgWB==20 then
-for FXaU=1,0 do ZAv8dktyFiNy=UK0wUgpw+1 end
-elseif FAZINRgWB==21 then
-for oadV=1,0 do a_5zb1lZkuVzS=Ybd9Y0DFhKHqC+1 end
-elseif FAZINRgWB==123 then
-local DjmzVC=j0oz1gJd3ed+AaUnAL7icByF
-elseif FAZINRgWB==24 then
-if false then AaUnAL7icByF=nil end
-elseif FAZINRgWB==127 then
-if false then TpPOTAf=nil end
-elseif FAZINRgWB==28 then
-local MlooQM={0.4579951765669181,"ZwOIwDoH"}
-elseif FAZINRgWB==5 then
-if false then eqhZqQP7sMsi=nil end
-elseif FAZINRgWB==6 then
-if false then RZCHHrRSb650=nil end
-elseif FAZINRgWB==16 then
-if false then AaUnAL7icByF=nil end
-elseif FAZINRgWB==26 then
-if false then ZeZ9_HXBMy=nil end
-elseif FAZINRgWB==36 then
-if false then OcOKOPmXOI=nil end
-elseif FAZINRgWB==33 then
-for FYtZ=1,0 do JrMCG1En0T_E5=VjFEBaSpGXOC+1 end
-elseif FAZINRgWB==110 then
-if false then fq6_GSzm=nil end
-elseif FAZINRgWB==119 then
-local BIUgho={0.6944827821713015,"KZJz_vtE"}
-elseif FAZINRgWB==105 then
-local GuFxKS={0.7978928885483629,"XGztCmjj"}
-elseif FAZINRgWB==126 then
-for FXaU=1,0 do ZAv8dktyFiNy=UK0wUgpw+1 end
-elseif FAZINRgWB==2 then
-for oadV=1,0 do a_5zb1lZkuVzS=Ybd9Y0DFhKHqC+1 end
-elseif FAZINRgWB==112 then
-local DjmzVC=j0oz1gJd3ed+AaUnAL7icByF
-elseif FAZINRgWB==115 then
-if false then AaUnAL7icByF=nil end
-elseif FAZINRgWB==32 then
-if false then TpPOTAf=nil end
-elseif FAZINRgWB==128 then
-local MlooQM={0.4579951765669181,"ZwOIwDoH"}
-elseif FAZINRgWB==118 then
-if false then eqhZqQP7sMsi=nil end
-elseif FAZINRgWB==102 then
-if false then RZCHHrRSb650=nil end
-elseif FAZINRgWB==19 then
-if false then AaUnAL7icByF=nil end
-elseif FAZINRgWB==125 then
-if false then ZeZ9_HXBMy=nil end
-elseif FAZINRgWB==22 then
-if false then OcOKOPmXOI=nil end
-elseif FAZINRgWB==109 then
-for FYtZ=1,0 do JrMCG1En0T_E5=VjFEBaSpGXOC+1 end
-elseif FAZINRgWB==103 then
-if false then fq6_GSzm=nil end
-elseif FAZINRgWB==122 then
-local BIUgho={0.6944827821713015,"KZJz_vtE"}
-elseif FAZINRgWB==27 then
-local GuFxKS={0.7978928885483629,"XGztCmjj"}
+elseif AWQskHc==125 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=(sSZtsUb~=0);if iXQzDSovx~=0 then LeLF69hj40_=LeLF69hj40_+4 end
+elseif AWQskHc==123 then
+local proto=arR1rrM6uzb[sSZtsUb+1];local upvals={};for i,def in ipairs(proto.upvalues)do if def[1]==1 then upvals[i]={stack=rK7HdQS4YPMo,index=def[2]+1}else upvals[i]=LawStq6MSk8W[def[2]+1]end end;rK7HdQS4YPMo[qYG8x2dM5KjG+1]=function(...)return fuWV08EW(proto,{...},upvals)end
+elseif AWQskHc==122 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=YylcLi[xippKK3[sSZtsUb+1]]
+elseif AWQskHc==126 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]*rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==114 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1][rK7HdQS4YPMo[sSZtsUb+1]]=rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==9 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]..rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==120 then
+--TAILCALL
+elseif AWQskHc==36 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1][rK7HdQS4YPMo[iXQzDSovx+1]]
+elseif AWQskHc==25 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]%rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==102 then
+if(not not rK7HdQS4YPMo[qYG8x2dM5KjG+1])~=(iXQzDSovx~=0)then LeLF69hj40_=LeLF69hj40_+4 end
+elseif AWQskHc==2 then
+local uv=LawStq6MSk8W[sSZtsUb+1];rK7HdQS4YPMo[qYG8x2dM5KjG+1]=uv.stack[uv.index]
+elseif AWQskHc==5 then
+LeLF69hj40_=LeLF69hj40_+qYG8x2dM5KjG*4
+elseif AWQskHc==124 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=xippKK3[sSZtsUb+1]
+elseif AWQskHc==119 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]-rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==121 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=#rK7HdQS4YPMo[sSZtsUb+1]
+elseif AWQskHc==20 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]/rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==116 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]
+elseif AWQskHc==27 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]={}
+elseif AWQskHc==111 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]+rK7HdQS4YPMo[iXQzDSovx+1]
+elseif AWQskHc==26 then
+local res={};for i=0,sSZtsUb-2 do GGJ2i2(res,rK7HdQS4YPMo[qYG8x2dM5KjG+i+1])end;return suxo8cCH(res)
+elseif AWQskHc==103 then
+if((rK7HdQS4YPMo[sSZtsUb+1]<=rK7HdQS4YPMo[iXQzDSovx+1])~=(qYG8x2dM5KjG~=0))then LeLF69hj40_=LeLF69hj40_+4 end
+elseif AWQskHc==6 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=not rK7HdQS4YPMo[sSZtsUb+1]
+elseif AWQskHc==35 then
+for i=qYG8x2dM5KjG+1,qYG8x2dM5KjG+sSZtsUb+1 do rK7HdQS4YPMo[i]=nil end
+elseif AWQskHc==32 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+2]=rK7HdQS4YPMo[sSZtsUb+1];rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1][rK7HdQS4YPMo[iXQzDSovx+1]]
+elseif AWQskHc==101 then
+local sBx=sSZtsUb;if sBx>=128 then sBx=sBx-256 end;rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[qYG8x2dM5KjG+1]-rK7HdQS4YPMo[qYG8x2dM5KjG+3];LeLF69hj40_=LeLF69hj40_+sBx*4
+elseif AWQskHc==33 then
+--TFORLOOP
+elseif AWQskHc==37 then
+local sBx=sSZtsUb;if sBx>=128 then sBx=sBx-256 end;rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[qYG8x2dM5KjG+1]+rK7HdQS4YPMo[qYG8x2dM5KjG+3];local step=rK7HdQS4YPMo[qYG8x2dM5KjG+3];local idx=rK7HdQS4YPMo[qYG8x2dM5KjG+1];local limit=rK7HdQS4YPMo[qYG8x2dM5KjG+2];if(step>0 and idx<=limit)or(step<=0 and idx>=limit)then LeLF69hj40_=LeLF69hj40_+sBx*4;rK7HdQS4YPMo[qYG8x2dM5KjG+4]=idx end
+elseif AWQskHc==15 then
+if((rK7HdQS4YPMo[sSZtsUb+1]<rK7HdQS4YPMo[iXQzDSovx+1])~=(qYG8x2dM5KjG~=0))then LeLF69hj40_=LeLF69hj40_+4 end
+elseif AWQskHc==14 then
+YylcLi[xippKK3[sSZtsUb+1]]=rK7HdQS4YPMo[qYG8x2dM5KjG+1]
+elseif AWQskHc==29 then
+rK7HdQS4YPMo[qYG8x2dM5KjG+1]=-rK7HdQS4YPMo[sSZtsUb+1]
+elseif AWQskHc==11 then
+if((rK7HdQS4YPMo[sSZtsUb+1]==rK7HdQS4YPMo[iXQzDSovx+1])~=(qYG8x2dM5KjG~=0))then LeLF69hj40_=LeLF69hj40_+4 end
+elseif AWQskHc==109 then
+local args={};for i=1,sSZtsUb-1 do GGJ2i2(args,rK7HdQS4YPMo[qYG8x2dM5KjG+i+1])end;local fn=rK7HdQS4YPMo[qYG8x2dM5KjG+1];local res;if ((BItyO04>=0)or(BItyO04<0)) then res={fn(suxo8cCH(args))}else local bsGSnR={0.8532102363900587,"NUYmwSiB"} end;for i=1,iXQzDSovx-1 do rK7HdQS4YPMo[qYG8x2dM5KjG+i]=res[i]or nil end
+elseif AWQskHc==117 then
+if(not not rK7HdQS4YPMo[sSZtsUb+1])==(iXQzDSovx~=0)then rK7HdQS4YPMo[qYG8x2dM5KjG+1]=rK7HdQS4YPMo[sSZtsUb+1]else LeLF69hj40_=LeLF69hj40_+4 end
+elseif AWQskHc==113 then
+local bsGSnR={0.8532102363900587,"NUYmwSiB"}
+elseif AWQskHc==112 then
+if false then GCdaIaip=nil end
+elseif AWQskHc==18 then
+for OnXh=1,0 do hqUustfpHooc9=VpQJZ_4W6q+1 end
+elseif AWQskHc==19 then
+local HWeOme=pGR_4TxuEzqr+toxB5b7v
+elseif AWQskHc==118 then
+local tCVrgC={0.5358579301846549,"sUYjQZrN"}
+elseif AWQskHc==128 then
+local kXGXCi={0.8039256848418461,"YJGvhAEo"}
+elseif AWQskHc==13 then
+if false then YdgWFJb5p=nil end
+elseif AWQskHc==106 then
+if false then a3XUY0xbhg=nil end
+elseif AWQskHc==31 then
+if false then DXwPHJdpaev=nil end
+elseif AWQskHc==21 then
+for bfGV=1,0 do bQ9yNnZ_6npmm=YzWSn1b2kW+1 end
+elseif AWQskHc==8 then
+if false then xrVs4u=nil end
+elseif AWQskHc==105 then
+local dKfVWl={0.1526790816716892,"PXtHSxjK"}
+elseif AWQskHc==0 then
+if false then EKrGUyr0FjS1w=nil end
+elseif AWQskHc==12 then
+for BMpl=1,0 do e3S0urpsC55=YzWSn1b2kW+1 end
+elseif AWQskHc==115 then
+if false then B0kbxncU=nil end
+elseif AWQskHc==16 then
+local bsGSnR={0.8532102363900587,"NUYmwSiB"}
+elseif AWQskHc==127 then
+if false then GCdaIaip=nil end
+elseif AWQskHc==22 then
+for OnXh=1,0 do hqUustfpHooc9=VpQJZ_4W6q+1 end
+elseif AWQskHc==3 then
+local HWeOme=pGR_4TxuEzqr+toxB5b7v
+elseif AWQskHc==10 then
+local tCVrgC={0.5358579301846549,"sUYjQZrN"}
+elseif AWQskHc==24 then
+local kXGXCi={0.8039256848418461,"YJGvhAEo"}
+elseif AWQskHc==28 then
+if false then YdgWFJb5p=nil end
+elseif AWQskHc==108 then
+if false then a3XUY0xbhg=nil end
+elseif AWQskHc==107 then
+if false then DXwPHJdpaev=nil end
+elseif AWQskHc==30 then
+for bfGV=1,0 do bQ9yNnZ_6npmm=YzWSn1b2kW+1 end
+elseif AWQskHc==129 then
+if false then xrVs4u=nil end
+elseif AWQskHc==17 then
+local dKfVWl={0.1526790816716892,"PXtHSxjK"}
+elseif AWQskHc==7 then
+if false then EKrGUyr0FjS1w=nil end
+elseif AWQskHc==104 then
+for BMpl=1,0 do e3S0urpsC55=YzWSn1b2kW+1 end
+elseif AWQskHc==1 then
+if false then B0kbxncU=nil end
 else break end
 end
 end
-EIYkFWRokcW_({code={110,134,235,249,215,154,129,208,118,190,235,238,30,96,87,72,176,79,1,43,190,11,199,148,124,176,144,176},consts={[[onCreatePost]],[[goodNoteHit]],[[onDestroy]]},protos={{code={222,134,235,249,208,157,129,208,132,191,235,238,29,103,84,72,162,76,1,43,185,8,198,148,219,79,146,182,52,81,76,37,55,203,252,183,151,192,38,68,46,30,55,197,235,97,92,11,160,161,79,205,189,188,155,251,241,81,152,116,80,173,63,91,168,18,147,192,207,24,49,243,150,189,111,46,253,30,229,20,3,97,168,125,145,148,0,115,54,251,199,30,5,175,54,31,42,207,7,118,99,203,222,57,16,11,178,1,233,75,252,69,39,63,135,41,56,121,122,181,72,74,20,183,55,129,45,86,141,88,195,82,102,5,63,11,10,90,96,210,144,121,208,8,33,177,69,142,232,220,162,31,96,186,106,201,13,82,253,226,248,234,230,57,85,81,26,93,172,200,81,116,86,157,44,51,60,248,26,157,130,222,42,28,2,55,91,171,175,12,238,55,181,52,179,214},consts={[[addHaxeLibrary]],[[FlxSprite]],[[flixel]],[[FlxTween]],[[flixel.tweens]],[[FlxEase]],[[ClientPrefs]],[[Std]],[[Math]],[[Reflect]],[[luaDebugMode]],[[runHaxeCode]],[[
-        var colorSplash:Int = 0xFFFBEFA6; 
-        var manualOffsetX:Float = 0; 
-        var manualOffsetY:Float = 0; 
-
-        var targetPrefs = ClientPrefs;
-        if (Reflect.hasField(ClientPrefs, 'data')) targetPrefs = Reflect.field(ClientPrefs, 'data');
-        Reflect.setProperty(targetPrefs, 'noteSplashes', false);
-
-        game.setOnLuas('createTechSplash', function(dir:Int) {
-            var strum = game.playerStrums.members[dir];
-            
-            if (strum == null) return;
-
-            var hud = game.camHUD;
-            
-            var center = strum.getMidpoint();
-            var cX = center.x + manualOffsetX;
-            var cY = center.y + manualOffsetY;
-
-            var sqSize = 95; 
-            var thick = 2;
-            var half = sqSize / 2;
-
-            var linesData = [
-                [0, -half, sqSize, thick], // Top
-                [0, half, sqSize, thick],  // Bottom
-                [-half, 0, thick, sqSize], // Left
-                [half, 0, thick, sqSize]   // Right
-            ];
-
-            for (data in linesData) {
-                var lx = cX + data[0] - (data[2]/2);
-                var ly = cY + data[1] - (data[3]/2);
-
-                var line = new FlxSprite(lx, ly);
-                line.makeGraphic(Std.int(data[2]), Std.int(data[3]), colorSplash);
-                line.cameras = [hud];
-
-                line.alpha = 1;
-                FlxTween.tween(line, {alpha: 0}, 0.25, {
-                    onComplete: function(twn:FlxTween) { line.destroy(); }
-                });
-                game.add(line);
-            }
-
-            var segments = 16; 
-            var radius = 38; 
-            var segLen = 22;
-
-            for (i in 0...segments) {
-                var angle = i * (360 / segments);
-                var rad = angle * (Math.PI / 180);
-
-                var rLine = new FlxSprite(0, 0);
-                rLine.makeGraphic(segLen, thick, colorSplash);
-                rLine.cameras = [hud];
-
-                var offX = Math.cos(rad) * radius;
-                var offY = Math.sin(rad) * radius;
-                
-                rLine.x = cX - (segLen/2) + offX;
-                rLine.y = cY - (thick/2) + offY;
-                rLine.angle = angle + 90; 
-                rLine.alpha = 0.9;
-
-                var destX = cX - (segLen/2) + (Math.cos(rad) * (radius + 12));
-                var destY = cY - (thick/2) + (Math.sin(rad) * (radius + 12));
-
-                FlxTween.tween(rLine, {x: destX, y: destY, alpha: 0}, 0.3, {
-                    ease: FlxEase.circOut,
-                    onComplete: function(twn:FlxTween) { rLine.destroy(); }
-                });
-                game.add(rLine);
-            }
-
-            for (j in 0...4) {
-                var pSize = 13;
-                var part = new FlxSprite(cX - pSize/2, cY - pSize/2);
-                part.makeGraphic(pSize, pSize, colorSplash);
-                part.cameras = [hud];
-                // part.angle = 45; 
-
-                var pAng = (j * 90) - 45; 
-                var pRad = pAng * (Math.PI / 180);
-                var pDist = 110;
-
-                var goX = (cX - pSize/2) + Math.cos(pRad) * pDist;
-                var goY = (cY - pSize/2) + Math.sin(pRad) * pDist;
-
-                FlxTween.tween(part, {x: goX, y: goY, angle: pAng + 180}, 0.35, {ease: FlxEase.expoOut});
-                FlxTween.tween(part, {alpha: 0}, 0.35, {startDelay: 0.1});
-                FlxTween.tween(part.scale, {x: 0, y: 0}, 0.35, {
-                    ease: FlxEase.expoIn,
-                    onComplete: function(twn:FlxTween) { part.destroy(); }
-                });
-                game.add(part);
-            }
-        });
-    ]]},protos={},numParams=0,upvalues={},cs=23599,len=196},{code={222,130,235,249,208,145,141,208,132,187,235,238,29,107,88,72,2,48,15,43,89,4,199,148,70,72,158,176,222,93,77,37,55,207,248,183,128,193,36,70,44,18,56,197,139,101,90,11,0,164,69,205,74,187,224,249,243,90,152,116,176,169,59,91,8,30,235,192,184,27,203,241,246,191,102,46,240,2,237,20,172,108,84,127,143,106,0,115,208,242,203,30,5,173,53,31,43,186,124,70,122,63,208,59,126,21,178,0,133,74,202,69,135,58,125,41,36,124,11,181,51,65,18,177,55,129,35,86,141,88,195,82,6,5,54,11,151,91,146,212,153,110,210,10,41,218,68,142},consts={[[setPropertyFromGroup]],[[notes]],[[noteSplashDisabled]],[[getPropertyFromGroup]],[[rating]],[[sick]],[[createTechSplash]]},protos={},numParams=4,upvalues={},cs=17266,len=148},{code={222,134,235,249,208,157,129,208,132,191,235,238,29,103,84,72,173,78,1,41,179,13,200,148},consts={[[runHaxeCode]],[[
-        var targetPrefs = ClientPrefs;
-        if (Reflect.hasField(ClientPrefs, 'data')) targetPrefs = Reflect.field(ClientPrefs, 'data');
-        Reflect.setProperty(targetPrefs, 'noteSplashes', true);
-    ]]},protos={},numParams=0,upvalues={},cs=3459,len=24}},numParams=0,upvalues={},cs=3967,len=28},{...})
+fuWV08EW({code={85,190,140,101,224,96,72,8,212,36,26,251,72,170,33,106,161,178,67,126,134,133,112,31,165,179,234,123},consts={{98,98,76,124,108,105,127,111,85,107,116,114},{106,99,96,106,71,103,127,111,77,109,115},{98,98,75,107,122,124,121,101,124}},protos={{code={74,190,140,101,154,97,72,8,211,37,26,251,182,173,32,106,160,177,67,126,28,132,115,31,18,180,212,121,180,163,156,173,0,83,171,35,97,0,8,217,16,55,240,243,42,106,219,199,221,100,31,192,200,66,1,120,162,107,137,251,78,214,96,135,157,239,135,5,202,94,226,186,106,1,121,37,249,112,173,75,32,33,45,173,211,88,246,63,107,152,113,205,141,43,69,33,38,41,111,110,247,94,56,45,243,177,203,130,121,239,169,87,141,230,117,213,218,233,235,170,251,228,171,9,220,245,30,156,171,227,10,233,148,159,98,217,128,161,190,125,170,126,1,187,116,50,68,185,60,193,133,171,25,87,119,106,117,106,54,7,158,235,174,101,130,194,210,245,108,110,34,88,62,19,52,244,135,22,68,185,132,20,246,73,224,16,27,195,45,47,93,93,79,175,104,51},consts={{108,104,107,70,104,112,110,70,108,102,117,103,115,121},{75,96,119,93,121,122,98,126,96},{107,96,102,118,108,100},{75,96,119,90,126,109,110,100},{107,96,102,118,108,100,37,126,114,97,98,104,114},{75,96,119,75,104,123,110},{78,96,102,107,103,124,91,120,96,98,116},{94,120,107},{64,109,123,102},{95,105,105,98,108,107,127},{97,121,110,74,108,106,126,109,72,107,99,99},{127,121,97,70,104,112,110,73,106,96,98},{7,44,47,46,41,40,43,42,37,114,102,116,33,99,108,110,114,110,76,110,117,121,104,114,47,93,121,98,49,45,51,34,85,106,105,104,107,109,109,107,19,31,7,44,1,0,3,2,29,28,31,30,79,89,73,26,88,85,89,67,80,92,124,84,43,63,42,58,17,114,13,38,42,37,51,102,124,96,115,121,125,86,127,126,121,120,123,122,117,116,33,55,35,112,62,51,3,25,14,2,38,14,13,25,0,16,62,92,39,12,12,3,9,92,66,94,73,67,91,112,127,84,87,86,81,80,83,82,173,250,238,252,169,252,234,248,226,225,243,214,243,229,229,241,189,161,191,221,245,241,254,244,225,196,229,243,247,227,168,152,141,140,143,142,137,136,139,138,204,194,135,142,243,197,197,206,216,223,203,144,209,217,200,252,220,209,219,210,153,243,223,219,168,162,187,158,187,173,173,185,233,228,224,162,160,180,162,229,244,245,255,170,184,170,188,191,161,132,165,179,183,163,243,239,205,190,138,136,133,141,136,158,203,130,142,131,141,132,203,161,145,149,154,144,141,168,137,159,147,135,219,214,214,148,146,134,108,43,38,53,3,40,43,42,37,36,39,38,33,82,102,100,113,121,124,106,55,107,126,110,69,102,120,102,116,98,103,107,5,88,78,92,78,77,95,122,87,65,65,85,13,0,4,76,82,72,90,109,73,84,90,73,93,81,68,17,29,16,85,83,33,63,42,103,114,66,65,106,101,100,103,102,97,96,99,37,60,49,58,112,42,61,47,21,59,24,34,55,34,120,116,49,31,9,14,26,12,60,14,9,13,55,23,10,0,19,11,69,81,92,25,11,23,27,15,19,26,26,95,18,24,2,73,59,227,248,166,174,242,130,171,170,165,164,167,166,161,160,163,162,189,188,233,255,235,184,232,238,231,225,250,182,172,176,244,243,192,201,129,222,197,201,210,207,215,247,211,212,212,205,208,140,208,217,210,220,220,202,200,225,209,221,197,235,138,186,147,146,237,236,239,238,233,232,235,234,229,228,205,230,225,224,227,226,253,252,255,254,249,248,251,179,179,244,255,165,165,162,166,191,205,209,210,206,135,157,135,134,204,196,149,131,149,149,145,140,198,246,245,222,217,216,219,218,213,212,215,214,209,208,211,132,108,126,47,102,124,108,43,55,37,99,102,107,100,46,96,99,112,84,74,90,34,18,59,58,53,52,55,54,49,48,51,50,13,12,37,14,9,8,11,10,5,4,7,6,1,0,3,84,92,78,31,93,92,86,79,95,71,20,10,22,66,68,65,71,32,98,40,43,61,5,34,46,53,43,46,40,53,104,106,121,87,124,127,126,121,120,123,122,117,116,119,118,113,38,50,32,77,15,55,78,84,72,8,15,11,16,2,20,79,24,67,73,93,17,30,16,12,25,23,53,19,18,4,19,5,40,72,120,173,172,175,174,169,168,171,170,165,164,167,166,247,225,241,162,254,197,191,163,185,251,254,244,225,241,229,184,232,176,184,178,192,205,193,219,200,196,228,204,195,215,194,210,248,155,169,168,157,156,159,158,153,152,155,154,149,148,151,150,199,209,193,146,190,189,156,167,179,173,235,247,229,253,242,253,225,202,227,226,253,252,255,254,249,248,251,250,245,244,161,183,163,240,167,186,132,143,132,206,212,200,217,209,239,196,199,198,193,192,195,194,221,220,223,222,217,142,154,136,213,156,150,154,151,208,206,210,126,125,92,103,115,109,43,37,37,54,60,12,11,32,35,34,61,60,63,62,57,56,59,58,53,98,118,100,49,124,122,124,72,95,107,79,93,73,11,23,5,127,45,6,1,0,3,2,29,28,31,30,25,24,27,26,21,20,23,109,1,28,19,31,37,45,35,40,101,104,56,59,22,45,61,35,109,96,55,42,52,63,52,3,117,120,116,117,117,0,56,38,91,112,115,114,77,76,79,78,73,72,75,74,69,68,71,70,65,59,83,78,93,20,30,18,31,84,91,9,4,39,30,12,20,92,83,6,229,229,236,229,212,164,171,170,170,171,167,196,238,244,247,237,240,150,191,190,185,184,187,186,181,180,183,182,177,176,179,178,141,140,244,131,193,201,199,204,137,132,151,138,129,212,203,203,222,215,147,158,202,201,232,211,207,209,234,154,145,159,156,146,129,169,169,186,195,232,235,234,229,228,231,230,225,224,227,226,253,252,255,254,249,131,179,187,185,178,251,246,225,252,243,166,133,133,140,133,197,200,152,155,182,141,157,131,188,192,195,194,210,211,223,172,144,159,147,142,255,212,215,214,209,208,211,210,45,44,47,46,41,85,48,0,15,36,39,38,33,32,35,34,61,60,63,62,57,126,116,104,53,60,115,119,101,113,51,123,67,12,67,71,71,77,88,110,68,80,70,15,1,91,41,2,29,28,31,30,25,24,27,26,21,20,23,22,17,16,19,68,44,62,111,34,49,104,118,106,38,28,103,109,97,36,34,54,60,7,111,3,121,117,123,114,49,53,35,55,10,98,14,125,95,69,84,100,73,72,75,74,69,68,71,70,65,64,67,66,93,92,95,94,15,25,9,90,25,13,87,75,81,19,42,82,166,172,235,239,253,233,208,187,216,164,170,166,169,228,226,246,252,199,172,195,182,170,178,161,159,158,183,182,177,176,179,178,141,140,143,142,137,136,139,138,133,132,209,199,211,128,207,203,211,217,159,131,153,214,222,205,149,242,219,206,226,192,193,219,185,169,231,162,177,228,235,166,188,237,252,204,225,224,227,226,253,252,255,254,249,248,251,250,245,244,247,246,189,185,189,183,195,129,142,133,140,175,153,139,149,140,142,133,201,179,151,134,211,149,145,138,209,156,154,142,148,175,197,171,216,220,211,161,121,104,33,103,103,124,35,110,100,112,102,93,50,93,42,46,61,127,112,114,118,106,72,106,121,117,100,126,56,43,25,50,13,12,15,14,9,8,11,10,5,4,7,6,1,0,3,78,84,82,90,16,90,89,86,95,71,85,68,22,12,16,104,90,56,40,18,117,67,66,107,106,101,100,103,102,97,96,99,98,125,124,127,126,121,120,55,51,59,49,121,55,61,32,59,51,77,81,79,95,82,98,75,74,69,68,71,70,65,64,67,66,93,92,95,94,89,88,61,22,13,32,0,19,20,30,93,6,250,233,234,224,161,228,226,228,224,168,167,253,224,236,243,234,252,166,191,174,228,180,187,170,187,166,162,186,177,235,153,178,141,140,143,142,137,136,139,138,133,132,135,134,129,128,131,130,157,156,159,209,215,251,212,215,197,216,210,194,212,138,147,212,184,162,172,186,160,167,165,226,177,179,169,252,135,172,187,150,170,185,186,176,240,248,160,250,185,189,185,179,255,180,182,161,153,158,128,151,193,193,208,202,152,238,199,198,193,192,195,194,221,220,223,222,217,216,219,218,213,212,138,223,202,250,211,210,45,44,47,46,41,40,43,42,37,36,39,38,33,32,100,99,112,121,49,127,125,124,51,118,124,122,114,63,42,26,51,50,13,12,15,14,9,8,11,10,5,4,90,44,43,0,3,2,29,28,31,30,25,24,27,26,21,66,86,68,17,67,86,85,32,41,33,58,58,104,118,106,116,114,124,102,75,96,99,98,125,124,127,126,121,120,123,122,117,34,54,36,113,34,50,54,4,25,28,78,84,72,88,82,94,68,109,70,65,64,67,66,93,92,95,94,89,88,91,12,20,6,87,5,20,23,63,23,227,172,178,174,187,186,176,128,143,164,167,166,161,160,163,162,189,188,191,190,185,254,244,232,181,188,254,182,248,254,179,162,131,130,129,221,204,207,198,207,203,208,212,143,129,219,169,130,157,156,159,158,153,152,155,154,149,148,151,150,145,144,147,196,172,190,239,175,167,175,167,175,229,249,231,175,225,234,227,234,238,234,239,254,246,248,168,191,178,185,178,184,165,163,250,233,231,204,207,206,201,200,203,202,197,196,199,198,193,192,195,194,221,138,158,140,217,138,154,158,213,201,215,151,159,151,159,151,45,38,47,38,68,105,127,98,43,84,78,38,46,32,50,58,45,53,36,20,19,56,59,58,53,52,55,54,49,48,51,50,13,12,15,14,9,94,74,88,5,86,107,79,79,69,3,31,29,82,90,73,25,126,87,66,102,68,69,95,69,85,27,2,97,108,127,103,114,66,107,106,101,100,103,102,97,96,99,98,125,124,127,126,121,120,41,22,60,58,50,120,60,49,56,55,42,30,14,30,1,1,8,66,22,1,0,42,4,14,79,66,9,20,22,29,18,84,91,25,26,24,24,4,34,0,31,19,254,228,166,181,131,168,171,170,165,164,167,166,161,160,163,162,189,188,191,190,185,234,215,243,251,241,185,245,240,253,246,224,204,223,143,147,137,243,195,223,193,249,156,172,171,128,131,130,157,156,159,158,153,152,155,154,149,148,151,150,145,198,210,192,237,163,169,168,145,232,246,234,136,165,179,174,239,163,172,177,245,174,190,186,240,248,241,250,167,181,179,191,164,163,232,216,205,204,207,206,201,200,203,202,197,196,199,198,193,192,195,194,139,157,141,222,150,158,157,163,213,201,215,187,144,132,155,220,126,101,97,38,123,105,111,35,37,46,39,116,96,100,106,119,110,39,21,62,57,56,59,58,53,52,55,54,49,48,51,50,13,12,15,36,9,8,11,10,5,4,7,6,1,0,3,2,29,28,31,30,75,116,82,84,80,26,79,22,12,16,80,106,109,97,111,102,58,45,44,6,32,42,104,116,104,96,104,98,50,58,57,6,98,82,123,122,117,116,119,118,113,112,115,114,77,76,79,78,73,72,25,38,12,10,2,72,24,64,94,66,30,37,95,83,89,80,15,18,28,23,28,89,67,89,83,89,173,227,233,232,208,179,129,170,165,164,167,166,161,160,163,162,189,188,191,190,185,184,187,232,217,253,249,243,191,241,253,245,193,201,143,147,137,201,197,205,201,193,135,141,129,153,147,153,157,182,159,158,153,152,155,154,149,148,151,150,145,144,147,146,237,236,189,130,160,166,174,228,164,168,183,174,160,224,254,226,237,242,230,229,211,210,251,250,245,244,247,246,241,240,243,242,205,204,207,206,201,200,157,139,151,196,131,131,146,148,187,194,192,220,156,166,217,213,219,210,134,145,144,186,148,158,220,192,36,44,36,46,33,69,106,126,109,42,100,105,114,40,113,99,121,53,63,52,57,48,105,123,113,125,98,101,49,59,51,35,31,5,6,21,35,8,11,10,5,4,7,6,1,0,3,2,29,28,31,30,25,78,90,72,21,80,82,69,69,105,19,15,109,47,22,110,100,104,99,62,45,45,36,45,110,114,106,98,118,124,119,19,56,44,51,116,38,61,57,126,35,49,55,123,77,70,79,70,27,9,15,3,16,23,71,77,65,81,81,75,84,71,117,116,89,88,91,90,85,84,87,86,81,80,83,82,173,172,175,174,207,228,243,222,242,225,226,232,175,244,244,231,248,242,183,236,213,241,245,255,185,180,236,238,171,176,247,247,222,216,247,130,137,209,145,138,193,193,212,210,248,140,131,195,209,204,215,223,131,152,139,199,153,148,135,152,130,156,147,201,199,236,239,238,233,232,235,234,229,228,231,230,225,224,227,226,253,252,255,254,249,189,186,169,176,238,247,144,189,168,150,179,158,137,193,141,128,154,136,165,144,144,203,236,193,192,195,194,221,220,223,222,217,216,219,218,213,212,215,214,209,208,211,210,98,98,76,97,100,120,103,111,113,97,61,38,103,117,109,97,105,117,112,112,49,108,108,116,47,82,123,110,69,103,118,119,67,5,15,85,9,90,103,67,75,65,9,66,68,83,87,80,82,69,23,23,2,24,70,48,21,20,23,22,17,16,19,18,109,108,111,110,105,104,107,106,56,109,124,76,97,96,99,98,125,124,127,126,121,120,123,122,117,116,119,118,54,49,62,55,67,13,11,10,65,26,39,3,11,1,78,93,107,64,67,66,93,92,95,94,89,88,91,90,85,9,125,124,81,80,83,82,173,172,175,174,169,168,171,170,227,235,245,166,169,234,163,235,243,188,175,176,183,182,175,179,181,239,157,182,177,176,179,178,141,140,143,142,137,136,139,138,133,132,135,208,192,210,131,210,238,213,197,219,153,133,155,139,134,143,189,150,145,144,147,146,237,236,239,238,233,232,235,234,229,228,231,176,160,178,227,178,188,174,171,254,228,248,181,191,162,244,145,186,169,131,163,160,132,152,138,198,138,176,203,199,197,148,180,143,155,133,204,208,209,220,156,167,217,213,219,138,166,157,141,147,222,194,218,201,7,44,47,46,41,40,43,42,37,36,39,38,33,32,35,34,61,108,126,108,109,54,118,123,126,113,80,100,112,96,123,123,78,4,95,125,64,82,78,6,5,84,116,79,91,69,15,2,94,83,83,81,75,107,75,86,84,71,95,31,10,58,19,18,109,108,111,110,105,104,107,106,101,100,103,102,97,96,51,35,47,40,113,61,56,53,62,40,52,39,119,107,113,11,59,39,9,49,84,100,73,72,75,74,69,68,71,70,65,64,67,66,93,92,95,94,86,87,91,10,20,6,3,88,16,30,20,30,232,172,178,174,189,189,176,170,143,142,167,166,161,160,163,162,189,188,191,190,185,184,187,186,181,180,225,247,227,176,227,211,195,203,143,147,137,128,193,138,143,132,158,150,136,128,142,130,137,137,132,158,179,152,155,154,149,148,151,150,145,144,147,146,237,236,239,238,233,190,170,184,229,180,149,167,165,224,254,226,173,157,177,185,249,242,251,242,152,181,163,190,255,128,154,242,194,204,222,214,217,193,208,224,197,196,199,198,193,192,195,194,221,220,223,222,217,216,219,218,131,149,133,214,129,180,154,129,121,44,50,46,56,57,59,49,15,14,39,38,33,32,35,34,61,60,63,62,57,56,59,58,53,52,97,119,99,48,116,125,117,12,18,14,1,75,115,10,8,4,87,117,72,90,70,13,15,21,31,21,25,117,90,78,93,26,84,89,66,24,67,96,44,40,102,110,99,104,59,14,44,55,51,125,75,96,99,98,125,124,127,126,121,120,123,122,117,116,119,118,113,38,50,32,77,11,0,55,73,85,75,66,6,61,71,75,65,16,48,11,7,25,80,76,80,88,80,90,56,21,3,30,95,3,26,28,165,252,221,239,237,161,171,160,165,244,195,239,242,244,184,136,151,188,191,190,185,184,187,186,181,180,183,182,177,176,179,178,141,234,195,214,253,223,206,207,203,138,211,209,196,197,205,138,205,221,205,202,149,152,192,194,143,148,208,217,233,156,147,203,247,236,168,161,144,228,235,171,171,163,171,163,251,224,179,131,179,187,255,245,249,233,227,234,168,248,247,230,255,227,230,254,205,151,138,143,154,141,209,202,163,136,159,163,128,147,134,204,152,132,143,145,182,141,143,135,220,207,253,214,209,208,211,210,45,44,47,46,41,40,43,42,37,36,39,64,109,120,87,117,120,121,113,48,109,111,126,127,123,60,103,119,99,100,63,50,86,77,67,94,65,73,17,10,21,89,11,6,17,14,16,23,17,28,68,77,77,89,73,78,113,81,91,87,72,10,19,2,99,125,50,103,114,66,107,106,101,100,103,102,97,96,99,98,125,124,127,126,121,120,29,54,45,0,32,51,52,62,125,38,26,9,10,0,65,24,10,24,17,74,20,5,0,12,6,78,93,7,7,68,89,72,87,90,12,78,87,70,12,92,83,66,163,191,186,162,169,243,129,170,165,164,167,166,161,160,163,162,189,188,191,190,185,184,187,186,181,180,183,243,240,227,246,168,141,234,195,214,236,201,216,207,139,193,223,214,206,233,205,142,183,156,159,158,153,152,155,154,149,148,151,150,145,144,147,146,237,236,239,238,233,167,165,137,170,169,183,170,164,180,166,248,253,186,170,176,186,172,178,181,187,252,163,161,191,234,149,190,149,184,152,139,140,134,194,202,158,196,151,135,147,148,205,134,152,143,139,140,150,129,211,211,206,212,138,252,209,208,211,210,45,44,47,46,41,40,43,42,37,36,39,38,124,41,56,8,61,60,63,62,57,56,59,58,53,52,55,54,49,48,51,50,74,77,66,75,7,73,79,78,13,84,70,84,85,9,24,40,29,28,31,30,25,24,27,26,21,20,23,22,76,58,19,18,109,108,111,110,105,104,54,99,126,78,103,102,97,96}},protos={},numParams=0,upvalues={},cs=24727,len=196},{code={74,162,140,101,154,109,76,8,211,57,26,251,182,177,36,106,216,181,77,126,20,128,112,31,27,139,208,123,177,95,159,173,0,95,175,35,114,7,6,215,46,51,243,243,34,110,213,199,229,105,25,192,243,91,8,118,188,96,137,251,70,210,108,135,133,235,159,5,209,95,232,180,18,3,112,37,143,124,165,75,43,36,209,171,39,94,246,63,250,145,69,205,141,41,68,33,143,36,106,94,95,42,62,35,244,183,203,129,118,238,187,87,181,251,67,213,232,234,252,170,99,239,169,11,220,245,24,156,171,227,10,233,156,159,109,217,137,160,144,127,66,105,3,185,148,89,75,185},consts={{126,105,123,94,123,103,123,111,119,112,126,64,115,111,110,69,111,115,106,110},{99,99,123,107,122},{99,99,123,107,90,120,103,107,118,108,67,111,114,97,97,110,120,120},{106,105,123,94,123,103,123,111,119,112,126,64,115,111,110,69,111,115,106,110},{127,109,123,103,103,111},{126,101,108,101},{110,126,106,111,125,109,95,111,102,108,84,118,109,97,112,106}},protos={},numParams=4,upvalues={},cs=19103,len=148},{code={74,190,140,101,154,97,72,8,211,37,26,251,182,173,32,106,211,179,67,120,186,139,113,31},consts={{127,121,97,70,104,112,110,73,106,96,98},{7,44,47,46,41,40,43,42,37,114,102,116,33,116,98,112,122,121,107,78,107,125,125,105,53,41,55,85,125,121,118,124,89,124,93,75,79,91,16,32,5,4,7,6,1,0,3,2,84,90,31,22,107,93,93,86,80,87,67,24,89,81,64,116,36,41,35,42,97,11,39,35,32,42,51,22,51,37,37,49,113,124,120,58,56,44,58,125,124,125,119,34,48,34,52,55,25,60,29,11,15,27,75,87,69,54,2,0,13,5,0,22,83,26,22,27,21,28,83,57,25,29,18,24,5,32,1,23,235,255,163,174,174,236,234,254,228,163,174,189,139,160,163,162,189,188,191,190,185,202,254,252,249,241,244,226,191,227,246,230,253,222,192,222,204,218,223,211,141,208,198,212,198,197,215,242,207,217,217,205,149,152,156,212,218,192,210,229,193,220,210,193,165,169,188,233,229,232,191,184,176,161,238,253,203,224,227,226,253}},protos={},numParams=0,upvalues={},cs=2900,len=24}},numParams=0,upvalues={},cs=3465,len=28},{...})
