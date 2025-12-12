@@ -159,14 +159,22 @@ LuaObfuscator.obfuscate=function(source,options={}){
     const k1=`{${encKeys[0].join(',')}}`,k2=`{${encKeys[1].join(',')}}`,k3=`{${encKeys[2].join(',')}}`;
 
     const _sd=vn[41];
+    // Use bit library if available (LuaJIT), otherwise use manual XOR
+    const _bit=vn[42];
     const vmCode=`local ${_gd}=function()return true end
 ${junkInit}local ${opaqueVar}=(os and os.time and os.time())or(tick and tick())or 1
 local ${_ti}=table.insert
 local ${_up}=table.unpack or unpack
 local ${_env}=_G or _ENV or{}
-local ${_xr}=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
+local ${_bit}=bit or bit32 or nil
+local ${_xr}
+if ${_bit} and ${_bit}.bxor then
+${_xr}=function(a,b)return ${_bit}.bxor(a,b)end
+else
+${_xr}=function(a,b)local p,c=1,0;while a>0 and b>0 do local ra,rb=a%2,b%2;if ra~=rb then c=c+p end;a,b,p=(a-ra)/2,(b-rb)/2,p*2 end;if a<b then a=b end;while a>0 do local ra=a%2;if ra>0 then c=c+p end;a,p=(a-ra)/2,p*2 end;return c end
+end
 local ${_dc}=function(data,keys)local r={};for i=1,#data do local v=data[i];for j=#keys,1,-1 do local k=keys[j];v=v-k[((i-1)%#k)+1];if v<0 then v=v+256 end end;r[i]=v end;return r end
-local ${_ld}=function(data,seed)local state=seed;local taps=0x80200003;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=${_xr}(state,taps)end;r[i]=${_xr}(data[i],state%256)end;return r end
+local ${_ld}=function(data,seed)local state=seed;local taps=2149580803;local r={};for i=1,#data do local lsb=state%2;state=math.floor(state/2);if lsb==1 then state=${_xr}(state,taps)end;r[i]=${_xr}(data[i],state%256)end;return r end
 local ${_pd}=function(data,a,b,c,d,seed)local r={};local x=seed;for i=1,#data do local y=((i-1)*7+13)%256;local z=((i-1)*11+17)%256;local f=(a*x*x*x+b*y*y+c*z+d)%256;r[i]=(data[i]-f)%256;x=(x*17+(i-1)+31)%256 end;return r end
 local ${_vf}=function(data,cs,len)if #data~=len then return false end;local sum=0;for i=1,#data do sum=sum+data[i]end;return(sum%65536)==cs end
 local ${_sd}=function(arr,xk)local s="";for i=1,#arr do local b=${_xr}(arr[i],${_xr}(xk,(i-1)%256));s=s..string.char(b)end;return s end
