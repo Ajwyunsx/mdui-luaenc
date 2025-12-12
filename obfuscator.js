@@ -83,7 +83,7 @@ LuaObfuscator.obfuscate=function(source,options={}){
         // Simple checksum: sum of all bytes mod 65536, and length
         const checksum = enc.reduce((a,b)=>a+b,0) % 65536;
         const codeLen = enc.length;
-        const constsLua='{'+chunk.constants.map(c=>{if(typeof c==='string'){const e=[];for(let i=0;i<c.length;i++)e.push(c.charCodeAt(i)^strXorKey);return '{'+e.join(',')+'}'}return c;}).join(',')+'}';
+        const constsLua='{'+chunk.constants.map(c=>{if(typeof c==='string'){return '"'+c.replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n').replace(/\r/g,'\\r').replace(/\t/g,'\\t')+'"'}return c;}).join(',')+'}';
         const protosLua='{'+chunk.protos.map(p=>serializeChunk(p)).join(',')+'}';
         const upvalsLua='{'+chunk.upvalues.map(u=>`{${u.isLocal?1:0},${u.index}}`).join(',')+'}';
         return `{code={${enc.join(',')}},consts=${constsLua},protos=${protosLua},numParams=${chunk.numParams},upvalues=${upvalsLua},cs=${checksum},len=${codeLen}}`;
@@ -100,11 +100,11 @@ LuaObfuscator.obfuscate=function(source,options={}){
         const mapped=opMap[code];let block='';
         switch(name){
             case 'MOVE':block=`${_vs}[${_a}+1]=${_vs}[${_b}+1]`;break;
-            case 'LOADK':block=`local v=${_cs}[${_b}+1];if type(v)=="table" then local s="";for i=1,#v do s=s..string.char(${_xr}(v[i],${strXorKey}))end;${_vs}[${_a}+1]=s else ${_vs}[${_a}+1]=v end`;break;
+            case 'LOADK':block=`${_vs}[${_a}+1]=${_cs}[${_b}+1]`;break;
             case 'LOADBOOL':block=`${_vs}[${_a}+1]=(${_b}~=0);if ${_c}~=0 then ${_pc}=${_pc}+4 end`;break;
             case 'LOADNIL':block=`for i=${_a}+1,${_a}+${_b}+1 do ${_vs}[i]=nil end`;break;
-            case 'GETGLOBAL':block=`local k=${_cs}[${_b}+1];if type(k)=="table" then local s="";for i=1,#k do s=s..string.char(${_xr}(k[i],${strXorKey}))end;k=s end;${_vs}[${_a}+1]=${_env}[k]`;break;
-            case 'SETGLOBAL':block=`local k=${_cs}[${_b}+1];if type(k)=="table" then local s="";for i=1,#k do s=s..string.char(${_xr}(k[i],${strXorKey}))end;k=s end;${_env}[k]=${_vs}[${_a}+1]`;break;
+            case 'GETGLOBAL':block=`${_vs}[${_a}+1]=${_env}[${_cs}[${_b}+1]]`;break;
+            case 'SETGLOBAL':block=`${_env}[${_cs}[${_b}+1]]=${_vs}[${_a}+1]`;break;
             case 'GETUPVAL':block=`local uv=${_uv}[${_b}+1];${_vs}[${_a}+1]=uv.stack[uv.index]`;break;
             case 'SETUPVAL':block=`local uv=${_uv}[${_b}+1];uv.stack[uv.index]=${_vs}[${_a}+1]`;break;
             case 'ADD':block=`${_vs}[${_a}+1]=${_vs}[${_b}+1]+${_vs}[${_c}+1]`;break;
