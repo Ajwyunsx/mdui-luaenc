@@ -1,14 +1,12 @@
 /**
  * Lua Obfuscator Engine - Ultra Security Edition v3.0
  * Security Architecture:
- * - Whitelist Protection, Polynomial Encryption, LFSR Cipher
+ * - Polynomial Encryption, LFSR Cipher
  * - FNV-1a Hash Integrity, Control Flow Flattening, Opaque Predicates
  * - Dead Code Injection, Anti-Debugging, Multi-layer XOR, String Obfuscation
  */
 (function(global) {
 const LuaObfuscator = {};
-const DEFAULT_WHITELIST = new Set(['print','io','tostring','tonumber','type','string','table','math','assert','error','pcall','xpcall','rawget','rawset','rawequal','setmetatable','getmetatable','collectgarbage','_G','_VERSION','getfenv','setfenv','loadstring','load','loadfile','dofile','require','module','package','coroutine','os','os.time','os.date','os.clock','os.difftime','unpack','pairs','ipairs','next','select','table.insert','table.remove','table.concat','table.sort','table.unpack','string.byte','string.char','string.sub','string.len','string.gsub','string.find','string.match','string.format','string.rep','string.reverse','string.upper','string.lower','math.abs','math.floor','math.ceil','math.sqrt','math.sin','math.cos','math.tan','math.random','math.randomseed','math.max','math.min','math.pow','math.log','math.exp','math.fmod','math.huge','math.pi','coroutine.create','coroutine.resume','coroutine.yield','coroutine.status','coroutine.wrap','coroutine.running']);
-const BLACKLIST = new Set(['os.execute','os.remove','os.rename','os.exit','io.popen','io.open','io.input','io.output','debug.debug','debug.setlocal','debug.setupvalue','debug.setmetatable','debug.sethook']);
 
 function randomString(n) { const c='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_'; let r=c[Math.floor(Math.random()*52)]; for(let i=1;i<n;i++)r+=c[Math.floor(Math.random()*c.length)]; return r; }
 function shuffleArray(a) { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
@@ -37,18 +35,18 @@ class Chunk {
 }
 class Compiler{constructor(){this.rootChunk=new Chunk(null);this.currentChunk=this.rootChunk;this.usedGlobals=new Set();}}
 
-function compileAST(ast,whitelist){
+function compileAST(ast){
     const compiler=new Compiler();
     function resolveUpvalue(chunk,name){if(!chunk.parent)return -1;const lr=chunk.parent.getLocal(name);if(lr>=0)return chunk.addUpvalue(true,lr);const ui=resolveUpvalue(chunk.parent,name);if(ui>=0)return chunk.addUpvalue(false,ui);return -1;}
-    function validateGlobal(name){if(whitelist&&!whitelist.has(name)){const p=name.split('.');if(!whitelist.has(p[0]))throw new Error(`Security: '${name}' not whitelisted`);}if(BLACKLIST.has(name))throw new Error(`Security: '${name}' blocked`);compiler.usedGlobals.add(name);}
+    function trackGlobal(name){compiler.usedGlobals.add(name);}
     function visit(node){if(!node)return -1;const chunk=compiler.currentChunk;
         switch(node.type){
             case 'Chunk':node.body.forEach(s=>visit(s));break;
             case 'LocalStatement':node.variables.forEach((v,i)=>{const reg=chunk.addLocal(v.name);if(node.init&&i<node.init.length){const ir=visit(node.init[i]);if(ir>=0)chunk.emit(OPCODES.MOVE,reg,ir);else{const ci=chunk.addConstant(node.init[i].value);chunk.emit(OPCODES.LOADK,reg,ci);}}else chunk.emit(OPCODES.LOADNIL,reg,0);});break;
-            case 'AssignmentStatement':node.variables.forEach((v,i)=>{if(v.type==='Identifier'){const reg=chunk.getLocal(v.name);if(reg>=0){const vr=visit(node.init[i]);if(vr>=0)chunk.emit(OPCODES.MOVE,reg,vr);else{const ci=chunk.addConstant(node.init[i].value);chunk.emit(OPCODES.LOADK,reg,ci);}}else{const ui=resolveUpvalue(chunk,v.name);if(ui>=0){const vr=visit(node.init[i]);if(vr>=0)chunk.emit(OPCODES.SETUPVAL,vr,ui);else{const ci=chunk.addConstant(node.init[i].value);const t=chunk.allocRegister();chunk.emit(OPCODES.LOADK,t,ci);chunk.emit(OPCODES.SETUPVAL,t,ui);}}else{validateGlobal(v.name);const gi=chunk.addConstant(v.name);const vr=visit(node.init[i]);if(vr>=0)chunk.emit(OPCODES.SETGLOBAL,vr,gi);else{const ci=chunk.addConstant(node.init[i].value);chunk.emit(OPCODES.LOADK,chunk.allocRegister(),ci);chunk.emit(OPCODES.SETGLOBAL,chunk.scope.nextReg-1,gi);}}}}});break;
+            case 'AssignmentStatement':node.variables.forEach((v,i)=>{if(v.type==='Identifier'){const reg=chunk.getLocal(v.name);if(reg>=0){const vr=visit(node.init[i]);if(vr>=0)chunk.emit(OPCODES.MOVE,reg,vr);else{const ci=chunk.addConstant(node.init[i].value);chunk.emit(OPCODES.LOADK,reg,ci);}}else{const ui=resolveUpvalue(chunk,v.name);if(ui>=0){const vr=visit(node.init[i]);if(vr>=0)chunk.emit(OPCODES.SETUPVAL,vr,ui);else{const ci=chunk.addConstant(node.init[i].value);const t=chunk.allocRegister();chunk.emit(OPCODES.LOADK,t,ci);chunk.emit(OPCODES.SETUPVAL,t,ui);}}else{trackGlobal(v.name);const gi=chunk.addConstant(v.name);const vr=visit(node.init[i]);if(vr>=0)chunk.emit(OPCODES.SETGLOBAL,vr,gi);else{const ci=chunk.addConstant(node.init[i].value);chunk.emit(OPCODES.LOADK,chunk.allocRegister(),ci);chunk.emit(OPCODES.SETGLOBAL,chunk.scope.nextReg-1,gi);}}}}});break;
             case 'CallStatement':visit(node.expression);break;
             case 'CallExpression':{let fr,isMC=false;if(node.base.type==='MemberExpression'&&node.base.indexer===':'){isMC=true;const or=visit(node.base.base);fr=chunk.allocRegister();chunk.allocRegister();const mc=chunk.addConstant(node.base.identifier.name);const kr=chunk.allocRegister();chunk.emit(OPCODES.LOADK,kr,mc);chunk.emit(OPCODES.SELF,fr,or,kr);}else{const br=visit(node.base);fr=chunk.allocRegister();chunk.emit(OPCODES.MOVE,fr,br);}node.arguments.forEach((arg,i)=>{const ar=visit(arg);const slot=fr+1+i+(isMC?1:0);if(ar>=0)chunk.emit(OPCODES.MOVE,slot,ar);else{const ci=chunk.addConstant(arg.value);chunk.emit(OPCODES.LOADK,slot,ci);}});chunk.emit(OPCODES.CALL,fr,node.arguments.length+(isMC?1:0)+1,2);return fr;}
-            case 'Identifier':{const lr=chunk.getLocal(node.name);if(lr>=0)return lr;const ui=resolveUpvalue(chunk,node.name);if(ui>=0){const ur=chunk.allocRegister();chunk.emit(OPCODES.GETUPVAL,ur,ui);return ur;}validateGlobal(node.name);const gi=chunk.addConstant(node.name);const gr=chunk.allocRegister();chunk.emit(OPCODES.GETGLOBAL,gr,gi);return gr;}
+            case 'Identifier':{const lr=chunk.getLocal(node.name);if(lr>=0)return lr;const ui=resolveUpvalue(chunk,node.name);if(ui>=0){const ur=chunk.allocRegister();chunk.emit(OPCODES.GETUPVAL,ur,ui);return ur;}trackGlobal(node.name);const gi=chunk.addConstant(node.name);const gr=chunk.allocRegister();chunk.emit(OPCODES.GETGLOBAL,gr,gi);return gr;}
             case 'MemberExpression':case 'IndexExpression':{const tr=visit(node.base);let kr;if(node.indexer==='.'){const ki=chunk.addConstant(node.identifier.name);const kReg=chunk.allocRegister();chunk.emit(OPCODES.LOADK,kReg,ki);kr=kReg;}else{kr=visit(node.index||node.identifier);}const dr=chunk.allocRegister();chunk.emit(OPCODES.GETTABLE,dr,tr,kr);return dr;}
             case 'StringLiteral':{const si=chunk.addConstant(node.raw.slice(1,-1));const reg=chunk.allocRegister();chunk.emit(OPCODES.LOADK,reg,si);return reg;}
             case 'NumericLiteral':{const ni=chunk.addConstant(node.value);const reg=chunk.allocRegister();chunk.emit(OPCODES.LOADK,reg,ni);return reg;}
@@ -70,9 +68,8 @@ function compileAST(ast,whitelist){
 }
 
 LuaObfuscator.obfuscate=function(source,options={}){
-    const whitelist=options.whitelist?new Set(options.whitelist):DEFAULT_WHITELIST;
     let ast;try{ast=luaparse.parse(source);}catch(e){throw new Error("Lua Parse Error: "+e.message);}
-    const compiler=compileAST(ast,whitelist);
+    const compiler=compileAST(ast);
     const origOps=Object.values(OPCODES);const fakeOps=[];for(let i=0;i<30;i++)fakeOps.push(100+i);
     const shuffled=shuffleArray([...origOps,...fakeOps]);const opMap={};origOps.forEach((op,i)=>{opMap[op]=shuffled[i];});
     const junkOps=shuffled.slice(origOps.length);
